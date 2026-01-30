@@ -1,5 +1,6 @@
 import { auth } from "@/lib/auth";
 import { redirect } from "next/navigation";
+import Link from "next/link";
 import { db } from "@/lib/db";
 import {
   Card,
@@ -8,6 +9,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 import {
   FileText,
   Users,
@@ -17,6 +19,8 @@ import {
   Building,
   Calendar,
   BarChart3,
+  ArrowRight,
+  HelpCircle,
 } from "lucide-react";
 
 export default async function GovernmentDashboardPage() {
@@ -37,35 +41,35 @@ export default async function GovernmentDashboardPage() {
 
   // Get comprehensive statistics
   const [
-    totalCards,
-    monthlyCards,
-    yearlyCards,
-    approvedCards,
-    pendingCards,
-    totalTravelers,
+    totalTrips,
+    monthlyTrips,
+    yearlyTrips,
+    approvedTrips,
+    pendingTrips,
+    totalUsers,
     topNationalities,
     topPurposes,
     borderPosts,
   ] = await Promise.all([
-    db.arrivalCard.count(),
-    db.arrivalCard.count({
+    db.trip.count(),
+    db.trip.count({
       where: { createdAt: { gte: startOfMonth } },
     }),
-    db.arrivalCard.count({
+    db.trip.count({
       where: { createdAt: { gte: startOfYear } },
     }),
-    db.arrivalCard.count({ where: { status: "APPROVED" } }),
-    db.arrivalCard.count({
+    db.trip.count({ where: { status: "APPROVED" } }),
+    db.trip.count({
       where: { status: { in: ["SUBMITTED", "UNDER_REVIEW"] } },
     }),
-    db.user.count({ where: { role: "TRAVELER" } }),
-    db.arrivalCard.groupBy({
+    db.user.count({ where: { role: "USER" } }),
+    db.trip.groupBy({
       by: ["nationality"],
       _count: { nationality: true },
       orderBy: { _count: { nationality: "desc" } },
       take: 5,
     }),
-    db.arrivalCard.groupBy({
+    db.trip.groupBy({
       by: ["purposeOfVisit"],
       _count: { purposeOfVisit: true },
       orderBy: { _count: { purposeOfVisit: "desc" } },
@@ -74,7 +78,7 @@ export default async function GovernmentDashboardPage() {
     db.borderPost.count(),
   ]);
 
-  const approvalRate = totalCards > 0 ? ((approvedCards / totalCards) * 100).toFixed(1) : 0;
+  const approvalRate = totalTrips > 0 ? ((approvedTrips / totalTrips) * 100).toFixed(1) : 0;
 
   const purposeLabels: Record<string, string> = {
     TOURISM: "Tourism",
@@ -90,11 +94,28 @@ export default async function GovernmentDashboardPage() {
   return (
     <div className="space-y-8">
       {/* Header */}
-      <div>
-        <h1 className="text-3xl font-bold">Government Dashboard</h1>
-        <p className="text-muted-foreground mt-1">
-          Overview of Zimbabwe arrival card statistics and analytics
-        </p>
+      <div className="flex items-start justify-between">
+        <div>
+          <h1 className="text-3xl font-bold">Government Dashboard</h1>
+          <p className="text-muted-foreground mt-1">
+            Overview of Zimbabwe arrival card statistics and analytics
+          </p>
+        </div>
+        <div className="flex items-center gap-2">
+          <Link href="/staff/help">
+            <Button variant="outline" size="sm">
+              <HelpCircle className="h-4 w-4 mr-2" />
+              Help
+            </Button>
+          </Link>
+          <Link href="/government/analytics">
+            <Button size="sm" className="bg-zim-green hover:bg-zim-green/90">
+              <BarChart3 className="h-4 w-4 mr-2" />
+              Detailed Analytics
+              <ArrowRight className="h-4 w-4 ml-2" />
+            </Button>
+          </Link>
+        </div>
       </div>
 
       {/* Main Stats */}
@@ -105,7 +126,7 @@ export default async function GovernmentDashboardPage() {
             <FileText className="h-4 w-4 text-zim-green" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{totalCards.toLocaleString()}</div>
+            <div className="text-2xl font-bold">{totalTrips.toLocaleString()}</div>
             <p className="text-xs text-muted-foreground">All time submissions</p>
           </CardContent>
         </Card>
@@ -115,7 +136,7 @@ export default async function GovernmentDashboardPage() {
             <Calendar className="h-4 w-4 text-blue-500" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{monthlyCards.toLocaleString()}</div>
+            <div className="text-2xl font-bold">{monthlyTrips.toLocaleString()}</div>
             <p className="text-xs text-muted-foreground">
               {new Date().toLocaleString("default", { month: "long" })} arrivals
             </p>
@@ -127,7 +148,7 @@ export default async function GovernmentDashboardPage() {
             <TrendingUp className="h-4 w-4 text-green-500" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{yearlyCards.toLocaleString()}</div>
+            <div className="text-2xl font-bold">{yearlyTrips.toLocaleString()}</div>
             <p className="text-xs text-muted-foreground">{today.getFullYear()} arrivals</p>
           </CardContent>
         </Card>
@@ -151,7 +172,7 @@ export default async function GovernmentDashboardPage() {
             <Users className="h-4 w-4 text-purple-500" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{totalTravelers.toLocaleString()}</div>
+            <div className="text-2xl font-bold">{totalUsers.toLocaleString()}</div>
             <p className="text-xs text-muted-foreground">Total travelers registered</p>
           </CardContent>
         </Card>
@@ -161,7 +182,7 @@ export default async function GovernmentDashboardPage() {
             <FileText className="h-4 w-4 text-yellow-500" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{pendingCards}</div>
+            <div className="text-2xl font-bold">{pendingTrips}</div>
             <p className="text-xs text-muted-foreground">Awaiting processing</p>
           </CardContent>
         </Card>

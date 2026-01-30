@@ -77,19 +77,19 @@ async function main() {
     });
     console.log(`Created ZIMRA user: ${zimra.email}`);
 
-    // Create sample traveler
-    const travelerPassword = await bcrypt.hash("Traveler@123", 12);
-    const traveler = await prisma.user.upsert({
-      where: { email: "traveler@example.com" },
+    // Create sample user (regular user who submits trips)
+    const userPassword = await bcrypt.hash("User@123", 12);
+    const user = await prisma.user.upsert({
+      where: { email: "user@example.com" },
       update: {},
       create: {
-        email: "traveler@example.com",
-        name: "John Traveler",
-        password: travelerPassword,
-        role: "TRAVELER",
+        email: "user@example.com",
+        name: "John Smith",
+        password: userPassword,
+        role: "USER",
       },
     });
-    console.log(`Created traveler user: ${traveler.email}`);
+    console.log(`Created user: ${user.email}`);
   }
 
   // Create border posts
@@ -126,7 +126,7 @@ async function main() {
     console.log("- Immigration: officer@immigration.gov.zw / Immigration@123");
     console.log("- Government: official@government.gov.zw / Government@123");
     console.log("- ZIMRA: officer@zimra.gov.zw / Zimra@123");
-    console.log("- Traveler: traveler@example.com / Traveler@123");
+    console.log("- User: user@example.com / User@123");
   }
 }
 

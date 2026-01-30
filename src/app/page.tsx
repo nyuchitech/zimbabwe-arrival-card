@@ -8,7 +8,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Plane, FileText, Shield, Clock, CheckCircle, ArrowRight, Search, QrCode, Globe, AlertCircle } from "lucide-react";
+import { Plane, FileText, Shield, Clock, CheckCircle, ArrowRight, Search, QrCode, AlertCircle } from "lucide-react";
 import { SkipLink } from "@/components/skip-link";
 
 export default function HomePage() {
@@ -241,6 +241,14 @@ export default function HomePage() {
                     className="hover:text-zim-green focus:text-zim-green focus:outline-none focus:underline min-h-[48px] inline-flex items-center py-1"
                   >
                     Check Status
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    href="/help"
+                    className="hover:text-zim-green focus:text-zim-green focus:outline-none focus:underline min-h-[48px] inline-flex items-center py-1"
+                  >
+                    Help & FAQ
                   </Link>
                 </li>
                 <li>

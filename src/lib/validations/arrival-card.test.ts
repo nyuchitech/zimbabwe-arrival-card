@@ -91,10 +91,10 @@ describe("Personal Info Schema", () => {
 describe("Passport Info Schema", () => {
   it("should validate valid passport info", () => {
     const validData = {
-      passportNumber: "AB123456",
-      passportIssueDate: "2020-01-01",
-      passportExpiryDate: "2030-01-01",
-      passportIssuingCountry: "USA",
+      documentNumber: "AB123456",
+      documentIssueDate: "2020-01-01",
+      documentExpiryDate: "2030-01-01",
+      documentIssuingCountry: "USA",
     };
 
     const result = passportInfoSchema.safeParse(validData);
@@ -103,10 +103,10 @@ describe("Passport Info Schema", () => {
 
   it("should reject empty passport number", () => {
     const invalidData = {
-      passportNumber: "",
-      passportIssueDate: "2020-01-01",
-      passportExpiryDate: "2030-01-01",
-      passportIssuingCountry: "USA",
+      documentNumber: "",
+      documentIssueDate: "2020-01-01",
+      documentExpiryDate: "2030-01-01",
+      documentIssuingCountry: "USA",
     };
 
     const result = passportInfoSchema.safeParse(invalidData);
@@ -149,11 +149,18 @@ describe("Contact Info Schema", () => {
 });
 
 describe("Travel Info Schema", () => {
+  // Helper to get a future date string
+  const getFutureDate = (daysAhead: number = 30) => {
+    const date = new Date();
+    date.setDate(date.getDate() + daysAhead);
+    return date.toISOString().split("T")[0];
+  };
+
   it("should validate valid travel info", () => {
     const validData = {
       purposeOfVisit: "TOURISM" as const,
       intendedStayDuration: 14,
-      arrivalDate: "2024-06-01",
+      arrivalDate: getFutureDate(30),
       previousCountry: "South Africa",
     };
 
@@ -165,7 +172,7 @@ describe("Travel Info Schema", () => {
     const invalidData = {
       purposeOfVisit: "TOURISM" as const,
       intendedStayDuration: 0,
-      arrivalDate: "2024-06-01",
+      arrivalDate: getFutureDate(30),
       previousCountry: "South Africa",
     };
 
@@ -189,7 +196,7 @@ describe("Travel Info Schema", () => {
       const data = {
         purposeOfVisit: purpose,
         intendedStayDuration: 7,
-        arrivalDate: "2024-06-01",
+        arrivalDate: getFutureDate(30),
         previousCountry: "South Africa",
       };
 
@@ -264,19 +271,27 @@ describe("Customs Declaration Schema", () => {
 describe("Health Declaration Schema", () => {
   it("should validate health declaration", () => {
     const validData = {
-      healthDeclaration: true,
-      recentIllness: false,
+      hasSymptoms: false,
+      visitedYellowFeverCountry: false,
+      yellowFeverCertificate: false,
+      contactWithInfectious: false,
+      seekingMedicalTreatment: false,
+      healthDeclarationAccepted: true,
     };
 
     const result = healthDeclarationSchema.safeParse(validData);
     expect(result.success).toBe(true);
   });
 
-  it("should accept illness description when recent illness is true", () => {
+  it("should accept symptoms description when has symptoms is true", () => {
     const validData = {
-      healthDeclaration: true,
-      recentIllness: true,
-      illnessDescription: "Common cold, fully recovered",
+      hasSymptoms: true,
+      symptomsDescription: "Mild headache",
+      visitedYellowFeverCountry: false,
+      yellowFeverCertificate: false,
+      contactWithInfectious: false,
+      seekingMedicalTreatment: false,
+      healthDeclarationAccepted: true,
     };
 
     const result = healthDeclarationSchema.safeParse(validData);

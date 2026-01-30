@@ -26,10 +26,10 @@ interface SuccessPageProps {
   params: Promise<{ id: string }>;
 }
 
-export default async function ArrivalCardSuccessPage({ params }: SuccessPageProps) {
+export default async function TripSuccessPage({ params }: SuccessPageProps) {
   const { id } = await params;
 
-  const arrivalCard = await db.arrivalCard.findUnique({
+  const arrivalCard = await db.trip.findUnique({
     where: { id },
     include: {
       borderPost: true,
@@ -44,7 +44,7 @@ export default async function ArrivalCardSuccessPage({ params }: SuccessPageProp
   const qrData = JSON.stringify({
     ref: arrivalCard.referenceNumber,
     name: `${arrivalCard.firstName} ${arrivalCard.lastName}`,
-    passport: arrivalCard.passportNumber,
+    passport: arrivalCard.documentNumber,
     arrival: arrivalCard.arrivalDate.toISOString().split("T")[0],
     status: arrivalCard.status,
   });
@@ -148,7 +148,7 @@ export default async function ArrivalCardSuccessPage({ params }: SuccessPageProp
                     <p className="text-xs text-muted-foreground uppercase tracking-wide flex items-center gap-1">
                       <FileText className="h-3 w-3" aria-hidden="true" /> Passport
                     </p>
-                    <p className="font-semibold font-mono">{arrivalCard.passportNumber}</p>
+                    <p className="font-semibold font-mono">{arrivalCard.documentNumber}</p>
                   </div>
                   <div>
                     <p className="text-xs text-muted-foreground uppercase tracking-wide flex items-center gap-1">

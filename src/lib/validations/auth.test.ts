@@ -116,12 +116,12 @@ describe("Register Schema", () => {
     expect(result.success).toBe(false);
   });
 
-  it("should accept password exactly 8 characters", () => {
+  it("should accept password exactly 10 characters", () => {
     const validData = {
       name: "John Doe",
       email: "john@example.com",
-      password: "Secure1!",
-      confirmPassword: "Secure1!",
+      password: "Secure123!",
+      confirmPassword: "Secure123!",
     };
 
     const result = registerSchema.safeParse(validData);

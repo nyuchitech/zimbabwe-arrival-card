@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Loader2, ChevronLeft, ChevronRight, Check } from "lucide-react";
+import { Loader2, ChevronLeft, ChevronRight } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -25,7 +25,8 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
-import { arrivalCardSchema, type ArrivalCardInput } from "@/lib/validations/arrival-card";
+import { FormStepper } from "@/components/ui/form-stepper";
+import { arrivalCardSchema, type TripInput } from "@/lib/validations/arrival-card";
 import { NavHeader } from "@/components/dashboard/nav-header";
 
 const STEPS = [
@@ -58,7 +59,7 @@ const ACCOMMODATION_TYPES = [
   { value: "OTHER", label: "Other" },
 ];
 
-export default function NewArrivalCardPage() {
+export default function NewTripPage() {
   const router = useRouter();
   const [currentStep, setCurrentStep] = useState(1);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -71,13 +72,17 @@ export default function NewArrivalCardPage() {
     setValue,
     trigger,
     formState: { errors },
-  } = useForm<ArrivalCardInput>({
+  } = useForm<TripInput>({
     resolver: zodResolver(arrivalCardSchema),
     defaultValues: {
       carryingCurrency: false,
       carryingGoods: false,
-      healthDeclaration: false,
-      recentIllness: false,
+      hasSymptoms: false,
+      visitedYellowFeverCountry: false,
+      yellowFeverCertificate: false,
+      contactWithInfectious: false,
+      seekingMedicalTreatment: false,
+      healthDeclarationAccepted: false,
       declarationAccepted: false,
       intendedStayDuration: 1,
     },
@@ -85,17 +90,20 @@ export default function NewArrivalCardPage() {
 
   const watchCarryingCurrency = watch("carryingCurrency");
   const watchCarryingGoods = watch("carryingGoods");
-  const watchRecentIllness = watch("recentIllness");
+  const watchHasSymptoms = watch("hasSymptoms");
+  const watchVisitedYellowFeverCountry = watch("visitedYellowFeverCountry");
+  const watchContactWithInfectious = watch("contactWithInfectious");
+  const watchSeekingMedicalTreatment = watch("seekingMedicalTreatment");
   const watchPurposeOfVisit = watch("purposeOfVisit");
 
   const validateStep = async (step: number): Promise<boolean> => {
-    const fieldsToValidate: Record<number, (keyof ArrivalCardInput)[]> = {
+    const fieldsToValidate: Record<number, (keyof TripInput)[]> = {
       1: ["firstName", "lastName", "dateOfBirth", "gender", "nationality", "countryOfResidence"],
-      2: ["passportNumber", "passportIssueDate", "passportExpiryDate", "passportIssuingCountry"],
+      2: ["documentNumber", "documentIssueDate", "documentExpiryDate", "documentIssuingCountry"],
       3: ["email", "phoneNumber"],
       4: ["purposeOfVisit", "intendedStayDuration", "arrivalDate", "previousCountry"],
       5: ["accommodationType", "accommodationName", "accommodationAddress", "accommodationCity"],
-      6: ["carryingCurrency", "carryingGoods", "healthDeclaration", "recentIllness"],
+      6: ["carryingCurrency", "carryingGoods", "hasSymptoms", "visitedYellowFeverCountry", "yellowFeverCertificate", "contactWithInfectious", "seekingMedicalTreatment", "healthDeclarationAccepted"],
       7: ["declarationAccepted"],
     };
 
@@ -119,7 +127,7 @@ export default function NewArrivalCardPage() {
     }
   };
 
-  const onSubmit = async (data: ArrivalCardInput) => {
+  const onSubmit = async (data: TripInput) => {
     setIsSubmitting(true);
     setError(null);
 
@@ -244,31 +252,31 @@ export default function NewArrivalCardPage() {
         return (
           <div className="space-y-5">
             <div className="space-y-2">
-              <Label htmlFor="passportNumber" className="text-base font-semibold text-gray-900">Passport Number *</Label>
-              <Input id="passportNumber" {...register("passportNumber")} className="h-12 text-base" />
-              {errors.passportNumber && (
-                <p className="text-base text-red-600 font-medium">{errors.passportNumber.message}</p>
+              <Label htmlFor="documentNumber" className="text-base font-semibold text-gray-900">Passport Number *</Label>
+              <Input id="documentNumber" {...register("documentNumber")} className="h-12 text-base" />
+              {errors.documentNumber && (
+                <p className="text-base text-red-600 font-medium">{errors.documentNumber.message}</p>
               )}
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
               <div className="space-y-2">
-                <Label htmlFor="passportIssueDate" className="text-base font-semibold text-gray-900">Issue Date *</Label>
-                <Input id="passportIssueDate" type="date" {...register("passportIssueDate")} className="h-12 text-base" />
-                {errors.passportIssueDate && (
-                  <p className="text-base text-red-600 font-medium">{errors.passportIssueDate.message}</p>
+                <Label htmlFor="documentIssueDate" className="text-base font-semibold text-gray-900">Issue Date *</Label>
+                <Input id="documentIssueDate" type="date" {...register("documentIssueDate")} className="h-12 text-base" />
+                {errors.documentIssueDate && (
+                  <p className="text-base text-red-600 font-medium">{errors.documentIssueDate.message}</p>
                 )}
               </div>
               <div className="space-y-2">
-                <Label htmlFor="passportExpiryDate" className="text-base font-semibold text-gray-900">Expiry Date *</Label>
-                <Input id="passportExpiryDate" type="date" {...register("passportExpiryDate")} className="h-12 text-base" />
-                {errors.passportExpiryDate && (
-                  <p className="text-base text-red-600 font-medium">{errors.passportExpiryDate.message}</p>
+                <Label htmlFor="documentExpiryDate" className="text-base font-semibold text-gray-900">Expiry Date *</Label>
+                <Input id="documentExpiryDate" type="date" {...register("documentExpiryDate")} className="h-12 text-base" />
+                {errors.documentExpiryDate && (
+                  <p className="text-base text-red-600 font-medium">{errors.documentExpiryDate.message}</p>
                 )}
               </div>
             </div>
             <div className="space-y-2">
-              <Label htmlFor="passportIssuingCountry" className="text-base font-semibold text-gray-900">Issuing Country *</Label>
-              <Select onValueChange={(value) => setValue("passportIssuingCountry", value)}>
+              <Label htmlFor="documentIssuingCountry" className="text-base font-semibold text-gray-900">Issuing Country *</Label>
+              <Select onValueChange={(value) => setValue("documentIssuingCountry", value)}>
                 <SelectTrigger className="h-12 text-base">
                   <SelectValue placeholder="Select country" />
                 </SelectTrigger>
@@ -280,8 +288,8 @@ export default function NewArrivalCardPage() {
                   ))}
                 </SelectContent>
               </Select>
-              {errors.passportIssuingCountry && (
-                <p className="text-base text-red-600 font-medium">{errors.passportIssuingCountry.message}</p>
+              {errors.documentIssuingCountry && (
+                <p className="text-base text-red-600 font-medium">{errors.documentIssuingCountry.message}</p>
               )}
             </div>
           </div>
@@ -324,7 +332,7 @@ export default function NewArrivalCardPage() {
           <div className="space-y-5">
             <div className="space-y-2">
               <Label htmlFor="purposeOfVisit" className="text-base font-semibold text-gray-900">Purpose of Visit *</Label>
-              <Select onValueChange={(value) => setValue("purposeOfVisit", value as ArrivalCardInput["purposeOfVisit"])}>
+              <Select onValueChange={(value) => setValue("purposeOfVisit", value as TripInput["purposeOfVisit"])}>
                 <SelectTrigger className="h-12 text-base">
                   <SelectValue placeholder="Select purpose" />
                 </SelectTrigger>
@@ -527,33 +535,122 @@ export default function NewArrivalCardPage() {
             <div className="space-y-5">
               <h3 className="text-lg font-bold text-gray-900">Health Declaration</h3>
               <div className="space-y-5">
-                <label htmlFor="healthDeclaration" className="flex items-start gap-4 p-4 bg-green-50 rounded-lg cursor-pointer hover:bg-green-100 transition-colors">
+                {/* Symptoms question */}
+                <label htmlFor="hasSymptoms" className="flex items-start gap-4 p-4 bg-gray-50 rounded-lg cursor-pointer hover:bg-gray-100 transition-colors">
                   <input
                     type="checkbox"
-                    id="healthDeclaration"
-                    {...register("healthDeclaration")}
+                    id="hasSymptoms"
+                    {...register("hasSymptoms")}
                     className="h-6 w-6 rounded border-2 border-gray-400 mt-0.5 flex-shrink-0"
                   />
                   <span className="text-base text-gray-900">
-                    I confirm I am in good health and fit to travel
+                    Do you currently have fever, cough, shortness of breath, headache, vomiting or rash?
                   </span>
                 </label>
-                <label htmlFor="recentIllness" className="flex items-start gap-4 p-4 bg-gray-50 rounded-lg cursor-pointer hover:bg-gray-100 transition-colors">
-                  <input
-                    type="checkbox"
-                    id="recentIllness"
-                    {...register("recentIllness")}
-                    className="h-6 w-6 rounded border-2 border-gray-400 mt-0.5 flex-shrink-0"
-                  />
-                  <span className="text-base text-gray-900">
-                    I have experienced illness symptoms in the past 14 days
-                  </span>
-                </label>
-                {watchRecentIllness && (
+                {watchHasSymptoms && (
                   <div className="space-y-2 ml-4 pl-6 border-l-4 border-amber-500">
-                    <Label htmlFor="illnessDescription" className="text-base font-semibold text-gray-900">Please describe your symptoms</Label>
-                    <Textarea id="illnessDescription" {...register("illnessDescription")} className="text-base min-h-[100px]" />
+                    <Label htmlFor="symptomsDescription" className="text-base font-semibold text-gray-900">Please describe your symptoms</Label>
+                    <Textarea id="symptomsDescription" {...register("symptomsDescription")} className="text-base min-h-[100px]" />
                   </div>
+                )}
+
+                {/* Yellow fever question */}
+                <label htmlFor="visitedYellowFeverCountry" className="flex items-start gap-4 p-4 bg-gray-50 rounded-lg cursor-pointer hover:bg-gray-100 transition-colors">
+                  <input
+                    type="checkbox"
+                    id="visitedYellowFeverCountry"
+                    {...register("visitedYellowFeverCountry")}
+                    className="h-6 w-6 rounded border-2 border-gray-400 mt-0.5 flex-shrink-0"
+                  />
+                  <span className="text-base text-gray-900">
+                    Have you visited any country with risk of yellow fever transmission in the past 6 days?
+                  </span>
+                </label>
+                {watchVisitedYellowFeverCountry && (
+                  <div className="space-y-4 ml-4 pl-6 border-l-4 border-amber-500">
+                    <div className="space-y-2">
+                      <Label htmlFor="yellowFeverCountries" className="text-base font-semibold text-gray-900">Which countries did you visit?</Label>
+                      <Input id="yellowFeverCountries" {...register("yellowFeverCountries")} className="h-12 text-base" />
+                    </div>
+                    <label htmlFor="yellowFeverCertificate" className="flex items-start gap-4 p-4 bg-green-50 rounded-lg cursor-pointer hover:bg-green-100 transition-colors">
+                      <input
+                        type="checkbox"
+                        id="yellowFeverCertificate"
+                        {...register("yellowFeverCertificate")}
+                        className="h-6 w-6 rounded border-2 border-gray-400 mt-0.5 flex-shrink-0"
+                      />
+                      <span className="text-base text-gray-900">
+                        I have a valid yellow fever vaccination certificate
+                      </span>
+                    </label>
+                  </div>
+                )}
+
+                {/* Contact with infectious disease */}
+                <label htmlFor="contactWithInfectious" className="flex items-start gap-4 p-4 bg-gray-50 rounded-lg cursor-pointer hover:bg-gray-100 transition-colors">
+                  <input
+                    type="checkbox"
+                    id="contactWithInfectious"
+                    {...register("contactWithInfectious")}
+                    className="h-6 w-6 rounded border-2 border-gray-400 mt-0.5 flex-shrink-0"
+                  />
+                  <span className="text-base text-gray-900">
+                    Have you been in contact with anyone diagnosed with an infectious disease in the past 14 days?
+                  </span>
+                </label>
+                {watchContactWithInfectious && (
+                  <div className="space-y-2 ml-4 pl-6 border-l-4 border-amber-500">
+                    <Label htmlFor="infectiousContactDetails" className="text-base font-semibold text-gray-900">Please provide details</Label>
+                    <Textarea id="infectiousContactDetails" {...register("infectiousContactDetails")} className="text-base min-h-[100px]" />
+                  </div>
+                )}
+
+                {/* Medical treatment */}
+                <label htmlFor="seekingMedicalTreatment" className="flex items-start gap-4 p-4 bg-gray-50 rounded-lg cursor-pointer hover:bg-gray-100 transition-colors">
+                  <input
+                    type="checkbox"
+                    id="seekingMedicalTreatment"
+                    {...register("seekingMedicalTreatment")}
+                    className="h-6 w-6 rounded border-2 border-gray-400 mt-0.5 flex-shrink-0"
+                  />
+                  <span className="text-base text-gray-900">
+                    Are you traveling to Zimbabwe for medical treatment?
+                  </span>
+                </label>
+                {watchSeekingMedicalTreatment && (
+                  <div className="space-y-2 ml-4 pl-6 border-l-4 border-blue-500">
+                    <Label htmlFor="medicalFacilityName" className="text-base font-semibold text-gray-900">Name of medical facility</Label>
+                    <Input id="medicalFacilityName" {...register("medicalFacilityName")} className="h-12 text-base" />
+                  </div>
+                )}
+
+                {/* Current medications */}
+                <div className="space-y-2">
+                  <Label htmlFor="currentMedications" className="text-base font-semibold text-gray-900">
+                    Are you currently taking any medications? (Optional)
+                  </Label>
+                  <Textarea
+                    id="currentMedications"
+                    {...register("currentMedications")}
+                    className="text-base min-h-[80px]"
+                    placeholder="List any medications you are currently taking"
+                  />
+                </div>
+
+                {/* Health declaration acceptance */}
+                <label htmlFor="healthDeclarationAccepted" className="flex items-start gap-4 p-4 bg-green-50 border-2 border-green-200 rounded-lg cursor-pointer hover:bg-green-100 transition-colors">
+                  <input
+                    type="checkbox"
+                    id="healthDeclarationAccepted"
+                    {...register("healthDeclarationAccepted")}
+                    className="h-6 w-6 rounded border-2 border-gray-400 mt-0.5 flex-shrink-0"
+                  />
+                  <span className="text-base text-gray-900">
+                    I declare that the health information provided above is true and accurate to the best of my knowledge.
+                  </span>
+                </label>
+                {errors.healthDeclarationAccepted && (
+                  <p className="text-base text-red-600 font-medium">{errors.healthDeclarationAccepted.message}</p>
                 )}
               </div>
             </div>
@@ -608,51 +705,15 @@ export default function NewArrivalCardPage() {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            {/* Progress Steps - Mobile optimized */}
+            {/* Progress Steps with arrow design */}
             <div className="mb-8">
-              {/* Mobile: Show current step info */}
-              <div className="md:hidden mb-4 text-center">
-                <span className="text-lg font-semibold text-zim-green">
-                  Step {currentStep} of {STEPS.length}
-                </span>
-              </div>
-              {/* Desktop: Show all steps */}
-              <div className="hidden md:flex justify-between">
-                {STEPS.map((step) => (
-                  <div
-                    key={step.id}
-                    className={`flex flex-col items-center ${
-                      step.id <= currentStep ? "text-zim-green" : "text-gray-400"
-                    }`}
-                  >
-                    <div
-                      className={`w-10 h-10 rounded-full flex items-center justify-center text-base font-bold ${
-                        step.id < currentStep
-                          ? "bg-zim-green text-white"
-                          : step.id === currentStep
-                          ? "bg-zim-green text-white"
-                          : "bg-gray-200 text-gray-600"
-                      }`}
-                    >
-                      {step.id < currentStep ? (
-                        <Check className="h-5 w-5" />
-                      ) : (
-                        step.id
-                      )}
-                    </div>
-                    <span className="text-sm mt-2 font-medium">{step.title}</span>
-                  </div>
-                ))}
-              </div>
-              {/* Progress bar */}
-              <div className="mt-4 h-3 bg-gray-200 rounded-full">
-                <div
-                  className="h-full bg-zim-green rounded-full transition-all duration-300"
-                  style={{
-                    width: `${((currentStep - 1) / (STEPS.length - 1)) * 100}%`,
-                  }}
-                />
-              </div>
+              <FormStepper
+                steps={STEPS}
+                currentStep={currentStep}
+                variant="arrows"
+                allowClickNavigation={true}
+                onStepClick={(step) => setCurrentStep(step)}
+              />
             </div>
 
             {/* Step Title */}

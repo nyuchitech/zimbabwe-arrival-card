@@ -31,7 +31,7 @@ export async function GET(request: NextRequest) {
 
     const searchParams = request.nextUrl.searchParams;
     const referenceNumber = searchParams.get("ref");
-    const passportNumber = searchParams.get("passport");
+    const documentNumber = searchParams.get("passport");
 
     if (!referenceNumber) {
       return NextResponse.json(
@@ -45,11 +45,11 @@ export async function GET(request: NextRequest) {
       referenceNumber: referenceNumber.toUpperCase(),
     };
 
-    if (passportNumber) {
-      whereClause.passportNumber = passportNumber.toUpperCase();
+    if (documentNumber) {
+      whereClause.documentNumber = documentNumber.toUpperCase();
     }
 
-    const arrivalCard = await db.arrivalCard.findFirst({
+    const arrivalCard = await db.trip.findFirst({
       where: whereClause,
       select: {
         id: true,
@@ -63,10 +63,10 @@ export async function GET(request: NextRequest) {
         nationality: true,
         countryOfResidence: true,
         occupation: true,
-        passportNumber: true,
-        passportIssueDate: true,
-        passportExpiryDate: true,
-        passportIssuingCountry: true,
+        documentNumber: true,
+        documentIssueDate: true,
+        documentExpiryDate: true,
+        documentIssuingCountry: true,
         email: true,
         phoneNumber: true,
         emergencyContactName: true,
@@ -90,9 +90,17 @@ export async function GET(request: NextRequest) {
         carryingGoods: true,
         goodsDescription: true,
         goodsValue: true,
-        healthDeclaration: true,
-        recentIllness: true,
-        illnessDescription: true,
+        hasSymptoms: true,
+        symptomsDescription: true,
+        visitedYellowFeverCountry: true,
+        yellowFeverCountries: true,
+        yellowFeverCertificate: true,
+        contactWithInfectious: true,
+        infectiousContactDetails: true,
+        seekingMedicalTreatment: true,
+        medicalFacilityName: true,
+        currentMedications: true,
+        healthDeclarationAccepted: true,
         declarationAccepted: true,
         declarationDate: true,
         createdAt: true,
@@ -112,7 +120,7 @@ export async function GET(request: NextRequest) {
             lastName: true,
             dateOfBirth: true,
             nationality: true,
-            passportNumber: true,
+            documentNumber: true,
             relationship: true,
           },
         },

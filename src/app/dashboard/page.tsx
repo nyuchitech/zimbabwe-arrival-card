@@ -53,14 +53,14 @@ export default async function DashboardPage() {
 
   // Only TRAVELER role reaches here
   // Fetch user's arrival cards
-  const arrivalCards = await db.arrivalCard.findMany({
-    where: { travelerId: session.user.id },
+  const arrivalCards = await db.trip.findMany({
+    where: { userId: session.user.id },
     orderBy: { createdAt: "desc" },
     take: 5,
   });
 
-  const allCards = await db.arrivalCard.findMany({
-    where: { travelerId: session.user.id },
+  const allCards = await db.trip.findMany({
+    where: { userId: session.user.id },
     select: { status: true },
   });
 

@@ -10,17 +10,29 @@ datasource db {
   provider = "postgresql"
 }
 
-// User Roles for RBAC
+// System Roles for staff/admin access
 enum Role {
-  TRAVELER
+  USER        // Regular users submitting trips
   IMMIGRATION
   GOVERNMENT
   ZIMRA       // Zimbabwe Revenue Authority (Tax/Customs)
   ADMIN
 }
 
-// Arrival Card Status
-enum ArrivalCardStatus {
+// Traveler Type - Anyone passing through port of entry
+enum TravelerType {
+  VISITOR              // Foreign visitor
+  CITIZEN              // Zimbabwean citizen
+  PERMANENT_RESIDENT   // Permanent resident
+  RESIDENT_PERMIT      // Resident permit holder
+  WORK_PERMIT          // Work permit holder
+  STUDY_PERMIT         // Study permit holder
+  DIPLOMATIC           // Diplomatic / official
+  TRANSIT              // Transit passenger
+}
+
+// Trip/Submission Status
+enum TripStatus {
   DRAFT
   SUBMITTED
   UNDER_REVIEW
@@ -45,7 +57,20 @@ enum VisitPurpose {
   MEDICAL
   TRANSIT
   RETURNING_RESIDENT
+  FAMILY_VISIT
+  CONFERENCE
+  OFFICIAL
   OTHER
+}
+
+// Travel Document Type
+enum DocumentType {
+  PASSPORT
+  DIPLOMATIC_PASSPORT
+  OFFICIAL_PASSPORT
+  TRAVEL_DOCUMENT
+  EMERGENCY_TRAVEL_DOCUMENT
+  NATIONAL_ID
 }
 
 // User model for authentication
@@ -54,7 +79,7 @@ model User {
   email         String    @unique
   password      String
   name          String?
-  role          Role      @default(TRAVELER)
+  role          Role      @default(USER)
   emailVerified DateTime?
   image         String?
   createdAt     DateTime  @default(now())
@@ -63,9 +88,10 @@ model User {
   // Relations
   accounts      Account[]
   sessions      Session[]
-  arrivalCards  ArrivalCard[]  @relation("TravelerCards")
-  reviewedCards ArrivalCard[]  @relation("ReviewerCards")
+  trips         Trip[]        @relation("UserTrips")
+  reviewedTrips Trip[]        @relation("ReviewerTrips")
   auditLogs     AuditLog[]
+  profile       TravelerProfile?
 
   // Border post assignment for immigration officers
   borderPostId  String?
@@ -73,6 +99,58 @@ model User {
 
   @@index([email])
   @@index([role])
+}
+
+// Stored profile for frequent travelers
+model TravelerProfile {
+  id                    String       @id @default(cuid())
+  userId                String       @unique
+  user                  User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  // Traveler type (can change per trip, but store default)
+  defaultTravelerType   TravelerType @default(VISITOR)
+
+  // Personal Information (stored for quick form fill)
+  firstName             String
+  middleName            String?
+  lastName              String
+  dateOfBirth           DateTime
+  gender                Gender
+  nationality           String
+  countryOfResidence    String
+  occupation            String?
+
+  // Primary Document Information
+  documentType          DocumentType @default(PASSPORT)
+  documentNumber        String
+  documentIssueDate     DateTime
+  documentExpiryDate    DateTime
+  documentIssuingCountry String
+
+  // Contact Information
+  phoneNumber           String?
+  emergencyContactName  String?
+  emergencyContactPhone String?
+
+  // Residential Address (home country)
+  homeAddress           String?
+  homeCity              String?
+  homeCountry           String?
+  homePostalCode        String?
+
+  // Zimbabwean Address (for residents/permit holders)
+  zimbabweAddress       String?
+  zimbabweCity          String?
+  zimbabwePostalCode    String?
+
+  // Permit details (for permit holders)
+  permitNumber          String?
+  permitExpiryDate      DateTime?
+
+  createdAt             DateTime     @default(now())
+  updatedAt             DateTime     @updatedAt
+
+  @@index([documentNumber])
 }
 
 // NextAuth Account model
@@ -121,22 +199,26 @@ model BorderPost {
   code        String   @unique
   type        String   // LAND, AIR, SEA
   location    String?
+  country     String?  // Adjacent country for land borders
   isActive    Boolean  @default(true)
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
   // Relations
-  officers      User[]
-  arrivalCards  ArrivalCard[]
+  officers    User[]
+  trips       Trip[]
 
   @@index([code])
 }
 
-// Main Arrival Card model
-model ArrivalCard {
-  id                    String            @id @default(cuid())
-  referenceNumber       String            @unique
-  status                ArrivalCardStatus @default(DRAFT)
+// Trip - Each submission is tied to a trip
+model Trip {
+  id                    String       @id @default(cuid())
+  referenceNumber       String       @unique
+  status                TripStatus   @default(DRAFT)
+
+  // Traveler Type for this trip
+  travelerType          TravelerType @default(VISITOR)
 
   // Personal Information
   firstName             String
@@ -148,11 +230,16 @@ model ArrivalCard {
   countryOfResidence    String
   occupation            String?
 
-  // Passport Information
-  passportNumber        String
-  passportIssueDate     DateTime
-  passportExpiryDate    DateTime
-  passportIssuingCountry String
+  // Travel Document Information
+  documentType          DocumentType @default(PASSPORT)
+  documentNumber        String
+  documentIssueDate     DateTime
+  documentExpiryDate    DateTime
+  documentIssuingCountry String
+
+  // Permit details (if applicable)
+  permitNumber          String?
+  permitExpiryDate      DateTime?
 
   // Contact Information
   email                 String
@@ -177,6 +264,19 @@ model ArrivalCard {
   accommodationCity     String
   accommodationPhone    String?
 
+  // Health Declaration
+  hasSymptoms           Boolean           @default(false)  // fever, cough, etc.
+  symptomsDescription   String?
+  visitedYellowFeverCountry Boolean       @default(false)
+  yellowFeverCountries  String?           // Comma-separated list if yes
+  yellowFeverCertificate Boolean          @default(false)  // Has certificate
+  contactWithInfectious Boolean           @default(false)
+  infectiousContactDetails String?
+  seekingMedicalTreatment Boolean         @default(false)
+  medicalFacilityName   String?
+  currentMedications    String?
+  healthDeclarationAccepted Boolean       @default(false)
+
   // Customs Declaration
   carryingCurrency      Boolean           @default(false)
   currencyAmount        Float?
@@ -184,23 +284,20 @@ model ArrivalCard {
   carryingGoods         Boolean           @default(false)
   goodsDescription      String?
   goodsValue            Float?
+  carryingProhibitedItems Boolean         @default(false)
+  prohibitedItemsDescription String?
 
-  // Health Declaration
-  healthDeclaration     Boolean           @default(false)
-  recentIllness         Boolean           @default(false)
-  illnessDescription    String?
-
-  // Declaration
+  // Final Declaration
   declarationAccepted   Boolean           @default(false)
   declarationDate       DateTime?
   signature             String?           // Digital signature data
 
   // Relations
-  travelerId            String
-  traveler              User              @relation("TravelerCards", fields: [travelerId], references: [id])
+  userId                String
+  user                  User              @relation("UserTrips", fields: [userId], references: [id])
 
   reviewerId            String?
-  reviewer              User?             @relation("ReviewerCards", fields: [reviewerId], references: [id])
+  reviewer              User?             @relation("ReviewerTrips", fields: [reviewerId], references: [id])
 
   borderPostId          String?
   borderPost            BorderPost?       @relation(fields: [borderPostId], references: [id])
@@ -219,9 +316,9 @@ model ArrivalCard {
   submittedAt           DateTime?
 
   @@index([referenceNumber])
-  @@index([passportNumber])
+  @@index([documentNumber])
   @@index([status])
-  @@index([travelerId])
+  @@index([userId])
   @@index([arrivalDate])
 }
 
@@ -233,23 +330,24 @@ model Companion {
   dateOfBirth     DateTime
   gender          Gender
   nationality     String
-  passportNumber  String
+  documentType    DocumentType @default(PASSPORT)
+  documentNumber  String
   relationship    String       // SPOUSE, CHILD, PARENT, etc.
 
-  arrivalCardId   String
-  arrivalCard     ArrivalCard  @relation(fields: [arrivalCardId], references: [id], onDelete: Cascade)
+  tripId          String
+  trip            Trip         @relation(fields: [tripId], references: [id], onDelete: Cascade)
 
   createdAt       DateTime     @default(now())
   updatedAt       DateTime     @updatedAt
 
-  @@index([arrivalCardId])
+  @@index([tripId])
 }
 
 // Audit Log for tracking changes
 model AuditLog {
   id          String   @id @default(cuid())
   action      String   // CREATE, UPDATE, DELETE, APPROVE, REJECT, etc.
-  entityType  String   // ArrivalCard, User, etc.
+  entityType  String   // Trip, User, etc.
   entityId    String
   oldData     String?  // JSON string of old values
   newData     String?  // JSON string of new values

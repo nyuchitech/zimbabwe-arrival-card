@@ -15,7 +15,7 @@ function getResendClient(): Resend | null {
 
 const FROM_EMAIL = process.env.EMAIL_FROM || "Zimbabwe Arrival Card <noreply@immigration.gov.zw>";
 
-interface ArrivalCardEmailData {
+interface TripEmailData {
   to: string;
   firstName: string;
   lastName: string;
@@ -27,7 +27,7 @@ interface ArrivalCardEmailData {
 /**
  * Send arrival card confirmation email
  */
-export async function sendArrivalCardConfirmation(data: ArrivalCardEmailData) {
+export async function sendTripConfirmation(data: TripEmailData) {
   const resend = getResendClient();
   if (!resend) {
     console.warn("RESEND_API_KEY not set, skipping email");
