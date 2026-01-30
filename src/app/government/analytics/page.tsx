@@ -33,6 +33,7 @@ import {
   BarChart3,
   Download,
   ArrowLeft,
+  ArrowRight,
   CheckCircle,
   XCircle,
   Clock,
@@ -184,6 +185,13 @@ async function AnalyticsDashboard() {
             <Eye className="h-3 w-3 mr-1" />
             Read-Only View
           </Badge>
+          <Link href="/government/analytics/officers">
+            <Button className="bg-zim-green hover:bg-zim-green/90">
+              <Users className="h-4 w-4 mr-2" />
+              Officer Performance
+              <ArrowRight className="h-4 w-4 ml-2" />
+            </Button>
+          </Link>
           <Button variant="outline">
             <Download className="h-4 w-4 mr-2" />
             Export Report

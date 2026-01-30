@@ -57,6 +57,12 @@ zimbabwe-arrival-card/
 │   ├── config.toml             # Supabase local config
 │   ├── migrations/             # PostgreSQL migrations
 │   └── seed.sql                # Database seed SQL
+├── docs/                       # Mintlify documentation
+│   ├── mint.json               # Mintlify configuration
+│   ├── introduction/           # Getting started guides
+│   ├── guides/                 # Traveler guides & FAQs
+│   ├── staff/                  # Staff documentation
+│   └── api-reference/          # API documentation
 ├── src/
 │   ├── app/                    # Next.js App Router
 │   │   ├── layout.tsx          # Root layout
@@ -77,8 +83,13 @@ zimbabwe-arrival-card/
 │   │   ├── immigration/        # Immigration officer dashboard
 │   │   │   └── scan/           # QR code scanner
 │   │   ├── government/         # Government dashboard
+│   │   │   └── analytics/      # Analytics dashboard
+│   │   │       └── officers/   # Officer performance tracking
 │   │   ├── zimra/              # ZIMRA customs dashboard
 │   │   ├── admin/              # Admin dashboard
+│   │   ├── help/               # Public help & FAQ page
+│   │   ├── staff/              # Staff portal
+│   │   │   └── help/           # Internal staff help
 │   │   ├── accessibility/      # Accessibility statement
 │   │   ├── privacy-policy/     # Privacy policy
 │   │   ├── terms-of-service/   # Terms of service
@@ -92,6 +103,9 @@ zimbabwe-arrival-card/
 │   │           └── verify/     # Officer verification
 │   ├── components/
 │   │   ├── ui/                 # shadcn/ui components
+│   │   │   ├── form-stepper.tsx    # Multi-step form navigation
+│   │   │   ├── dashboard-skeletons.tsx # Loading skeletons
+│   │   │   └── accordion.tsx   # Collapsible accordion
 │   │   ├── dashboard/          # Dashboard components
 │   │   ├── providers/          # Context providers
 │   │   ├── qr-scanner.tsx      # QR code scanner

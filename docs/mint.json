@@ -1,0 +1,123 @@
+{
+  "$schema": "https://mintlify.com/schema.json",
+  "name": "Zimbabwe e-Arrival Card",
+  "logo": {
+    "dark": "/logo/dark.svg",
+    "light": "/logo/light.svg"
+  },
+  "favicon": "/favicon.svg",
+  "colors": {
+    "primary": "#319B4B",
+    "light": "#4CAF50",
+    "dark": "#1B5E20",
+    "anchors": {
+      "from": "#319B4B",
+      "to": "#FFD100"
+    }
+  },
+  "topbarLinks": [
+    {
+      "name": "Support",
+      "url": "mailto:support@immigration.gov.zw"
+    }
+  ],
+  "topbarCtaButton": {
+    "name": "Start Arrival Card",
+    "url": "https://arrival.immigration.gov.zw/arrival-card/new"
+  },
+  "tabs": [
+    {
+      "name": "Traveler Guide",
+      "url": "guides"
+    },
+    {
+      "name": "Staff Portal",
+      "url": "staff"
+    },
+    {
+      "name": "API Reference",
+      "url": "api-reference"
+    }
+  ],
+  "anchors": [
+    {
+      "name": "Help Center",
+      "icon": "question",
+      "url": "https://arrival.immigration.gov.zw/help"
+    },
+    {
+      "name": "GitHub",
+      "icon": "github",
+      "url": "https://github.com/nyuchitech/zimbabwe-arrival-card"
+    }
+  ],
+  "navigation": [
+    {
+      "group": "Getting Started",
+      "pages": [
+        "introduction/overview",
+        "introduction/quick-start",
+        "introduction/requirements"
+      ]
+    },
+    {
+      "group": "Traveler Guides",
+      "pages": [
+        "guides/creating-account",
+        "guides/submitting-arrival-card",
+        "guides/qr-code-usage",
+        "guides/checking-status",
+        "guides/troubleshooting"
+      ]
+    },
+    {
+      "group": "FAQs",
+      "pages": [
+        "guides/faq-general",
+        "guides/faq-customs",
+        "guides/faq-families"
+      ]
+    },
+    {
+      "group": "Staff Portal",
+      "pages": [
+        "staff/overview",
+        "staff/immigration-guide",
+        "staff/zimra-guide",
+        "staff/government-guide",
+        "staff/admin-guide"
+      ]
+    },
+    {
+      "group": "Analytics & Reports",
+      "pages": [
+        "staff/analytics-dashboard",
+        "staff/officer-performance",
+        "staff/export-reports"
+      ]
+    },
+    {
+      "group": "API Reference",
+      "pages": [
+        "api-reference/introduction",
+        "api-reference/authentication",
+        "api-reference/arrival-cards",
+        "api-reference/verification",
+        "api-reference/webhooks"
+      ]
+    }
+  ],
+  "footerSocials": {
+    "twitter": "https://twitter.com/ZimImmigration",
+    "github": "https://github.com/nyuchitech/zimbabwe-arrival-card"
+  },
+  "feedback": {
+    "thumbsRating": true,
+    "suggestEdit": true
+  },
+  "analytics": {
+    "ga4": {
+      "measurementId": "G-XXXXXXXXXX"
+    }
+  }
+}

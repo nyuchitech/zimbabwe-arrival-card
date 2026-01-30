@@ -9,13 +9,24 @@ A modern web application for managing Zimbabwe arrival card submissions, enablin
 
 ## Features
 
+### For Travelers
 - **Digital Arrival Cards**: Complete immigration forms online before travel
-- **Multi-step Form**: Guided form with validation for personal, passport, travel, and customs information
+- **Multi-step Form**: Guided form with arrow progression, validation for personal, passport, travel, and customs information
 - **QR Code System**: Generate and scan QR codes for fast processing at border posts
-- **Role-Based Access**: Separate dashboards for travelers, immigration officers, ZIMRA, government officials, and administrators
 - **Email Notifications**: Automatic confirmations and status updates via Resend
+- **Help Center**: Comprehensive FAQ and support resources at `/help`
+
+### For Government Staff
+- **Role-Based Dashboards**: Separate interfaces for Immigration, ZIMRA, Government, and Admin users
+- **Officer Performance Tracking**: Monitor individual officer processing metrics, approval rates, and workload
+- **Analytics Dashboard**: Real-time statistics, trends, and exportable reports
+- **Staff Help Portal**: Role-specific guides and documentation at `/staff/help`
+
+### Technical Features
 - **Accessibility**: WCAG 2.2 AAA compliant with skip links and screen reader support
 - **Mobile Responsive**: Works on all devices with optimized mobile experience
+- **Skeleton Loading**: Beautiful loading states for all dashboard pages
+- **Production Security**: Rate limiting, circuit breakers, and comprehensive audit logging
 
 ## Quick Start
 
@@ -116,10 +127,19 @@ After running `npm run db:seed`:
 
 ```
 ├── .github/              # GitHub Actions & templates
+├── docs/                 # Mintlify documentation
+│   ├── mint.json         # Documentation config
+│   ├── introduction/     # Getting started
+│   ├── guides/           # Traveler guides
+│   ├── staff/            # Staff documentation
+│   └── api-reference/    # API docs
 ├── prisma/               # Database schema & migrations
 ├── public/               # Static assets
 ├── src/
 │   ├── app/              # Next.js App Router pages
+│   │   ├── help/         # Public help & FAQ
+│   │   ├── staff/help/   # Staff help portal
+│   │   └── government/analytics/ # Analytics & officer performance
 │   ├── components/       # React components
 │   ├── lib/              # Utilities & configuration
 │   ├── hooks/            # Custom React hooks
@@ -129,6 +149,12 @@ After running `npm run db:seed`:
 
 ## Documentation
 
+### User Documentation
+- **Traveler Help**: `/help` - FAQ and support for travelers
+- **Staff Portal**: `/staff/help` - Role-specific guides for government staff
+- **[Mintlify Docs](./docs)** - Full documentation site (deploy to docs.yoursite.com)
+
+### Developer Documentation
 - [CLAUDE.md](./CLAUDE.md) - AI assistant guide and codebase documentation
 - [CHANGELOG.md](./CHANGELOG.md) - Version history and changes
 - [SECURITY.md](./SECURITY.md) - Security policy and vulnerability reporting

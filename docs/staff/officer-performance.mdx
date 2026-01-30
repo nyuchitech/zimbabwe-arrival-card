@@ -1,0 +1,164 @@
+---
+title: 'Officer Performance Tracking'
+description: 'Monitor and analyze immigration officer processing metrics'
+---
+
+# Officer Performance Tracking
+
+The Officer Performance module enables supervisors and port managers to monitor processing efficiency and workload distribution across immigration officers.
+
+## Overview
+
+This feature tracks:
+
+- **Cards Processed** - Total number of arrival cards verified by each officer
+- **Approval Rate** - Percentage of cards approved vs rejected
+- **Processing Time** - Average time to process each card
+- **Shift Activity** - Activity breakdown by time period
+
+## Accessing Performance Data
+
+<Info>
+Officer performance data is available to users with **Supervisor**, **Port Manager**, or **Admin** roles.
+</Info>
+
+Navigate to: **Government Dashboard** → **Detailed Analytics** → **Officer Performance**
+
+## Key Metrics
+
+### Individual Officer Metrics
+
+| Metric | Description |
+|--------|-------------|
+| Total Processed | Number of cards processed by the officer |
+| Approved | Cards approved by the officer |
+| Rejected | Cards rejected by the officer |
+| Approval Rate | Percentage of approved cards |
+| Avg Processing Time | Average time from scan to decision |
+| Today's Activity | Cards processed in current shift |
+
+### Team Metrics (For Supervisors)
+
+| Metric | Description |
+|--------|-------------|
+| Team Total | Combined processing volume for all officers |
+| Top Performer | Officer with highest processing volume |
+| Workload Distribution | Processing spread across team members |
+| Peak Hours | Busiest times for the team |
+
+## Performance Dashboard
+
+### Officer Leaderboard
+
+View officers ranked by processing volume:
+
+```
+Rank | Officer Name        | Cards Today | This Week | Approval Rate
+-----|---------------------|-------------|-----------|---------------
+1    | Officer J. Moyo     | 47          | 312       | 94.2%
+2    | Officer T. Ncube    | 43          | 287       | 96.1%
+3    | Officer S. Sibanda  | 38          | 254       | 92.8%
+```
+
+### Trend Analysis
+
+Monitor performance over time:
+
+- **Daily Trends** - See day-by-day processing numbers
+- **Weekly Comparison** - Compare current week to previous weeks
+- **Monthly Reports** - Full monthly performance summaries
+
+## Filtering Options
+
+Filter performance data by:
+
+<AccordionGroup>
+  <Accordion title="Time Period">
+    - Today
+    - This Week
+    - This Month
+    - Custom Date Range
+  </Accordion>
+  <Accordion title="Border Post">
+    - All Posts
+    - Specific Port (e.g., Harare International Airport)
+  </Accordion>
+  <Accordion title="Shift">
+    - All Shifts
+    - Morning (06:00 - 14:00)
+    - Afternoon (14:00 - 22:00)
+    - Night (22:00 - 06:00)
+  </Accordion>
+  <Accordion title="Officer">
+    - All Officers
+    - Specific Officer
+    - My Team Only (for supervisors)
+  </Accordion>
+</AccordionGroup>
+
+## Export Reports
+
+Export performance data for external analysis:
+
+1. Click **Export** button
+2. Select format (PDF, Excel, CSV)
+3. Choose date range
+4. Select metrics to include
+5. Click **Download**
+
+### Available Export Formats
+
+| Format | Best For |
+|--------|----------|
+| PDF | Presentations, official reports |
+| Excel | Data analysis, charts |
+| CSV | Raw data, database imports |
+
+## Alerts & Notifications
+
+Set up alerts for:
+
+- **Low Activity** - Officer processing below threshold
+- **High Rejection Rate** - Unusual rejection patterns
+- **Shift Coverage** - Understaffing warnings
+- **Performance Goals** - Target achievement notifications
+
+## Privacy & Compliance
+
+<Warning>
+Performance data is confidential and should only be used for legitimate management purposes. Sharing performance data inappropriately may violate privacy policies.
+</Warning>
+
+### Data Retention
+
+- Daily data: Retained for 2 years
+- Aggregated statistics: Retained indefinitely
+- Individual session logs: 90 days
+
+## Best Practices
+
+<Steps>
+  <Step title="Regular Review">
+    Check performance metrics weekly to identify trends early
+  </Step>
+  <Step title="Fair Assessment">
+    Consider external factors (queue length, complexity) when evaluating performance
+  </Step>
+  <Step title="Constructive Feedback">
+    Use data to support officers, not just to criticize
+  </Step>
+  <Step title="Recognize Excellence">
+    Acknowledge high performers to motivate the team
+  </Step>
+</Steps>
+
+## API Access
+
+For programmatic access to performance data, see the [API Reference](/api-reference/introduction).
+
+```bash
+GET /api/analytics/officer-performance
+Authorization: Bearer <token>
+```
+
+Response includes officer metrics in JSON format.

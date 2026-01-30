@@ -7,7 +7,55 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.4.0] - 2026-01-30
+
 ### Added
+- **Officer Performance Tracking** - Track and analyze immigration officer processing metrics
+  - Individual officer statistics (cards processed, approval rate, processing time)
+  - Top performers leaderboard
+  - Border post activity breakdown
+  - Today's activity and weekly trends
+- **Mintlify Documentation** - Comprehensive documentation site setup
+  - Traveler guides and FAQs
+  - Staff portal documentation
+  - API reference structure
+  - Officer performance tracking guide
+- **Public Help Center** (`/help`) - FAQ pages for travelers
+  - 6 FAQ categories with expandable answers
+  - Quick links to common actions
+  - Processing times information
+  - Contact support section
+- **Staff Help Portal** (`/staff/help`) - Role-specific guides for government staff
+  - Immigration officer guide (QR scanning, approvals)
+  - ZIMRA officer guide (customs declarations)
+  - Government official guide (statistics, reports)
+  - Admin guide (user management, system config)
+- **UI Components**
+  - Form stepper component with arrow progression design
+  - Skeleton loading components for all dashboard types
+  - Accordion component for FAQs
+- **Enhanced Analytics Dashboard**
+  - Link to officer performance from main analytics
+  - Detailed statistics with month-over-month comparison
+
+### Changed
+- Updated arrival card form to use new FormStepper component
+- Improved phone number validation for proper TypeScript inference
+- Enhanced rate limiter with better header types
+
+### Fixed
+- TypeScript build error in phoneField validation
+- Circuit breaker forceOpen() not setting lastFailureTime
+- Validation tests using past dates for arrival date checks
+- Password test updated for 10-character minimum requirement
+
+### Documentation
+- Created `/docs` directory with Mintlify configuration
+- Added introduction, quick-start, and staff guides
+- Added officer performance tracking documentation
+
+### Security
+- Production-grade security features from previous release
 - Comprehensive CLAUDE.md documentation for AI assistants
 - robots.txt for search engine and security configuration
 - SECURITY.md vulnerability disclosure policy
