@@ -44,13 +44,13 @@ const navItems: NavItem[] = [
     href: "/dashboard",
     label: "Dashboard",
     icon: Home,
-    roles: ["TRAVELER", "IMMIGRATION", "GOVERNMENT", "ZIMRA", "ADMIN"],
+    roles: ["USER", "IMMIGRATION", "GOVERNMENT", "ZIMRA", "ADMIN"],
   },
   {
     href: "/arrival-card/new",
     label: "New Arrival Card",
     icon: FileText,
-    roles: ["TRAVELER"],
+    roles: ["USER"],
   },
   {
     href: "/immigration",
@@ -98,7 +98,7 @@ const navItems: NavItem[] = [
     href: "/help",
     label: "Help",
     icon: HelpCircle,
-    roles: ["TRAVELER"],
+    roles: ["USER"],
   },
 ];
 
@@ -204,7 +204,7 @@ export function NavHeader() {
                 </DropdownMenuItem>
                 <DropdownMenuItem asChild className="py-3 px-4">
                   <Link
-                    href={userRole && userRole !== "TRAVELER" ? "/staff/help" : "/help"}
+                    href={userRole && userRole !== "USER" ? "/staff/help" : "/help"}
                     className="cursor-pointer text-base"
                   >
                     <HelpCircle className="mr-3 h-5 w-5" />

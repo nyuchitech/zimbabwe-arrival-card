@@ -58,28 +58,28 @@ export default async function ZimraDashboardPage() {
     recentDeclarations,
   ] = await Promise.all([
     // Total arrival cards with customs declarations
-    db.arrivalCard.count({
+    db.trip.count({
       where: {
         OR: [{ carryingCurrency: true }, { carryingGoods: true }],
       },
     }),
     // Currency declarations
-    db.arrivalCard.count({
+    db.trip.count({
       where: { carryingCurrency: true },
     }),
     // Goods declarations
-    db.arrivalCard.count({
+    db.trip.count({
       where: { carryingGoods: true },
     }),
     // Monthly declarations
-    db.arrivalCard.count({
+    db.trip.count({
       where: {
         createdAt: { gte: startOfMonth },
         OR: [{ carryingCurrency: true }, { carryingGoods: true }],
       },
     }),
     // High value declarations (currency > $10,000 or goods > $5,000)
-    db.arrivalCard.count({
+    db.trip.count({
       where: {
         OR: [
           { currencyAmount: { gte: 10000 } },
@@ -88,7 +88,7 @@ export default async function ZimraDashboardPage() {
       },
     }),
     // Top nationalities with declarations
-    db.arrivalCard.groupBy({
+    db.trip.groupBy({
       by: ["nationality"],
       where: {
         OR: [{ carryingCurrency: true }, { carryingGoods: true }],
@@ -99,7 +99,7 @@ export default async function ZimraDashboardPage() {
       take: 5,
     }),
     // Purpose of visit breakdown for declarers
-    db.arrivalCard.groupBy({
+    db.trip.groupBy({
       by: ["purposeOfVisit"],
       where: {
         OR: [{ carryingCurrency: true }, { carryingGoods: true }],
@@ -109,7 +109,7 @@ export default async function ZimraDashboardPage() {
       take: 5,
     }),
     // Recent declarations requiring attention
-    db.arrivalCard.findMany({
+    db.trip.findMany({
       where: {
         OR: [
           { currencyAmount: { gte: 10000 } },
@@ -139,12 +139,12 @@ export default async function ZimraDashboardPage() {
   ]);
 
   // Calculate totals
-  const totalCurrencyDeclared = await db.arrivalCard.aggregate({
+  const totalCurrencyDeclared = await db.trip.aggregate({
     _sum: { currencyAmount: true },
     where: { carryingCurrency: true },
   });
 
-  const totalGoodsValue = await db.arrivalCard.aggregate({
+  const totalGoodsValue = await db.trip.aggregate({
     _sum: { goodsValue: true },
     where: { carryingGoods: true },
   });

@@ -1,7 +1,7 @@
 import type { NextAuthConfig } from "next-auth";
 
 // Define Role type inline to avoid importing Prisma in edge runtime
-export type Role = "TRAVELER" | "IMMIGRATION" | "GOVERNMENT" | "ZIMRA" | "ADMIN";
+export type Role = "USER" | "IMMIGRATION" | "GOVERNMENT" | "ZIMRA" | "ADMIN";
 
 declare module "next-auth" {
   interface User {
@@ -51,8 +51,9 @@ export const authConfig: NextAuthConfig = {
       const publicRoutes = [
         "/",
         "/auth",
-        "/arrival-card/new",
-        "/arrival-card/lookup",
+        "/trip/new",
+        "/trip/lookup",
+        "/help",
         "/privacy-policy",
         "/terms-of-service",
         "/accessibility",

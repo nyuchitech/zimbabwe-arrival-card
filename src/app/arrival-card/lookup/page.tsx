@@ -24,12 +24,12 @@ import { SkipLink } from "@/components/skip-link";
 
 const lookupSchema = z.object({
   referenceNumber: z.string().min(1, "Reference number is required"),
-  passportNumber: z.string().min(1, "Passport number is required"),
+  documentNumber: z.string().min(1, "Passport number is required"),
 });
 
 type LookupInput = z.infer<typeof lookupSchema>;
 
-interface ArrivalCardResult {
+interface TripResult {
   id: string;
   referenceNumber: string;
   status: string;
@@ -92,10 +92,10 @@ const purposeLabels: Record<string, string> = {
   OTHER: "Other",
 };
 
-export default function ArrivalCardLookupPage() {
+export default function TripLookupPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [result, setResult] = useState<ArrivalCardResult | null>(null);
+  const [result, setResult] = useState<TripResult | null>(null);
 
   const {
     register,
@@ -112,7 +112,7 @@ export default function ArrivalCardLookupPage() {
 
     try {
       const response = await fetch(
-        `/api/arrival-card/lookup?ref=${encodeURIComponent(data.referenceNumber)}&passport=${encodeURIComponent(data.passportNumber)}`
+        `/api/arrival-card/lookup?ref=${encodeURIComponent(data.referenceNumber)}&passport=${encodeURIComponent(data.documentNumber)}`
       );
 
       const json = await response.json();
@@ -199,17 +199,17 @@ export default function ArrivalCardLookupPage() {
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="passportNumber" className="text-base font-semibold text-gray-900">Passport Number</Label>
+                <Label htmlFor="documentNumber" className="text-base font-semibold text-gray-900">Passport Number</Label>
                 <Input
-                  id="passportNumber"
+                  id="documentNumber"
                   placeholder="Your passport number"
                   className="h-14 text-base font-mono"
-                  {...register("passportNumber")}
+                  {...register("documentNumber")}
                   disabled={isLoading}
                 />
-                {errors.passportNumber && (
+                {errors.documentNumber && (
                   <p className="text-base text-red-600 font-medium" role="alert">
-                    {errors.passportNumber.message}
+                    {errors.documentNumber.message}
                   </p>
                 )}
               </div>

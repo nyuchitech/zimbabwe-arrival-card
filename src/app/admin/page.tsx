@@ -44,21 +44,21 @@ export default async function AdminDashboardPage() {
   // Get system statistics
   const [
     totalUsers,
-    totalTravelers,
+    totalRegularUsers,
     totalImmigration,
     totalGovernment,
     totalAdmins,
-    totalArrivalCards,
+    totalTrips,
     totalBorderPosts,
     recentUsers,
     recentAuditLogs,
   ] = await Promise.all([
     db.user.count(),
-    db.user.count({ where: { role: "TRAVELER" } }),
+    db.user.count({ where: { role: "USER" } }),
     db.user.count({ where: { role: "IMMIGRATION" } }),
     db.user.count({ where: { role: "GOVERNMENT" } }),
     db.user.count({ where: { role: "ADMIN" } }),
-    db.arrivalCard.count(),
+    db.trip.count(),
     db.borderPost.count(),
     db.user.findMany({
       orderBy: { createdAt: "desc" },
@@ -122,11 +122,11 @@ export default async function AdminDashboardPage() {
         </Card>
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Arrival Cards</CardTitle>
+            <CardTitle className="text-sm font-medium">Trip Submissions</CardTitle>
             <FileText className="h-4 w-4 text-blue-500" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{totalArrivalCards}</div>
+            <div className="text-2xl font-bold">{totalTrips}</div>
             <p className="text-xs text-muted-foreground">Total submissions</p>
           </CardContent>
         </Card>
@@ -163,8 +163,8 @@ export default async function AdminDashboardPage() {
         <CardContent>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             <div className="p-4 bg-blue-50 rounded-lg text-center">
-              <p className="text-3xl font-bold text-blue-600">{totalTravelers}</p>
-              <p className="text-sm text-blue-600">Travelers</p>
+              <p className="text-3xl font-bold text-blue-600">{totalRegularUsers}</p>
+              <p className="text-sm text-blue-600">Users</p>
             </div>
             <div className="p-4 bg-green-50 rounded-lg text-center">
               <p className="text-3xl font-bold text-green-600">{totalImmigration}</p>

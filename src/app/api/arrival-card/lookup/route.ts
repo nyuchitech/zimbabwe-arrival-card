@@ -20,19 +20,19 @@ export async function GET(request: NextRequest) {
 
     const searchParams = request.nextUrl.searchParams;
     const referenceNumber = searchParams.get("ref");
-    const passportNumber = searchParams.get("passport");
+    const documentNumber = searchParams.get("passport");
 
-    if (!referenceNumber || !passportNumber) {
+    if (!referenceNumber || !documentNumber) {
       return NextResponse.json(
         { error: "Reference number and passport number are required" },
         { status: 400 }
       );
     }
 
-    const arrivalCard = await db.arrivalCard.findFirst({
+    const arrivalCard = await db.trip.findFirst({
       where: {
         referenceNumber: referenceNumber.toUpperCase(),
-        passportNumber: passportNumber.toUpperCase(),
+        documentNumber: documentNumber.toUpperCase(),
       },
       select: {
         id: true,

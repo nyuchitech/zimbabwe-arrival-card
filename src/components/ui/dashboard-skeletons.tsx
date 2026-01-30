@@ -172,7 +172,7 @@ export function ProfileSkeleton() {
   );
 }
 
-export function ArrivalCardDetailSkeleton() {
+export function TripDetailSkeleton() {
   return (
     <div className="space-y-6">
       {/* Header */}

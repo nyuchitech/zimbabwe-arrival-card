@@ -91,10 +91,10 @@ describe("Personal Info Schema", () => {
 describe("Passport Info Schema", () => {
   it("should validate valid passport info", () => {
     const validData = {
-      passportNumber: "AB123456",
-      passportIssueDate: "2020-01-01",
-      passportExpiryDate: "2030-01-01",
-      passportIssuingCountry: "USA",
+      documentNumber: "AB123456",
+      documentIssueDate: "2020-01-01",
+      documentExpiryDate: "2030-01-01",
+      documentIssuingCountry: "USA",
     };
 
     const result = passportInfoSchema.safeParse(validData);
@@ -103,10 +103,10 @@ describe("Passport Info Schema", () => {
 
   it("should reject empty passport number", () => {
     const invalidData = {
-      passportNumber: "",
-      passportIssueDate: "2020-01-01",
-      passportExpiryDate: "2030-01-01",
-      passportIssuingCountry: "USA",
+      documentNumber: "",
+      documentIssueDate: "2020-01-01",
+      documentExpiryDate: "2030-01-01",
+      documentIssuingCountry: "USA",
     };
 
     const result = passportInfoSchema.safeParse(invalidData);

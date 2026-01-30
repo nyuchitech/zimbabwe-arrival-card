@@ -69,34 +69,34 @@ async function AnalyticsDashboard() {
     recentCards,
     dailyStats,
   ] = await Promise.all([
-    db.arrivalCard.count(),
-    db.arrivalCard.count({
+    db.trip.count(),
+    db.trip.count({
       where: { createdAt: { gte: startOfWeek } },
     }),
-    db.arrivalCard.count({
+    db.trip.count({
       where: { createdAt: { gte: startOfMonth } },
     }),
-    db.arrivalCard.count({
+    db.trip.count({
       where: {
         createdAt: { gte: startOfLastMonth, lte: endOfLastMonth },
       },
     }),
-    db.arrivalCard.count({
+    db.trip.count({
       where: { createdAt: { gte: startOfYear } },
     }),
-    db.arrivalCard.count({ where: { status: "APPROVED" } }),
-    db.arrivalCard.count({ where: { status: "REJECTED" } }),
-    db.arrivalCard.count({
+    db.trip.count({ where: { status: "APPROVED" } }),
+    db.trip.count({ where: { status: "REJECTED" } }),
+    db.trip.count({
       where: { status: { in: ["SUBMITTED", "UNDER_REVIEW"] } },
     }),
-    db.user.count({ where: { role: "TRAVELER" } }),
-    db.arrivalCard.groupBy({
+    db.user.count({ where: { role: "USER" } }),
+    db.trip.groupBy({
       by: ["nationality"],
       _count: { nationality: true },
       orderBy: { _count: { nationality: "desc" } },
       take: 10,
     }),
-    db.arrivalCard.groupBy({
+    db.trip.groupBy({
       by: ["purposeOfVisit"],
       _count: { purposeOfVisit: true },
       orderBy: { _count: { purposeOfVisit: "desc" } },
@@ -104,13 +104,13 @@ async function AnalyticsDashboard() {
     db.borderPost.findMany({
       include: {
         _count: {
-          select: { arrivalCards: true },
+          select: { trips: true },
         },
       },
-      orderBy: { arrivalCards: { _count: "desc" } },
+      orderBy: { trips: { _count: "desc" } },
       take: 10,
     }),
-    db.arrivalCard.findMany({
+    db.trip.findMany({
       take: 10,
       orderBy: { createdAt: "desc" },
       select: {
@@ -129,7 +129,7 @@ async function AnalyticsDashboard() {
       SELECT
         DATE("createdAt") as date,
         COUNT(*) as count
-      FROM "ArrivalCard"
+      FROM "Trip"
       WHERE "createdAt" >= ${new Date(Date.now() - 30 * 24 * 60 * 60 * 1000)}
       GROUP BY DATE("createdAt")
       ORDER BY date DESC
@@ -429,7 +429,7 @@ async function AnalyticsDashboard() {
                         </TableCell>
                         <TableCell>{post.type}</TableCell>
                         <TableCell className="text-right font-medium">
-                          {post._count.arrivalCards.toLocaleString()}
+                          {post._count.trips.toLocaleString()}
                         </TableCell>
                       </TableRow>
                     ))}

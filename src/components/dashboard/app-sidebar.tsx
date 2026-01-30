@@ -55,13 +55,13 @@ const mainNavItems: NavItem[] = [
     href: "/dashboard",
     label: "Dashboard",
     icon: Home,
-    roles: ["TRAVELER", "IMMIGRATION", "GOVERNMENT", "ZIMRA", "ADMIN"],
+    roles: ["USER", "IMMIGRATION", "GOVERNMENT", "ZIMRA", "ADMIN"],
   },
   {
-    href: "/arrival-card/new",
-    label: "New Arrival Card",
+    href: "/trip/new",
+    label: "New Trip",
     icon: FileText,
-    roles: ["TRAVELER"],
+    roles: ["USER"],
   },
 ];
 
@@ -124,7 +124,7 @@ const supportNavItems: NavItem[] = [
     href: "/help",
     label: "Help & FAQ",
     icon: HelpCircle,
-    roles: ["TRAVELER"],
+    roles: ["USER"],
   },
 ];
 
@@ -328,7 +328,7 @@ export function AppSidebar() {
                 </DropdownMenuItem>
                 <DropdownMenuItem asChild>
                   <Link
-                    href={userRole && userRole !== "TRAVELER" ? "/staff/help" : "/help"}
+                    href={userRole && userRole !== "USER" ? "/staff/help" : "/help"}
                     className="cursor-pointer"
                   >
                     <HelpCircle className="mr-2 h-4 w-4" />

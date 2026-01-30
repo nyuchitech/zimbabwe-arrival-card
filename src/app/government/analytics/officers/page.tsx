@@ -66,7 +66,7 @@ async function OfficerPerformanceDashboard() {
     },
     include: {
       borderPost: true,
-      reviewedCards: {
+      reviewedTrips: {
         select: {
           id: true,
           status: true,
@@ -78,17 +78,17 @@ async function OfficerPerformanceDashboard() {
 
   // Calculate stats for each officer
   const officerStats: OfficerStats[] = officers.map((officer) => {
-    const totalProcessed = officer.reviewedCards.length;
-    const approved = officer.reviewedCards.filter(
+    const totalProcessed = officer.reviewedTrips.length;
+    const approved = officer.reviewedTrips.filter(
       (c) => c.status === "APPROVED"
     ).length;
-    const rejected = officer.reviewedCards.filter(
+    const rejected = officer.reviewedTrips.filter(
       (c) => c.status === "REJECTED"
     ).length;
-    const todayProcessed = officer.reviewedCards.filter(
+    const todayProcessed = officer.reviewedTrips.filter(
       (c) => c.reviewedAt && new Date(c.reviewedAt) >= today
     ).length;
-    const weekProcessed = officer.reviewedCards.filter(
+    const weekProcessed = officer.reviewedTrips.filter(
       (c) => c.reviewedAt && new Date(c.reviewedAt) >= startOfWeek
     ).length;
 
@@ -118,7 +118,7 @@ async function OfficerPerformanceDashboard() {
       officers: {
         select: { id: true },
       },
-      arrivalCards: {
+      trips: {
         where: {
           status: { in: ["APPROVED", "REJECTED"] },
         },
@@ -551,10 +551,10 @@ async function OfficerPerformanceDashboard() {
             </TableHeader>
             <TableBody>
               {borderPosts.map((post) => {
-                const approved = post.arrivalCards.filter(
+                const approved = post.trips.filter(
                   (c) => c.status === "APPROVED"
                 ).length;
-                const rejected = post.arrivalCards.filter(
+                const rejected = post.trips.filter(
                   (c) => c.status === "REJECTED"
                 ).length;
                 return (
@@ -567,7 +567,7 @@ async function OfficerPerformanceDashboard() {
                       {post.officers.length}
                     </TableCell>
                     <TableCell className="text-right font-medium">
-                      {post.arrivalCards.length.toLocaleString()}
+                      {post.trips.length.toLocaleString()}
                     </TableCell>
                     <TableCell className="text-right text-green-600">
                       {approved.toLocaleString()}

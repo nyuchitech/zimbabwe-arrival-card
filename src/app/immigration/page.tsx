@@ -52,9 +52,9 @@ export default async function ImmigrationDashboardPage() {
 
   // Get statistics
   const [totalSubmitted, pendingReview, approvedToday, rejectedToday] = await Promise.all([
-    db.arrivalCard.count({ where: { status: "SUBMITTED" } }),
-    db.arrivalCard.count({ where: { status: "UNDER_REVIEW" } }),
-    db.arrivalCard.count({
+    db.trip.count({ where: { status: "SUBMITTED" } }),
+    db.trip.count({ where: { status: "UNDER_REVIEW" } }),
+    db.trip.count({
       where: {
         status: "APPROVED",
         reviewedAt: {
@@ -62,7 +62,7 @@ export default async function ImmigrationDashboardPage() {
         },
       },
     }),
-    db.arrivalCard.count({
+    db.trip.count({
       where: {
         status: "REJECTED",
         reviewedAt: {
@@ -73,14 +73,14 @@ export default async function ImmigrationDashboardPage() {
   ]);
 
   // Get pending arrival cards
-  const pendingCards = await db.arrivalCard.findMany({
+  const pendingCards = await db.trip.findMany({
     where: {
       status: { in: ["SUBMITTED", "UNDER_REVIEW"] },
     },
     orderBy: { submittedAt: "asc" },
     take: 10,
     include: {
-      traveler: {
+      user: {
         select: { name: true, email: true },
       },
     },

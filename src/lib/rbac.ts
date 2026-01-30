@@ -2,28 +2,29 @@ import { Role } from "@/generated/prisma/client";
 
 // Define permissions for each role
 export const ROLE_PERMISSIONS = {
-  TRAVELER: [
-    "arrival-card:create",
-    "arrival-card:read:own",
-    "arrival-card:update:own",
-    "arrival-card:delete:own",
+  USER: [
+    "trip:create",
+    "trip:read:own",
+    "trip:update:own",
+    "trip:delete:own",
     "profile:read:own",
     "profile:update:own",
   ],
   IMMIGRATION: [
-    "arrival-card:read:all",
-    "arrival-card:review",
-    "arrival-card:approve",
-    "arrival-card:reject",
-    "traveler:read:all",
+    "trip:read:all",
+    "trip:review",
+    "trip:approve",
+    "trip:reject",
+    "user:read:all",
     "profile:read:own",
     "profile:update:own",
     "border-post:read:assigned",
     "reports:read:border-post",
+    "scan:qr",
   ],
   GOVERNMENT: [
-    "arrival-card:read:all",
-    "traveler:read:all",
+    "trip:read:all",
+    "user:read:all",
     "reports:read:all",
     "analytics:read:all",
     "border-post:read:all",
@@ -31,10 +32,11 @@ export const ROLE_PERMISSIONS = {
     "profile:update:own",
   ],
   ZIMRA: [
-    "arrival-card:read:all",
+    "trip:read:all",
     "customs:read:all",
     "customs:review",
-    "traveler:read:all",
+    "customs:flag",
+    "user:read:all",
     "reports:read:customs",
     "analytics:read:customs",
     "border-post:read:all",
@@ -42,13 +44,12 @@ export const ROLE_PERMISSIONS = {
     "profile:update:own",
   ],
   ADMIN: [
-    "arrival-card:read:all",
-    "arrival-card:update:all",
-    "arrival-card:delete:all",
-    "traveler:read:all",
-    "traveler:create",
-    "traveler:update:all",
-    "traveler:delete:all",
+    "trip:read:all",
+    "trip:update:all",
+    "trip:delete:all",
+    "trip:review",
+    "trip:approve",
+    "trip:reject",
     "user:read:all",
     "user:create",
     "user:update:all",
@@ -66,6 +67,7 @@ export const ROLE_PERMISSIONS = {
     "audit-log:read:all",
     "profile:read:own",
     "profile:update:own",
+    "scan:qr",
   ],
 } as const;
 
@@ -101,7 +103,7 @@ export function getPermissions(role: Role): readonly Permission[] {
 
 // Role hierarchy - higher roles inherit lower role permissions (optional use)
 export const ROLE_HIERARCHY: Record<Role, number> = {
-  TRAVELER: 1,
+  USER: 1,
   IMMIGRATION: 2,
   ZIMRA: 2,
   GOVERNMENT: 3,
@@ -116,7 +118,7 @@ export function isAtLeastRole(userRole: Role, requiredRole: Role): boolean {
 // Get role display name
 export function getRoleDisplayName(role: Role): string {
   const displayNames: Record<Role, string> = {
-    TRAVELER: "Traveler",
+    USER: "User",
     IMMIGRATION: "Immigration Officer",
     GOVERNMENT: "Government Official",
     ZIMRA: "ZIMRA Officer",
@@ -128,11 +130,16 @@ export function getRoleDisplayName(role: Role): string {
 // Get role badge color (for UI)
 export function getRoleBadgeColor(role: Role): string {
   const colors: Record<Role, string> = {
-    TRAVELER: "bg-blue-100 text-blue-800",
+    USER: "bg-blue-100 text-blue-800",
     IMMIGRATION: "bg-green-100 text-green-800",
     GOVERNMENT: "bg-purple-100 text-purple-800",
     ZIMRA: "bg-yellow-100 text-yellow-800",
     ADMIN: "bg-red-100 text-red-800",
   };
   return colors[role];
+}
+
+// Check if role is a staff role (not a regular user)
+export function isStaffRole(role: Role): boolean {
+  return role !== "USER";
 }

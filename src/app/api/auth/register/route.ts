@@ -58,7 +58,7 @@ export async function POST(request: Request) {
         name,
         email,
         password: hashedPassword,
-        role: "TRAVELER", // Default role for new registrations
+        role: "USER", // Default role for new registrations
       },
       select: {
         id: true,

@@ -40,7 +40,7 @@ interface ScannedData {
   status: string;
 }
 
-interface ArrivalCardDetails {
+interface TripDetails {
   id: string;
   referenceNumber: string;
   status: string;
@@ -51,8 +51,8 @@ interface ArrivalCardDetails {
   gender: string;
   nationality: string;
   countryOfResidence: string;
-  passportNumber: string;
-  passportExpiryDate: string;
+  documentNumber: string;
+  documentExpiryDate: string;
   email: string;
   phoneNumber: string;
   purposeOfVisit: string;
@@ -90,7 +90,7 @@ const purposeLabels: Record<string, string> = {
 
 export default function ImmigrationScanPage() {
   const [scannedData, setScannedData] = useState<ScannedData | null>(null);
-  const [cardDetails, setCardDetails] = useState<ArrivalCardDetails | null>(null);
+  const [cardDetails, setCardDetails] = useState<TripDetails | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [manualRef, setManualRef] = useState("");
@@ -330,7 +330,7 @@ export default function ImmigrationScanPage() {
                     <p className="text-muted-foreground flex items-center gap-1">
                       <FileText className="h-3 w-3" aria-hidden="true" /> Passport
                     </p>
-                    <p className="font-semibold font-mono">{cardDetails.passportNumber}</p>
+                    <p className="font-semibold font-mono">{cardDetails.documentNumber}</p>
                   </div>
                   <div>
                     <p className="text-muted-foreground flex items-center gap-1">
@@ -366,7 +366,7 @@ export default function ImmigrationScanPage() {
                   </div>
                   <div>
                     <p className="text-muted-foreground">Passport Expiry</p>
-                    <p className="font-semibold">{formatDate(cardDetails.passportExpiryDate)}</p>
+                    <p className="font-semibold">{formatDate(cardDetails.documentExpiryDate)}</p>
                   </div>
                 </div>
 

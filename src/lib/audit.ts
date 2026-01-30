@@ -24,7 +24,7 @@ type AuditAction =
 
 type EntityType =
   | "User"
-  | "ArrivalCard"
+  | "Trip"
   | "BorderPost"
   | "Companion"
   | "SystemSetting";
@@ -57,7 +57,7 @@ const SENSITIVE_FIELDS = new Set([
   "apiKey",
   "creditCard",
   "ssn",
-  "passportNumber",
+  "documentNumber",
 ]);
 
 function redactSensitiveData(
@@ -157,35 +157,35 @@ export async function auditRegister(
   });
 }
 
-export async function auditArrivalCardCreate(
+export async function auditTripCreate(
   cardId: string,
   referenceNumber: string,
   context: AuditContext
 ): Promise<void> {
   await createAuditLog({
     action: "CREATE",
-    entityType: "ArrivalCard",
+    entityType: "Trip",
     entityId: cardId,
     newData: { referenceNumber },
     context,
   });
 }
 
-export async function auditArrivalCardSubmit(
+export async function auditTripSubmit(
   cardId: string,
   referenceNumber: string,
   context: AuditContext
 ): Promise<void> {
   await createAuditLog({
     action: "SUBMIT",
-    entityType: "ArrivalCard",
+    entityType: "Trip",
     entityId: cardId,
     newData: { referenceNumber, status: "SUBMITTED" },
     context,
   });
 }
 
-export async function auditArrivalCardStatusChange(
+export async function auditTripStatusChange(
   cardId: string,
   oldStatus: string,
   newStatus: string,
@@ -194,7 +194,7 @@ export async function auditArrivalCardStatusChange(
 ): Promise<void> {
   await createAuditLog({
     action: newStatus === "APPROVED" ? "APPROVE" : "REJECT",
-    entityType: "ArrivalCard",
+    entityType: "Trip",
     entityId: cardId,
     oldData: { status: oldStatus },
     newData: { status: newStatus, reason },
@@ -202,27 +202,27 @@ export async function auditArrivalCardStatusChange(
   });
 }
 
-export async function auditArrivalCardLookup(
+export async function auditTripLookup(
   referenceNumber: string,
   found: boolean,
   context: AuditContext
 ): Promise<void> {
   await createAuditLog({
     action: "LOOKUP",
-    entityType: "ArrivalCard",
+    entityType: "Trip",
     entityId: referenceNumber,
     context,
     metadata: { found },
   });
 }
 
-export async function auditArrivalCardVerify(
+export async function auditTripVerify(
   cardId: string,
   context: AuditContext
 ): Promise<void> {
   await createAuditLog({
     action: "VERIFY",
-    entityType: "ArrivalCard",
+    entityType: "Trip",
     entityId: cardId,
     context,
   });

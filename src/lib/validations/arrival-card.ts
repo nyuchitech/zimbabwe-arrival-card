@@ -128,31 +128,31 @@ export const personalInfoSchema = z.object({
 
 export const passportInfoSchema = z
   .object({
-    passportNumber: passportField(),
-    passportIssueDate: dateField("Issue date"),
-    passportExpiryDate: dateField("Expiry date"),
-    passportIssuingCountry: countryField("Issuing country"),
+    documentNumber: passportField(),
+    documentIssueDate: dateField("Issue date"),
+    documentExpiryDate: dateField("Expiry date"),
+    documentIssuingCountry: countryField("Issuing country"),
   })
   .refine(
     (data) => {
-      const issue = new Date(data.passportIssueDate);
-      const expiry = new Date(data.passportExpiryDate);
+      const issue = new Date(data.documentIssueDate);
+      const expiry = new Date(data.documentExpiryDate);
       return expiry > issue;
     },
     {
       message: "Passport expiry date must be after issue date",
-      path: ["passportExpiryDate"],
+      path: ["documentExpiryDate"],
     }
   )
   .refine(
     (data) => {
-      const expiry = new Date(data.passportExpiryDate);
+      const expiry = new Date(data.documentExpiryDate);
       const today = new Date();
       return expiry > today;
     },
     {
       message: "Passport must not be expired",
-      path: ["passportExpiryDate"],
+      path: ["documentExpiryDate"],
     }
   );
 
@@ -308,14 +308,50 @@ export const customsDeclarationSchema = z
   );
 
 export const healthDeclarationSchema = z.object({
-  healthDeclaration: z.boolean(),
-  recentIllness: z.boolean(),
-  illnessDescription: z
+  // Symptoms
+  hasSymptoms: z.boolean(),
+  symptomsDescription: z
     .string()
     .max(2000, "Description is too long")
     .trim()
     .optional()
     .or(z.literal("")),
+  // Yellow Fever
+  visitedYellowFeverCountry: z.boolean(),
+  yellowFeverCountries: z
+    .string()
+    .max(500, "Country list is too long")
+    .trim()
+    .optional()
+    .or(z.literal("")),
+  yellowFeverCertificate: z.boolean(),
+  // Contact with infectious disease
+  contactWithInfectious: z.boolean(),
+  infectiousContactDetails: z
+    .string()
+    .max(2000, "Description is too long")
+    .trim()
+    .optional()
+    .or(z.literal("")),
+  // Medical treatment
+  seekingMedicalTreatment: z.boolean(),
+  medicalFacilityName: z
+    .string()
+    .max(200, "Facility name is too long")
+    .trim()
+    .optional()
+    .or(z.literal("")),
+  // Medications
+  currentMedications: z
+    .string()
+    .max(2000, "Description is too long")
+    .trim()
+    .optional()
+    .or(z.literal("")),
+  // Declaration acceptance
+  healthDeclarationAccepted: z
+    .boolean()
+    .refine((val) => val === true, "You must accept the health declaration"),
 });
 
 export const declarationSchema = z.object({
@@ -328,10 +364,10 @@ export const declarationSchema = z.object({
 export const arrivalCardSchema = z.object({
   ...personalInfoSchema.shape,
   // Can't spread refined schemas, need to include fields individually
-  passportNumber: passportField(),
-  passportIssueDate: dateField("Issue date"),
-  passportExpiryDate: dateField("Expiry date"),
-  passportIssuingCountry: countryField("Issuing country"),
+  documentNumber: passportField(),
+  documentIssueDate: dateField("Issue date"),
+  documentExpiryDate: dateField("Expiry date"),
+  documentIssuingCountry: countryField("Issuing country"),
   // Contact Information - defined explicitly for proper type inference
   email: emailField(),
   phoneNumber: z
@@ -420,10 +456,10 @@ export const arrivalCardLookupSchema = z.object({
     .max(20, "Invalid reference number")
     .toUpperCase()
     .trim(),
-  passportNumber: passportField(),
+  documentNumber: passportField(),
 });
 
-export type ArrivalCardInput = z.infer<typeof arrivalCardSchema>;
+export type TripInput = z.infer<typeof arrivalCardSchema>;
 export type PersonalInfoInput = z.infer<typeof personalInfoSchema>;
 export type PassportInfoInput = z.infer<typeof passportInfoSchema>;
 export type ContactInfoInput = z.infer<typeof contactInfoSchema>;
@@ -431,4 +467,4 @@ export type TravelInfoInput = z.infer<typeof travelInfoSchema>;
 export type AccommodationInput = z.infer<typeof accommodationSchema>;
 export type CustomsDeclarationInput = z.infer<typeof customsDeclarationSchema>;
 export type HealthDeclarationInput = z.infer<typeof healthDeclarationSchema>;
-export type ArrivalCardLookupInput = z.infer<typeof arrivalCardLookupSchema>;
+export type TripLookupInput = z.infer<typeof arrivalCardLookupSchema>;

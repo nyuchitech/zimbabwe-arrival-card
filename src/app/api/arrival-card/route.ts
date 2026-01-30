@@ -4,7 +4,7 @@ import { db } from "@/lib/db";
 import { arrivalCardSchema } from "@/lib/validations/arrival-card";
 import { nanoid } from "nanoid";
 import { rateLimit, getClientIp, rateLimitHeaders } from "@/lib/rate-limit";
-import { sendArrivalCardConfirmation } from "@/lib/email";
+import { sendTripConfirmation } from "@/lib/email";
 
 function generateReferenceNumber(): string {
   const date = new Date();
@@ -54,10 +54,10 @@ export async function POST(request: Request) {
     const arrivalDate = new Date(data.arrivalDate);
 
     // Create arrival card
-    const arrivalCard = await db.arrivalCard.create({
+    const arrivalCard = await db.trip.create({
       data: {
         referenceNumber: generateReferenceNumber(),
-        travelerId: session.user.id,
+        userId: session.user.id,
         status: "SUBMITTED",
 
         // Personal Information
@@ -71,10 +71,10 @@ export async function POST(request: Request) {
         occupation: data.occupation,
 
         // Passport Information
-        passportNumber: data.passportNumber,
-        passportIssueDate: new Date(data.passportIssueDate),
-        passportExpiryDate: new Date(data.passportExpiryDate),
-        passportIssuingCountry: data.passportIssuingCountry,
+        documentNumber: data.documentNumber,
+        documentIssueDate: new Date(data.documentIssueDate),
+        documentExpiryDate: new Date(data.documentExpiryDate),
+        documentIssuingCountry: data.documentIssuingCountry,
 
         // Contact Information
         email: data.email,
@@ -108,9 +108,17 @@ export async function POST(request: Request) {
         goodsValue: data.goodsValue,
 
         // Health Declaration
-        healthDeclaration: data.healthDeclaration,
-        recentIllness: data.recentIllness,
-        illnessDescription: data.illnessDescription,
+        hasSymptoms: data.hasSymptoms,
+        symptomsDescription: data.symptomsDescription,
+        visitedYellowFeverCountry: data.visitedYellowFeverCountry,
+        yellowFeverCountries: data.yellowFeverCountries,
+        yellowFeverCertificate: data.yellowFeverCertificate,
+        contactWithInfectious: data.contactWithInfectious,
+        infectiousContactDetails: data.infectiousContactDetails,
+        seekingMedicalTreatment: data.seekingMedicalTreatment,
+        medicalFacilityName: data.medicalFacilityName,
+        currentMedications: data.currentMedications,
+        healthDeclarationAccepted: data.healthDeclarationAccepted,
 
         // Declaration
         declarationAccepted: data.declarationAccepted,
@@ -120,7 +128,7 @@ export async function POST(request: Request) {
     });
 
     // Send confirmation email (non-blocking)
-    sendArrivalCardConfirmation({
+    sendTripConfirmation({
       to: data.email,
       firstName: data.firstName,
       lastName: data.lastName,
@@ -161,8 +169,8 @@ export async function GET(request: Request) {
     const where: Record<string, unknown> = {};
 
     // Role-based filtering
-    if (session.user.role === "TRAVELER") {
-      where.travelerId = session.user.id;
+    if (session.user.role === "USER") {
+      where.userId = session.user.id;
     }
 
     if (status) {
@@ -170,13 +178,13 @@ export async function GET(request: Request) {
     }
 
     const [arrivalCards, total] = await Promise.all([
-      db.arrivalCard.findMany({
+      db.trip.findMany({
         where,
         orderBy: { createdAt: "desc" },
         skip: (page - 1) * limit,
         take: limit,
         include: {
-          traveler: {
+          user: {
             select: { id: true, name: true, email: true },
           },
           reviewer: {
@@ -187,7 +195,7 @@ export async function GET(request: Request) {
           },
         },
       }),
-      db.arrivalCard.count({ where }),
+      db.trip.count({ where }),
     ]);
 
     return NextResponse.json({

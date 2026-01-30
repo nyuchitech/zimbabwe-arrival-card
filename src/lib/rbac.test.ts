@@ -13,11 +13,11 @@ import {
 
 describe("RBAC - hasPermission", () => {
   it("should return true when TRAVELER has arrival-card:create permission", () => {
-    expect(hasPermission("TRAVELER", "arrival-card:create")).toBe(true);
+    expect(hasPermission("USER", "arrival-card:create")).toBe(true);
   });
 
   it("should return false when TRAVELER tries to access arrival-card:read:all", () => {
-    expect(hasPermission("TRAVELER", "arrival-card:read:all")).toBe(false);
+    expect(hasPermission("USER", "arrival-card:read:all")).toBe(false);
   });
 
   it("should return true when IMMIGRATION has arrival-card:approve permission", () => {
@@ -33,7 +33,7 @@ describe("RBAC - hasPermission", () => {
   });
 
   it("should return true for profile:read:own across all roles", () => {
-    const roles = ["TRAVELER", "IMMIGRATION", "GOVERNMENT", "ADMIN"] as const;
+    const roles = ["USER", "IMMIGRATION", "GOVERNMENT", "ADMIN"] as const;
     roles.forEach((role) => {
       expect(hasPermission(role, "profile:read:own")).toBe(true);
     });
@@ -43,7 +43,7 @@ describe("RBAC - hasPermission", () => {
 describe("RBAC - hasAnyPermission", () => {
   it("should return true when role has at least one of the permissions", () => {
     expect(
-      hasAnyPermission("TRAVELER", [
+      hasAnyPermission("USER", [
         "arrival-card:create",
         "arrival-card:read:all",
       ])
@@ -52,7 +52,7 @@ describe("RBAC - hasAnyPermission", () => {
 
   it("should return false when role has none of the permissions", () => {
     expect(
-      hasAnyPermission("TRAVELER", [
+      hasAnyPermission("USER", [
         "arrival-card:read:all",
         "user:delete:all",
       ])
@@ -69,7 +69,7 @@ describe("RBAC - hasAnyPermission", () => {
 describe("RBAC - hasAllPermissions", () => {
   it("should return true when role has all permissions", () => {
     expect(
-      hasAllPermissions("TRAVELER", [
+      hasAllPermissions("USER", [
         "arrival-card:create",
         "arrival-card:read:own",
       ])
@@ -78,7 +78,7 @@ describe("RBAC - hasAllPermissions", () => {
 
   it("should return false when role is missing any permission", () => {
     expect(
-      hasAllPermissions("TRAVELER", [
+      hasAllPermissions("USER", [
         "arrival-card:create",
         "arrival-card:read:all",
       ])
@@ -98,7 +98,7 @@ describe("RBAC - hasAllPermissions", () => {
 
 describe("RBAC - getPermissions", () => {
   it("should return all permissions for TRAVELER", () => {
-    const permissions = getPermissions("TRAVELER");
+    const permissions = getPermissions("USER");
     expect(permissions).toContain("arrival-card:create");
     expect(permissions).toContain("profile:read:own");
     expect(permissions.length).toBe(ROLE_PERMISSIONS.TRAVELER.length);
@@ -114,7 +114,7 @@ describe("RBAC - getPermissions", () => {
 
 describe("RBAC - isAtLeastRole", () => {
   it("should return true when user role is higher than required", () => {
-    expect(isAtLeastRole("ADMIN", "TRAVELER")).toBe(true);
+    expect(isAtLeastRole("ADMIN", "USER")).toBe(true);
     expect(isAtLeastRole("GOVERNMENT", "IMMIGRATION")).toBe(true);
   });
 
@@ -124,7 +124,7 @@ describe("RBAC - isAtLeastRole", () => {
   });
 
   it("should return false when user role is lower than required", () => {
-    expect(isAtLeastRole("TRAVELER", "IMMIGRATION")).toBe(false);
+    expect(isAtLeastRole("USER", "IMMIGRATION")).toBe(false);
     expect(isAtLeastRole("IMMIGRATION", "GOVERNMENT")).toBe(false);
   });
 
@@ -137,7 +137,7 @@ describe("RBAC - isAtLeastRole", () => {
 
 describe("RBAC - getRoleDisplayName", () => {
   it("should return correct display name for TRAVELER", () => {
-    expect(getRoleDisplayName("TRAVELER")).toBe("Traveler");
+    expect(getRoleDisplayName("USER")).toBe("Traveler");
   });
 
   it("should return correct display name for IMMIGRATION", () => {
@@ -155,7 +155,7 @@ describe("RBAC - getRoleDisplayName", () => {
 
 describe("RBAC - getRoleBadgeColor", () => {
   it("should return blue colors for TRAVELER", () => {
-    expect(getRoleBadgeColor("TRAVELER")).toContain("blue");
+    expect(getRoleBadgeColor("USER")).toContain("blue");
   });
 
   it("should return green colors for IMMIGRATION", () => {
@@ -173,7 +173,7 @@ describe("RBAC - getRoleBadgeColor", () => {
 
 describe("RBAC - Permission Boundaries", () => {
   it("TRAVELER should only have own-scoped permissions", () => {
-    const permissions = getPermissions("TRAVELER");
+    const permissions = getPermissions("USER");
     const allScopedPermissions = permissions.filter(
       (p) => p.includes(":all") && !p.includes(":own")
     );
