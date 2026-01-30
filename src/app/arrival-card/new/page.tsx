@@ -149,139 +149,139 @@ export default function NewArrivalCardPage() {
     switch (currentStep) {
       case 1:
         return (
-          <div className="space-y-4">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="space-y-5">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
               <div className="space-y-2">
-                <Label htmlFor="firstName">First Name *</Label>
-                <Input id="firstName" {...register("firstName")} />
+                <Label htmlFor="firstName" className="text-base font-semibold text-gray-900">First Name *</Label>
+                <Input id="firstName" {...register("firstName")} className="h-12 text-base" />
                 {errors.firstName && (
-                  <p className="text-sm text-red-500">{errors.firstName.message}</p>
+                  <p className="text-base text-red-600 font-medium">{errors.firstName.message}</p>
                 )}
               </div>
               <div className="space-y-2">
-                <Label htmlFor="middleName">Middle Name</Label>
-                <Input id="middleName" {...register("middleName")} />
+                <Label htmlFor="middleName" className="text-base font-semibold text-gray-900">Middle Name</Label>
+                <Input id="middleName" {...register("middleName")} className="h-12 text-base" />
               </div>
             </div>
             <div className="space-y-2">
-              <Label htmlFor="lastName">Last Name *</Label>
-              <Input id="lastName" {...register("lastName")} />
+              <Label htmlFor="lastName" className="text-base font-semibold text-gray-900">Last Name *</Label>
+              <Input id="lastName" {...register("lastName")} className="h-12 text-base" />
               {errors.lastName && (
-                <p className="text-sm text-red-500">{errors.lastName.message}</p>
+                <p className="text-base text-red-600 font-medium">{errors.lastName.message}</p>
               )}
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
               <div className="space-y-2">
-                <Label htmlFor="dateOfBirth">Date of Birth *</Label>
-                <Input id="dateOfBirth" type="date" {...register("dateOfBirth")} />
+                <Label htmlFor="dateOfBirth" className="text-base font-semibold text-gray-900">Date of Birth *</Label>
+                <Input id="dateOfBirth" type="date" {...register("dateOfBirth")} className="h-12 text-base" />
                 {errors.dateOfBirth && (
-                  <p className="text-sm text-red-500">{errors.dateOfBirth.message}</p>
+                  <p className="text-base text-red-600 font-medium">{errors.dateOfBirth.message}</p>
                 )}
               </div>
               <div className="space-y-2">
-                <Label htmlFor="gender">Gender *</Label>
+                <Label htmlFor="gender" className="text-base font-semibold text-gray-900">Gender *</Label>
                 <Select onValueChange={(value) => setValue("gender", value as "MALE" | "FEMALE" | "OTHER")}>
-                  <SelectTrigger>
+                  <SelectTrigger className="h-12 text-base">
                     <SelectValue placeholder="Select gender" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="MALE">Male</SelectItem>
-                    <SelectItem value="FEMALE">Female</SelectItem>
-                    <SelectItem value="OTHER">Other</SelectItem>
+                    <SelectItem value="MALE" className="text-base py-3">Male</SelectItem>
+                    <SelectItem value="FEMALE" className="text-base py-3">Female</SelectItem>
+                    <SelectItem value="OTHER" className="text-base py-3">Other</SelectItem>
                   </SelectContent>
                 </Select>
                 {errors.gender && (
-                  <p className="text-sm text-red-500">{errors.gender.message}</p>
+                  <p className="text-base text-red-600 font-medium">{errors.gender.message}</p>
                 )}
               </div>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
               <div className="space-y-2">
-                <Label htmlFor="nationality">Nationality *</Label>
+                <Label htmlFor="nationality" className="text-base font-semibold text-gray-900">Nationality *</Label>
                 <Select onValueChange={(value) => setValue("nationality", value)}>
-                  <SelectTrigger>
+                  <SelectTrigger className="h-12 text-base">
                     <SelectValue placeholder="Select nationality" />
                   </SelectTrigger>
                   <SelectContent>
                     {NATIONALITIES.map((country) => (
-                      <SelectItem key={country} value={country}>
+                      <SelectItem key={country} value={country} className="text-base py-3">
                         {country}
                       </SelectItem>
                     ))}
                   </SelectContent>
                 </Select>
                 {errors.nationality && (
-                  <p className="text-sm text-red-500">{errors.nationality.message}</p>
+                  <p className="text-base text-red-600 font-medium">{errors.nationality.message}</p>
                 )}
               </div>
               <div className="space-y-2">
-                <Label htmlFor="countryOfResidence">Country of Residence *</Label>
+                <Label htmlFor="countryOfResidence" className="text-base font-semibold text-gray-900">Country of Residence *</Label>
                 <Select onValueChange={(value) => setValue("countryOfResidence", value)}>
-                  <SelectTrigger>
+                  <SelectTrigger className="h-12 text-base">
                     <SelectValue placeholder="Select country" />
                   </SelectTrigger>
                   <SelectContent>
                     {COUNTRIES.map((country) => (
-                      <SelectItem key={country} value={country}>
+                      <SelectItem key={country} value={country} className="text-base py-3">
                         {country}
                       </SelectItem>
                     ))}
                   </SelectContent>
                 </Select>
                 {errors.countryOfResidence && (
-                  <p className="text-sm text-red-500">{errors.countryOfResidence.message}</p>
+                  <p className="text-base text-red-600 font-medium">{errors.countryOfResidence.message}</p>
                 )}
               </div>
             </div>
             <div className="space-y-2">
-              <Label htmlFor="occupation">Occupation</Label>
-              <Input id="occupation" {...register("occupation")} />
+              <Label htmlFor="occupation" className="text-base font-semibold text-gray-900">Occupation</Label>
+              <Input id="occupation" {...register("occupation")} className="h-12 text-base" />
             </div>
           </div>
         );
 
       case 2:
         return (
-          <div className="space-y-4">
+          <div className="space-y-5">
             <div className="space-y-2">
-              <Label htmlFor="passportNumber">Passport Number *</Label>
-              <Input id="passportNumber" {...register("passportNumber")} />
+              <Label htmlFor="passportNumber" className="text-base font-semibold text-gray-900">Passport Number *</Label>
+              <Input id="passportNumber" {...register("passportNumber")} className="h-12 text-base" />
               {errors.passportNumber && (
-                <p className="text-sm text-red-500">{errors.passportNumber.message}</p>
+                <p className="text-base text-red-600 font-medium">{errors.passportNumber.message}</p>
               )}
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
               <div className="space-y-2">
-                <Label htmlFor="passportIssueDate">Issue Date *</Label>
-                <Input id="passportIssueDate" type="date" {...register("passportIssueDate")} />
+                <Label htmlFor="passportIssueDate" className="text-base font-semibold text-gray-900">Issue Date *</Label>
+                <Input id="passportIssueDate" type="date" {...register("passportIssueDate")} className="h-12 text-base" />
                 {errors.passportIssueDate && (
-                  <p className="text-sm text-red-500">{errors.passportIssueDate.message}</p>
+                  <p className="text-base text-red-600 font-medium">{errors.passportIssueDate.message}</p>
                 )}
               </div>
               <div className="space-y-2">
-                <Label htmlFor="passportExpiryDate">Expiry Date *</Label>
-                <Input id="passportExpiryDate" type="date" {...register("passportExpiryDate")} />
+                <Label htmlFor="passportExpiryDate" className="text-base font-semibold text-gray-900">Expiry Date *</Label>
+                <Input id="passportExpiryDate" type="date" {...register("passportExpiryDate")} className="h-12 text-base" />
                 {errors.passportExpiryDate && (
-                  <p className="text-sm text-red-500">{errors.passportExpiryDate.message}</p>
+                  <p className="text-base text-red-600 font-medium">{errors.passportExpiryDate.message}</p>
                 )}
               </div>
             </div>
             <div className="space-y-2">
-              <Label htmlFor="passportIssuingCountry">Issuing Country *</Label>
+              <Label htmlFor="passportIssuingCountry" className="text-base font-semibold text-gray-900">Issuing Country *</Label>
               <Select onValueChange={(value) => setValue("passportIssuingCountry", value)}>
-                <SelectTrigger>
+                <SelectTrigger className="h-12 text-base">
                   <SelectValue placeholder="Select country" />
                 </SelectTrigger>
                 <SelectContent>
                   {COUNTRIES.map((country) => (
-                    <SelectItem key={country} value={country}>
+                    <SelectItem key={country} value={country} className="text-base py-3">
                       {country}
                     </SelectItem>
                   ))}
                 </SelectContent>
               </Select>
               {errors.passportIssuingCountry && (
-                <p className="text-sm text-red-500">{errors.passportIssuingCountry.message}</p>
+                <p className="text-base text-red-600 font-medium">{errors.passportIssuingCountry.message}</p>
               )}
             </div>
           </div>
@@ -289,31 +289,31 @@ export default function NewArrivalCardPage() {
 
       case 3:
         return (
-          <div className="space-y-4">
+          <div className="space-y-5">
             <div className="space-y-2">
-              <Label htmlFor="email">Email Address *</Label>
-              <Input id="email" type="email" {...register("email")} />
+              <Label htmlFor="email" className="text-base font-semibold text-gray-900">Email Address *</Label>
+              <Input id="email" type="email" {...register("email")} className="h-12 text-base" />
               {errors.email && (
-                <p className="text-sm text-red-500">{errors.email.message}</p>
+                <p className="text-base text-red-600 font-medium">{errors.email.message}</p>
               )}
             </div>
             <div className="space-y-2">
-              <Label htmlFor="phoneNumber">Phone Number *</Label>
-              <Input id="phoneNumber" type="tel" {...register("phoneNumber")} />
+              <Label htmlFor="phoneNumber" className="text-base font-semibold text-gray-900">Phone Number *</Label>
+              <Input id="phoneNumber" type="tel" {...register("phoneNumber")} className="h-12 text-base" />
               {errors.phoneNumber && (
-                <p className="text-sm text-red-500">{errors.phoneNumber.message}</p>
+                <p className="text-base text-red-600 font-medium">{errors.phoneNumber.message}</p>
               )}
             </div>
-            <Separator className="my-4" />
-            <p className="text-sm text-muted-foreground">Emergency Contact (Optional)</p>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <Separator className="my-6" />
+            <p className="text-base font-medium text-gray-700">Emergency Contact (Optional)</p>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
               <div className="space-y-2">
-                <Label htmlFor="emergencyContactName">Emergency Contact Name</Label>
-                <Input id="emergencyContactName" {...register("emergencyContactName")} />
+                <Label htmlFor="emergencyContactName" className="text-base font-semibold text-gray-900">Emergency Contact Name</Label>
+                <Input id="emergencyContactName" {...register("emergencyContactName")} className="h-12 text-base" />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="emergencyContactPhone">Emergency Contact Phone</Label>
-                <Input id="emergencyContactPhone" type="tel" {...register("emergencyContactPhone")} />
+                <Label htmlFor="emergencyContactPhone" className="text-base font-semibold text-gray-900">Emergency Contact Phone</Label>
+                <Input id="emergencyContactPhone" type="tel" {...register("emergencyContactPhone")} className="h-12 text-base" />
               </div>
             </div>
           </div>
@@ -321,85 +321,86 @@ export default function NewArrivalCardPage() {
 
       case 4:
         return (
-          <div className="space-y-4">
+          <div className="space-y-5">
             <div className="space-y-2">
-              <Label htmlFor="purposeOfVisit">Purpose of Visit *</Label>
+              <Label htmlFor="purposeOfVisit" className="text-base font-semibold text-gray-900">Purpose of Visit *</Label>
               <Select onValueChange={(value) => setValue("purposeOfVisit", value as ArrivalCardInput["purposeOfVisit"])}>
-                <SelectTrigger>
+                <SelectTrigger className="h-12 text-base">
                   <SelectValue placeholder="Select purpose" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="TOURISM">Tourism</SelectItem>
-                  <SelectItem value="BUSINESS">Business</SelectItem>
-                  <SelectItem value="EMPLOYMENT">Employment</SelectItem>
-                  <SelectItem value="STUDY">Study</SelectItem>
-                  <SelectItem value="MEDICAL">Medical</SelectItem>
-                  <SelectItem value="TRANSIT">Transit</SelectItem>
-                  <SelectItem value="RETURNING_RESIDENT">Returning Resident</SelectItem>
-                  <SelectItem value="OTHER">Other</SelectItem>
+                  <SelectItem value="TOURISM" className="text-base py-3">Tourism</SelectItem>
+                  <SelectItem value="BUSINESS" className="text-base py-3">Business</SelectItem>
+                  <SelectItem value="EMPLOYMENT" className="text-base py-3">Employment</SelectItem>
+                  <SelectItem value="STUDY" className="text-base py-3">Study</SelectItem>
+                  <SelectItem value="MEDICAL" className="text-base py-3">Medical</SelectItem>
+                  <SelectItem value="TRANSIT" className="text-base py-3">Transit</SelectItem>
+                  <SelectItem value="RETURNING_RESIDENT" className="text-base py-3">Returning Resident</SelectItem>
+                  <SelectItem value="OTHER" className="text-base py-3">Other</SelectItem>
                 </SelectContent>
               </Select>
               {errors.purposeOfVisit && (
-                <p className="text-sm text-red-500">{errors.purposeOfVisit.message}</p>
+                <p className="text-base text-red-600 font-medium">{errors.purposeOfVisit.message}</p>
               )}
             </div>
             {watchPurposeOfVisit === "OTHER" && (
               <div className="space-y-2">
-                <Label htmlFor="purposeOther">Please specify *</Label>
-                <Input id="purposeOther" {...register("purposeOther")} />
+                <Label htmlFor="purposeOther" className="text-base font-semibold text-gray-900">Please specify *</Label>
+                <Input id="purposeOther" {...register("purposeOther")} className="h-12 text-base" />
               </div>
             )}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
               <div className="space-y-2">
-                <Label htmlFor="arrivalDate">Arrival Date *</Label>
-                <Input id="arrivalDate" type="date" {...register("arrivalDate")} />
+                <Label htmlFor="arrivalDate" className="text-base font-semibold text-gray-900">Arrival Date *</Label>
+                <Input id="arrivalDate" type="date" {...register("arrivalDate")} className="h-12 text-base" />
                 {errors.arrivalDate && (
-                  <p className="text-sm text-red-500">{errors.arrivalDate.message}</p>
+                  <p className="text-base text-red-600 font-medium">{errors.arrivalDate.message}</p>
                 )}
               </div>
               <div className="space-y-2">
-                <Label htmlFor="departureDate">Departure Date</Label>
-                <Input id="departureDate" type="date" {...register("departureDate")} />
+                <Label htmlFor="departureDate" className="text-base font-semibold text-gray-900">Departure Date</Label>
+                <Input id="departureDate" type="date" {...register("departureDate")} className="h-12 text-base" />
               </div>
             </div>
             <div className="space-y-2">
-              <Label htmlFor="intendedStayDuration">Intended Stay Duration (Days) *</Label>
+              <Label htmlFor="intendedStayDuration" className="text-base font-semibold text-gray-900">Intended Stay Duration (Days) *</Label>
               <Input
                 id="intendedStayDuration"
                 type="number"
                 min="1"
                 {...register("intendedStayDuration", { valueAsNumber: true })}
+                className="h-12 text-base"
               />
               {errors.intendedStayDuration && (
-                <p className="text-sm text-red-500">{errors.intendedStayDuration.message}</p>
+                <p className="text-base text-red-600 font-medium">{errors.intendedStayDuration.message}</p>
               )}
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
               <div className="space-y-2">
-                <Label htmlFor="flightNumber">Flight Number</Label>
-                <Input id="flightNumber" {...register("flightNumber")} placeholder="e.g., SA123" />
+                <Label htmlFor="flightNumber" className="text-base font-semibold text-gray-900">Flight Number</Label>
+                <Input id="flightNumber" {...register("flightNumber")} placeholder="e.g., SA123" className="h-12 text-base" />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="vesselName">Vessel/Vehicle Name</Label>
-                <Input id="vesselName" {...register("vesselName")} />
+                <Label htmlFor="vesselName" className="text-base font-semibold text-gray-900">Vessel/Vehicle Name</Label>
+                <Input id="vesselName" {...register("vesselName")} className="h-12 text-base" />
               </div>
             </div>
             <div className="space-y-2">
-              <Label htmlFor="previousCountry">Last Country Before Zimbabwe *</Label>
+              <Label htmlFor="previousCountry" className="text-base font-semibold text-gray-900">Last Country Before Zimbabwe *</Label>
               <Select onValueChange={(value) => setValue("previousCountry", value)}>
-                <SelectTrigger>
+                <SelectTrigger className="h-12 text-base">
                   <SelectValue placeholder="Select country" />
                 </SelectTrigger>
                 <SelectContent>
                   {COUNTRIES.map((country) => (
-                    <SelectItem key={country} value={country}>
+                    <SelectItem key={country} value={country} className="text-base py-3">
                       {country}
                     </SelectItem>
                   ))}
                 </SelectContent>
               </Select>
               {errors.previousCountry && (
-                <p className="text-sm text-red-500">{errors.previousCountry.message}</p>
+                <p className="text-base text-red-600 font-medium">{errors.previousCountry.message}</p>
               )}
             </div>
           </div>
@@ -407,50 +408,50 @@ export default function NewArrivalCardPage() {
 
       case 5:
         return (
-          <div className="space-y-4">
+          <div className="space-y-5">
             <div className="space-y-2">
-              <Label htmlFor="accommodationType">Accommodation Type *</Label>
+              <Label htmlFor="accommodationType" className="text-base font-semibold text-gray-900">Accommodation Type *</Label>
               <Select onValueChange={(value) => setValue("accommodationType", value)}>
-                <SelectTrigger>
+                <SelectTrigger className="h-12 text-base">
                   <SelectValue placeholder="Select type" />
                 </SelectTrigger>
                 <SelectContent>
                   {ACCOMMODATION_TYPES.map((type) => (
-                    <SelectItem key={type.value} value={type.value}>
+                    <SelectItem key={type.value} value={type.value} className="text-base py-3">
                       {type.label}
                     </SelectItem>
                   ))}
                 </SelectContent>
               </Select>
               {errors.accommodationType && (
-                <p className="text-sm text-red-500">{errors.accommodationType.message}</p>
+                <p className="text-base text-red-600 font-medium">{errors.accommodationType.message}</p>
               )}
             </div>
             <div className="space-y-2">
-              <Label htmlFor="accommodationName">Accommodation Name *</Label>
-              <Input id="accommodationName" {...register("accommodationName")} placeholder="e.g., Victoria Falls Hotel" />
+              <Label htmlFor="accommodationName" className="text-base font-semibold text-gray-900">Accommodation Name *</Label>
+              <Input id="accommodationName" {...register("accommodationName")} placeholder="e.g., Victoria Falls Hotel" className="h-12 text-base" />
               {errors.accommodationName && (
-                <p className="text-sm text-red-500">{errors.accommodationName.message}</p>
+                <p className="text-base text-red-600 font-medium">{errors.accommodationName.message}</p>
               )}
             </div>
             <div className="space-y-2">
-              <Label htmlFor="accommodationAddress">Address *</Label>
-              <Textarea id="accommodationAddress" {...register("accommodationAddress")} />
+              <Label htmlFor="accommodationAddress" className="text-base font-semibold text-gray-900">Address *</Label>
+              <Textarea id="accommodationAddress" {...register("accommodationAddress")} className="text-base min-h-[100px]" />
               {errors.accommodationAddress && (
-                <p className="text-sm text-red-500">{errors.accommodationAddress.message}</p>
+                <p className="text-base text-red-600 font-medium">{errors.accommodationAddress.message}</p>
               )}
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
               <div className="space-y-2">
-                <Label htmlFor="accommodationCity">City *</Label>
-                <Input id="accommodationCity" {...register("accommodationCity")} />
+                <Label htmlFor="accommodationCity" className="text-base font-semibold text-gray-900">City *</Label>
+                <Input id="accommodationCity" {...register("accommodationCity")} className="h-12 text-base" />
                 {errors.accommodationCity && (
-                  <p className="text-sm text-red-500">{errors.accommodationCity.message}</p>
+                  <p className="text-base text-red-600 font-medium">{errors.accommodationCity.message}</p>
                 )}
               </div>
               <div className="space-y-2">
-                <Label htmlFor="accommodationPhone">Phone Number</Label>
-                <Input id="accommodationPhone" type="tel" {...register("accommodationPhone")} />
+                <Label htmlFor="accommodationPhone" className="text-base font-semibold text-gray-900">Phone Number</Label>
+                <Input id="accommodationPhone" type="tel" {...register("accommodationPhone")} className="h-12 text-base" />
               </div>
             </div>
           </div>
@@ -458,60 +459,62 @@ export default function NewArrivalCardPage() {
 
       case 6:
         return (
-          <div className="space-y-6">
-            <div className="space-y-4">
-              <h3 className="font-semibold">Customs Declaration</h3>
-              <div className="space-y-4">
-                <div className="flex items-center space-x-2">
+          <div className="space-y-8">
+            <div className="space-y-5">
+              <h3 className="text-lg font-bold text-gray-900">Customs Declaration</h3>
+              <div className="space-y-5">
+                <label htmlFor="carryingCurrency" className="flex items-start gap-4 p-4 bg-gray-50 rounded-lg cursor-pointer hover:bg-gray-100 transition-colors">
                   <input
                     type="checkbox"
                     id="carryingCurrency"
                     {...register("carryingCurrency")}
-                    className="h-4 w-4 rounded border-gray-300"
+                    className="h-6 w-6 rounded border-2 border-gray-400 mt-0.5 flex-shrink-0"
                   />
-                  <Label htmlFor="carryingCurrency">
+                  <span className="text-base text-gray-900">
                     I am carrying currency or monetary instruments exceeding USD 10,000
-                  </Label>
-                </div>
+                  </span>
+                </label>
                 {watchCarryingCurrency && (
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 ml-6">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-5 ml-4 pl-6 border-l-4 border-zim-green">
                     <div className="space-y-2">
-                      <Label htmlFor="currencyAmount">Amount</Label>
+                      <Label htmlFor="currencyAmount" className="text-base font-semibold text-gray-900">Amount</Label>
                       <Input
                         id="currencyAmount"
                         type="number"
                         {...register("currencyAmount", { valueAsNumber: true })}
+                        className="h-12 text-base"
                       />
                     </div>
                     <div className="space-y-2">
-                      <Label htmlFor="currencyType">Currency Type</Label>
-                      <Input id="currencyType" {...register("currencyType")} placeholder="e.g., USD" />
+                      <Label htmlFor="currencyType" className="text-base font-semibold text-gray-900">Currency Type</Label>
+                      <Input id="currencyType" {...register("currencyType")} placeholder="e.g., USD" className="h-12 text-base" />
                     </div>
                   </div>
                 )}
-                <div className="flex items-center space-x-2">
+                <label htmlFor="carryingGoods" className="flex items-start gap-4 p-4 bg-gray-50 rounded-lg cursor-pointer hover:bg-gray-100 transition-colors">
                   <input
                     type="checkbox"
                     id="carryingGoods"
                     {...register("carryingGoods")}
-                    className="h-4 w-4 rounded border-gray-300"
+                    className="h-6 w-6 rounded border-2 border-gray-400 mt-0.5 flex-shrink-0"
                   />
-                  <Label htmlFor="carryingGoods">
+                  <span className="text-base text-gray-900">
                     I am carrying goods for commercial purposes or exceeding personal allowance
-                  </Label>
-                </div>
+                  </span>
+                </label>
                 {watchCarryingGoods && (
-                  <div className="space-y-4 ml-6">
+                  <div className="space-y-5 ml-4 pl-6 border-l-4 border-zim-green">
                     <div className="space-y-2">
-                      <Label htmlFor="goodsDescription">Description of Goods</Label>
-                      <Textarea id="goodsDescription" {...register("goodsDescription")} />
+                      <Label htmlFor="goodsDescription" className="text-base font-semibold text-gray-900">Description of Goods</Label>
+                      <Textarea id="goodsDescription" {...register("goodsDescription")} className="text-base min-h-[100px]" />
                     </div>
                     <div className="space-y-2">
-                      <Label htmlFor="goodsValue">Estimated Value (USD)</Label>
+                      <Label htmlFor="goodsValue" className="text-base font-semibold text-gray-900">Estimated Value (USD)</Label>
                       <Input
                         id="goodsValue"
                         type="number"
                         {...register("goodsValue", { valueAsNumber: true })}
+                        className="h-12 text-base"
                       />
                     </div>
                   </div>
@@ -521,35 +524,35 @@ export default function NewArrivalCardPage() {
 
             <Separator />
 
-            <div className="space-y-4">
-              <h3 className="font-semibold">Health Declaration</h3>
-              <div className="space-y-4">
-                <div className="flex items-center space-x-2">
+            <div className="space-y-5">
+              <h3 className="text-lg font-bold text-gray-900">Health Declaration</h3>
+              <div className="space-y-5">
+                <label htmlFor="healthDeclaration" className="flex items-start gap-4 p-4 bg-green-50 rounded-lg cursor-pointer hover:bg-green-100 transition-colors">
                   <input
                     type="checkbox"
                     id="healthDeclaration"
                     {...register("healthDeclaration")}
-                    className="h-4 w-4 rounded border-gray-300"
+                    className="h-6 w-6 rounded border-2 border-gray-400 mt-0.5 flex-shrink-0"
                   />
-                  <Label htmlFor="healthDeclaration">
+                  <span className="text-base text-gray-900">
                     I confirm I am in good health and fit to travel
-                  </Label>
-                </div>
-                <div className="flex items-center space-x-2">
+                  </span>
+                </label>
+                <label htmlFor="recentIllness" className="flex items-start gap-4 p-4 bg-gray-50 rounded-lg cursor-pointer hover:bg-gray-100 transition-colors">
                   <input
                     type="checkbox"
                     id="recentIllness"
                     {...register("recentIllness")}
-                    className="h-4 w-4 rounded border-gray-300"
+                    className="h-6 w-6 rounded border-2 border-gray-400 mt-0.5 flex-shrink-0"
                   />
-                  <Label htmlFor="recentIllness">
+                  <span className="text-base text-gray-900">
                     I have experienced illness symptoms in the past 14 days
-                  </Label>
-                </div>
+                  </span>
+                </label>
                 {watchRecentIllness && (
-                  <div className="space-y-2 ml-6">
-                    <Label htmlFor="illnessDescription">Please describe your symptoms</Label>
-                    <Textarea id="illnessDescription" {...register("illnessDescription")} />
+                  <div className="space-y-2 ml-4 pl-6 border-l-4 border-amber-500">
+                    <Label htmlFor="illnessDescription" className="text-base font-semibold text-gray-900">Please describe your symptoms</Label>
+                    <Textarea id="illnessDescription" {...register("illnessDescription")} className="text-base min-h-[100px]" />
                   </div>
                 )}
               </div>
@@ -560,30 +563,30 @@ export default function NewArrivalCardPage() {
       case 7:
         return (
           <div className="space-y-6">
-            <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
-              <h3 className="font-semibold text-yellow-800 mb-2">Declaration</h3>
-              <p className="text-sm text-yellow-700">
+            <div className="bg-amber-50 border-2 border-amber-300 rounded-lg p-5">
+              <h3 className="text-lg font-bold text-amber-900 mb-3">Declaration</h3>
+              <p className="text-base text-amber-800 leading-relaxed">
                 I declare that all information provided is true and correct to the best of my
                 knowledge. I understand that providing false information may result in denial of
                 entry, prosecution, or other legal consequences.
               </p>
             </div>
 
-            <div className="flex items-start space-x-2">
+            <label htmlFor="declarationAccepted" className="flex items-start gap-4 p-5 bg-green-50 border-2 border-green-200 rounded-lg cursor-pointer hover:bg-green-100 transition-colors">
               <input
                 type="checkbox"
                 id="declarationAccepted"
                 {...register("declarationAccepted")}
-                className="h-4 w-4 rounded border-gray-300 mt-1"
+                className="h-7 w-7 rounded border-2 border-gray-400 mt-0.5 flex-shrink-0"
               />
-              <Label htmlFor="declarationAccepted" className="text-sm">
+              <span className="text-base text-gray-900 leading-relaxed">
                 I have read and understood the above declaration. I certify that the information
                 provided is accurate and complete. I understand that any false or misleading
                 information may result in refusal of entry into Zimbabwe.
-              </Label>
-            </div>
+              </span>
+            </label>
             {errors.declarationAccepted && (
-              <p className="text-sm text-red-500">{errors.declarationAccepted.message}</p>
+              <p className="text-base text-red-600 font-medium">{errors.declarationAccepted.message}</p>
             )}
           </div>
         );
@@ -596,18 +599,25 @@ export default function NewArrivalCardPage() {
   return (
     <div className="min-h-screen bg-gray-50">
       <NavHeader />
-      <main className="container mx-auto px-4 py-8">
-        <Card className="max-w-3xl mx-auto">
-          <CardHeader>
-            <CardTitle>Zimbabwe Arrival Card</CardTitle>
-            <CardDescription>
+      <main className="container mx-auto px-4 py-6 md:py-8">
+        <Card className="max-w-3xl mx-auto shadow-lg">
+          <CardHeader className="pb-4">
+            <CardTitle className="text-2xl md:text-3xl text-gray-900">Zimbabwe Arrival Card</CardTitle>
+            <CardDescription className="text-base text-gray-600">
               Complete all sections to submit your arrival card
             </CardDescription>
           </CardHeader>
           <CardContent>
-            {/* Progress Steps */}
+            {/* Progress Steps - Mobile optimized */}
             <div className="mb-8">
-              <div className="flex justify-between">
+              {/* Mobile: Show current step info */}
+              <div className="md:hidden mb-4 text-center">
+                <span className="text-lg font-semibold text-zim-green">
+                  Step {currentStep} of {STEPS.length}
+                </span>
+              </div>
+              {/* Desktop: Show all steps */}
+              <div className="hidden md:flex justify-between">
                 {STEPS.map((step) => (
                   <div
                     key={step.id}
@@ -616,7 +626,7 @@ export default function NewArrivalCardPage() {
                     }`}
                   >
                     <div
-                      className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium ${
+                      className={`w-10 h-10 rounded-full flex items-center justify-center text-base font-bold ${
                         step.id < currentStep
                           ? "bg-zim-green text-white"
                           : step.id === currentStep
@@ -625,16 +635,17 @@ export default function NewArrivalCardPage() {
                       }`}
                     >
                       {step.id < currentStep ? (
-                        <Check className="h-4 w-4" />
+                        <Check className="h-5 w-5" />
                       ) : (
                         step.id
                       )}
                     </div>
-                    <span className="text-xs mt-1 hidden md:block">{step.title}</span>
+                    <span className="text-sm mt-2 font-medium">{step.title}</span>
                   </div>
                 ))}
               </div>
-              <div className="mt-2 h-2 bg-gray-200 rounded-full">
+              {/* Progress bar */}
+              <div className="mt-4 h-3 bg-gray-200 rounded-full">
                 <div
                   className="h-full bg-zim-green rounded-full transition-all duration-300"
                   style={{
@@ -646,15 +657,15 @@ export default function NewArrivalCardPage() {
 
             {/* Step Title */}
             <div className="mb-6">
-              <h2 className="text-xl font-semibold">{STEPS[currentStep - 1].title}</h2>
-              <p className="text-sm text-muted-foreground">
+              <h2 className="text-xl md:text-2xl font-bold text-gray-900">{STEPS[currentStep - 1].title}</h2>
+              <p className="text-base text-gray-600 mt-1">
                 {STEPS[currentStep - 1].description}
               </p>
             </div>
 
             {/* Error Message */}
             {error && (
-              <div className="mb-4 p-3 text-sm text-red-500 bg-red-50 border border-red-200 rounded-md">
+              <div className="mb-6 p-4 text-base text-red-700 bg-red-50 border-2 border-red-300 rounded-lg font-medium">
                 {error}
               </div>
             )}
@@ -664,14 +675,15 @@ export default function NewArrivalCardPage() {
               {renderStepContent()}
 
               {/* Navigation Buttons */}
-              <div className="flex justify-between mt-8">
+              <div className="flex flex-col sm:flex-row justify-between gap-4 mt-10">
                 <Button
                   type="button"
                   variant="outline"
                   onClick={prevStep}
                   disabled={currentStep === 1}
+                  className="h-14 px-6 text-base font-semibold order-2 sm:order-1"
                 >
-                  <ChevronLeft className="h-4 w-4 mr-1" />
+                  <ChevronLeft className="h-5 w-5 mr-2" />
                   Previous
                 </Button>
 
@@ -679,18 +691,18 @@ export default function NewArrivalCardPage() {
                   <Button
                     type="button"
                     onClick={nextStep}
-                    className="bg-zim-green hover:bg-zim-green/90"
+                    className="bg-zim-green hover:bg-zim-green/90 h-14 px-8 text-base font-semibold order-1 sm:order-2"
                   >
-                    Next
-                    <ChevronRight className="h-4 w-4 ml-1" />
+                    Next Step
+                    <ChevronRight className="h-5 w-5 ml-2" />
                   </Button>
                 ) : (
                   <Button
                     type="submit"
-                    className="bg-zim-green hover:bg-zim-green/90"
+                    className="bg-zim-green hover:bg-zim-green/90 h-14 px-8 text-base font-semibold order-1 sm:order-2"
                     disabled={isSubmitting}
                   >
-                    {isSubmitting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                    {isSubmitting && <Loader2 className="mr-2 h-5 w-5 animate-spin" />}
                     Submit Arrival Card
                   </Button>
                 )}

@@ -47,8 +47,22 @@ export const authConfig: NextAuthConfig = {
       const isLoggedIn = !!auth?.user;
       const { pathname } = request.nextUrl;
 
-      // Public routes
-      if (pathname === "/" || pathname.startsWith("/auth")) {
+      // Public routes - accessible without login
+      const publicRoutes = [
+        "/",
+        "/auth",
+        "/arrival-card/new",
+        "/arrival-card/lookup",
+        "/privacy-policy",
+        "/terms-of-service",
+        "/accessibility",
+      ];
+
+      const isPublicRoute = publicRoutes.some((route) =>
+        pathname === route || pathname.startsWith(route + "/")
+      );
+
+      if (isPublicRoute) {
         return true;
       }
 

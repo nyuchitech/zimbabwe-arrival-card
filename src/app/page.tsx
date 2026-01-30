@@ -18,19 +18,19 @@ export default function HomePage() {
 
       {/* Header */}
       <header className="bg-zim-green text-white" role="banner">
-        <div className="container mx-auto px-4 py-4 flex items-center justify-center">
-          <div className="flex items-center gap-3">
+        <div className="container mx-auto px-4 py-5 flex items-center justify-center">
+          <div className="flex items-center gap-4">
             <Image
               src="https://www.moha.gov.zw/images/logo.png"
               alt="Government of Zimbabwe Coat of Arms"
-              width={48}
-              height={48}
-              className="h-12 w-auto"
+              width={56}
+              height={56}
+              className="h-14 w-auto"
               priority
             />
             <div>
-              <h1 className="text-lg font-bold">Zimbabwe Arrival Card</h1>
-              <p className="text-xs text-white/80">Department of Immigration</p>
+              <h1 className="text-xl md:text-2xl font-bold">Zimbabwe Arrival Card</h1>
+              <p className="text-sm text-white/90">Department of Immigration</p>
             </div>
           </div>
         </div>
@@ -39,7 +39,7 @@ export default function HomePage() {
       <main id="main-content" role="main">
         {/* Hero Section */}
         <section
-          className="bg-gradient-to-br from-zim-green to-zim-green/80 text-white py-12 md:py-20"
+          className="bg-gradient-to-br from-zim-green to-zim-green/80 text-white py-14 md:py-20"
           aria-labelledby="hero-heading"
         >
           <div className="container mx-auto px-4 text-center">
@@ -47,31 +47,31 @@ export default function HomePage() {
               <h2 id="hero-heading" className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6">
                 Welcome to Zimbabwe
               </h2>
-              <p className="text-lg md:text-xl mb-8 text-white/90">
-                Complete your arrival card online before entering Zimbabwe. Fast, secure, and convenient.
+              <p className="text-xl md:text-2xl mb-10 text-white">
+                Complete your arrival card online before entering Zimbabwe.
               </p>
-              <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <Link href="/arrival-card/new" className="inline-block">
+              <div className="flex flex-col gap-4 max-w-md mx-auto">
+                <Link href="/arrival-card/new" className="inline-block w-full">
                   <Button
                     size="lg"
-                    className="bg-zim-yellow text-zim-black hover:bg-zim-yellow/90 min-h-[48px] min-w-[48px] text-base md:text-lg px-6 py-3 w-full sm:w-auto"
+                    className="bg-zim-yellow text-zim-black hover:bg-zim-yellow/90 min-h-[56px] text-lg md:text-xl px-8 py-4 w-full font-semibold shadow-lg"
                   >
                     Start Your Arrival Card
-                    <ArrowRight className="ml-2 h-5 w-5" aria-hidden="true" />
+                    <ArrowRight className="ml-3 h-6 w-6" aria-hidden="true" />
                   </Button>
                 </Link>
-                <Link href="/arrival-card/lookup" className="inline-block">
+                <Link href="/arrival-card/lookup" className="inline-block w-full">
                   <Button
                     size="lg"
                     variant="outline"
-                    className="bg-white/10 border-white text-white hover:bg-white hover:text-zim-green min-h-[48px] min-w-[48px] text-base md:text-lg px-6 py-3 w-full sm:w-auto"
+                    className="bg-white text-zim-green border-white hover:bg-white/90 min-h-[56px] text-lg md:text-xl px-8 py-4 w-full font-semibold"
                   >
-                    <Search className="mr-2 h-5 w-5" aria-hidden="true" />
+                    <Search className="mr-3 h-6 w-6" aria-hidden="true" />
                     Check Status
                   </Button>
                 </Link>
               </div>
-              <p className="mt-6 text-sm text-white/70">
+              <p className="mt-8 text-base text-white/90 font-medium">
                 Submit within 3 days before your arrival date
               </p>
             </div>
@@ -84,33 +84,39 @@ export default function HomePage() {
           aria-labelledby="features-heading"
         >
           <div className="container mx-auto px-4">
-            <h2 id="features-heading" className="text-2xl md:text-3xl font-bold text-center mb-8 md:mb-12">
+            <h2 id="features-heading" className="text-2xl md:text-3xl font-bold text-center mb-8 md:mb-12 text-gray-900">
               Why Use the Online Arrival Card?
             </h2>
             <div className="grid md:grid-cols-3 gap-6 md:gap-8">
-              <Card className="border-t-4 border-t-zim-green">
-                <CardHeader>
-                  <Clock className="h-10 w-10 md:h-12 md:w-12 text-zim-green mb-4" aria-hidden="true" />
-                  <CardTitle className="text-lg md:text-xl">Save Time</CardTitle>
-                  <CardDescription className="text-sm md:text-base">
+              <Card className="border-0 shadow-lg bg-white">
+                <CardHeader className="p-6">
+                  <div className="w-14 h-14 bg-zim-green rounded-full flex items-center justify-center mb-4">
+                    <Clock className="h-7 w-7 text-white" aria-hidden="true" />
+                  </div>
+                  <CardTitle className="text-xl md:text-2xl text-gray-900">Save Time</CardTitle>
+                  <CardDescription className="text-base md:text-lg text-gray-600 mt-2">
                     Complete your arrival card before you travel and breeze through immigration
                   </CardDescription>
                 </CardHeader>
               </Card>
-              <Card className="border-t-4 border-t-zim-yellow">
-                <CardHeader>
-                  <Shield className="h-10 w-10 md:h-12 md:w-12 text-zim-yellow mb-4" aria-hidden="true" />
-                  <CardTitle className="text-lg md:text-xl">Secure & Safe</CardTitle>
-                  <CardDescription className="text-sm md:text-base">
+              <Card className="border-0 shadow-lg bg-white">
+                <CardHeader className="p-6">
+                  <div className="w-14 h-14 bg-zim-yellow rounded-full flex items-center justify-center mb-4">
+                    <Shield className="h-7 w-7 text-zim-black" aria-hidden="true" />
+                  </div>
+                  <CardTitle className="text-xl md:text-2xl text-gray-900">Secure & Safe</CardTitle>
+                  <CardDescription className="text-base md:text-lg text-gray-600 mt-2">
                     Your information is encrypted and securely stored in compliance with data protection laws
                   </CardDescription>
                 </CardHeader>
               </Card>
-              <Card className="border-t-4 border-t-zim-green">
-                <CardHeader>
-                  <CheckCircle className="h-10 w-10 md:h-12 md:w-12 text-zim-green mb-4" aria-hidden="true" />
-                  <CardTitle className="text-lg md:text-xl">Easy Process</CardTitle>
-                  <CardDescription className="text-sm md:text-base">
+              <Card className="border-0 shadow-lg bg-white">
+                <CardHeader className="p-6">
+                  <div className="w-14 h-14 bg-zim-green rounded-full flex items-center justify-center mb-4">
+                    <CheckCircle className="h-7 w-7 text-white" aria-hidden="true" />
+                  </div>
+                  <CardTitle className="text-xl md:text-2xl text-gray-900">Easy Process</CardTitle>
+                  <CardDescription className="text-base md:text-lg text-gray-600 mt-2">
                     Simple step-by-step form that guides you through all required information
                   </CardDescription>
                 </CardHeader>
@@ -120,17 +126,19 @@ export default function HomePage() {
         </section>
 
         {/* Important Notice - Singapore/Malaysia Style */}
-        <section className="py-8 bg-amber-50 border-y border-amber-200" aria-labelledby="notice-heading">
+        <section className="py-6 md:py-8 bg-amber-50 border-y-2 border-amber-300" aria-labelledby="notice-heading">
           <div className="container mx-auto px-4">
             <div className="flex items-start gap-4 max-w-4xl mx-auto">
-              <AlertCircle className="h-6 w-6 text-amber-600 flex-shrink-0 mt-0.5" aria-hidden="true" />
+              <div className="w-10 h-10 bg-amber-500 rounded-full flex items-center justify-center flex-shrink-0">
+                <AlertCircle className="h-6 w-6 text-white" aria-hidden="true" />
+              </div>
               <div>
-                <h2 id="notice-heading" className="font-semibold text-amber-800 mb-2">Important Information</h2>
-                <ul className="text-sm text-amber-700 space-y-1">
-                  <li>The Zimbabwe e-Arrival Card is <strong>free of charge</strong>. Beware of unofficial websites charging fees.</li>
-                  <li>Submit your arrival card within <strong>3 days before your arrival date</strong>.</li>
-                  <li>This e-Arrival Card is <strong>not a visa</strong>. Ensure you have the required visa if applicable.</li>
-                  <li>Present your QR code or reference number at immigration upon arrival.</li>
+                <h2 id="notice-heading" className="font-bold text-lg md:text-xl text-amber-900 mb-3">Important Information</h2>
+                <ul className="text-base md:text-lg text-amber-800 space-y-2">
+                  <li>• The Zimbabwe e-Arrival Card is <strong>free of charge</strong>. Beware of unofficial websites charging fees.</li>
+                  <li>• Submit your arrival card within <strong>3 days before your arrival date</strong>.</li>
+                  <li>• This e-Arrival Card is <strong>not a visa</strong>. Ensure you have the required visa if applicable.</li>
+                  <li>• Present your QR code or reference number at immigration upon arrival.</li>
                 </ul>
               </div>
             </div>
@@ -139,11 +147,11 @@ export default function HomePage() {
 
         {/* How It Works Section */}
         <section
-          className="py-12 md:py-16"
+          className="py-12 md:py-16 bg-white"
           aria-labelledby="how-it-works-heading"
         >
           <div className="container mx-auto px-4">
-            <h2 id="how-it-works-heading" className="text-2xl md:text-3xl font-bold text-center mb-8 md:mb-12">
+            <h2 id="how-it-works-heading" className="text-2xl md:text-3xl font-bold text-center mb-8 md:mb-12 text-gray-900">
               How It Works
             </h2>
             <ol className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8" role="list">
@@ -155,13 +163,13 @@ export default function HomePage() {
               ].map((item) => (
                 <li key={item.step} className="text-center">
                   <div
-                    className="w-14 h-14 md:w-16 md:h-16 bg-zim-green/10 rounded-full flex items-center justify-center mx-auto mb-4"
+                    className="w-16 h-16 md:w-20 md:h-20 bg-zim-green rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg"
                     aria-hidden="true"
                   >
-                    <span className="text-xl md:text-2xl font-bold text-zim-green">{item.step}</span>
+                    <span className="text-2xl md:text-3xl font-bold text-white">{item.step}</span>
                   </div>
-                  <h3 className="font-semibold mb-2 text-base md:text-lg">{item.title}</h3>
-                  <p className="text-xs md:text-sm text-muted-foreground">{item.description}</p>
+                  <h3 className="font-bold mb-2 text-lg md:text-xl text-gray-900">{item.title}</h3>
+                  <p className="text-sm md:text-base text-gray-600">{item.description}</p>
                 </li>
               ))}
             </ol>
@@ -170,21 +178,23 @@ export default function HomePage() {
 
         {/* Requirements Section */}
         <section
-          className="py-12 md:py-16 bg-zim-black text-white"
+          className="py-12 md:py-16 bg-zim-green"
           aria-labelledby="requirements-heading"
         >
           <div className="container mx-auto px-4">
-            <h2 id="requirements-heading" className="text-2xl md:text-3xl font-bold text-center mb-8 md:mb-12">
+            <h2 id="requirements-heading" className="text-2xl md:text-3xl font-bold text-center mb-8 md:mb-12 text-white">
               What You&apos;ll Need
             </h2>
-            <ul className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 max-w-4xl mx-auto" role="list">
+            <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 max-w-4xl mx-auto" role="list">
               {["Valid passport", "Travel itinerary", "Accommodation details", "Contact information"].map(
                 (item) => (
                   <li key={item}>
-                    <Card className="bg-white/10 border-white/20 h-full">
-                      <CardContent className="p-4 flex items-center gap-3 min-h-[48px]">
-                        <CheckCircle className="h-5 w-5 text-zim-yellow flex-shrink-0" aria-hidden="true" />
-                        <span className="text-sm md:text-base">{item}</span>
+                    <Card className="bg-white border-0 h-full shadow-lg">
+                      <CardContent className="p-5 md:p-6 flex items-center gap-4 min-h-[72px]">
+                        <div className="w-10 h-10 bg-zim-green rounded-full flex items-center justify-center flex-shrink-0">
+                          <CheckCircle className="h-6 w-6 text-white" aria-hidden="true" />
+                        </div>
+                        <span className="text-base md:text-lg font-medium text-gray-900">{item}</span>
                       </CardContent>
                     </Card>
                   </li>
@@ -196,31 +206,31 @@ export default function HomePage() {
       </main>
 
       {/* Footer */}
-      <footer className="bg-gray-100 py-8 md:py-12" role="contentinfo">
+      <footer className="bg-gray-100 py-10 md:py-12" role="contentinfo">
         <div className="container mx-auto px-4">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8">
-            <div className="col-span-2 md:col-span-1">
-              <div className="flex items-center gap-2 mb-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
+            <div className="sm:col-span-2 md:col-span-1">
+              <div className="flex items-center gap-3 mb-4">
                 <Image
                   src="https://www.moha.gov.zw/images/logo.png"
                   alt="Government of Zimbabwe Coat of Arms"
-                  width={32}
-                  height={32}
-                  className="h-8 w-auto"
+                  width={40}
+                  height={40}
+                  className="h-10 w-auto"
                 />
-                <span className="font-bold text-sm md:text-base">Zimbabwe Arrival Card</span>
+                <span className="font-bold text-base md:text-lg text-gray-900">Zimbabwe Arrival Card</span>
               </div>
-              <p className="text-xs md:text-sm text-muted-foreground">
+              <p className="text-base text-gray-600">
                 Official Zimbabwe Immigration Arrival Card System
               </p>
             </div>
             <nav aria-label="Quick links">
-              <h3 className="font-semibold mb-4 text-sm md:text-base">Quick Links</h3>
-              <ul className="space-y-3 text-xs md:text-sm text-muted-foreground">
+              <h3 className="font-bold mb-4 text-lg text-gray-900">Quick Links</h3>
+              <ul className="space-y-3 text-base text-gray-600">
                 <li>
                   <Link
                     href="/arrival-card/new"
-                    className="hover:text-zim-green focus:text-zim-green focus:outline-none focus:underline min-h-[44px] inline-flex items-center"
+                    className="hover:text-zim-green focus:text-zim-green focus:outline-none focus:underline min-h-[48px] inline-flex items-center py-1"
                   >
                     Start Arrival Card
                   </Link>
@@ -228,7 +238,7 @@ export default function HomePage() {
                 <li>
                   <Link
                     href="/arrival-card/lookup"
-                    className="hover:text-zim-green focus:text-zim-green focus:outline-none focus:underline min-h-[44px] inline-flex items-center"
+                    className="hover:text-zim-green focus:text-zim-green focus:outline-none focus:underline min-h-[48px] inline-flex items-center py-1"
                   >
                     Check Status
                   </Link>
@@ -236,7 +246,7 @@ export default function HomePage() {
                 <li>
                   <Link
                     href="/accessibility"
-                    className="hover:text-zim-green focus:text-zim-green focus:outline-none focus:underline min-h-[44px] inline-flex items-center"
+                    className="hover:text-zim-green focus:text-zim-green focus:outline-none focus:underline min-h-[48px] inline-flex items-center py-1"
                   >
                     Accessibility
                   </Link>
@@ -244,14 +254,14 @@ export default function HomePage() {
               </ul>
             </nav>
             <div>
-              <h3 className="font-semibold mb-4 text-sm md:text-base">Contact</h3>
-              <address className="not-italic space-y-1 text-xs md:text-sm text-muted-foreground">
+              <h3 className="font-bold mb-4 text-lg text-gray-900">Contact</h3>
+              <address className="not-italic space-y-2 text-base text-gray-600">
                 <p>Department of Immigration</p>
                 <p>Harare, Zimbabwe</p>
                 <p>
                   <a
                     href="mailto:info@immigration.gov.zw"
-                    className="hover:text-zim-green focus:text-zim-green focus:outline-none focus:underline"
+                    className="hover:text-zim-green focus:text-zim-green focus:outline-none focus:underline min-h-[48px] inline-flex items-center py-1"
                   >
                     info@immigration.gov.zw
                   </a>
@@ -259,12 +269,12 @@ export default function HomePage() {
               </address>
             </div>
             <nav aria-label="Legal links">
-              <h3 className="font-semibold mb-4 text-sm md:text-base">Legal</h3>
-              <ul className="space-y-3 text-xs md:text-sm text-muted-foreground">
+              <h3 className="font-bold mb-4 text-lg text-gray-900">Legal</h3>
+              <ul className="space-y-3 text-base text-gray-600">
                 <li>
                   <Link
                     href="/privacy-policy"
-                    className="hover:text-zim-green focus:text-zim-green focus:outline-none focus:underline min-h-[44px] inline-flex items-center"
+                    className="hover:text-zim-green focus:text-zim-green focus:outline-none focus:underline min-h-[48px] inline-flex items-center py-1"
                   >
                     Privacy Policy
                   </Link>
@@ -272,7 +282,7 @@ export default function HomePage() {
                 <li>
                   <Link
                     href="/terms-of-service"
-                    className="hover:text-zim-green focus:text-zim-green focus:outline-none focus:underline min-h-[44px] inline-flex items-center"
+                    className="hover:text-zim-green focus:text-zim-green focus:outline-none focus:underline min-h-[48px] inline-flex items-center py-1"
                   >
                     Terms of Service
                   </Link>
@@ -280,7 +290,7 @@ export default function HomePage() {
               </ul>
             </nav>
           </div>
-          <div className="border-t mt-8 pt-8 text-center text-xs md:text-sm text-muted-foreground">
+          <div className="border-t border-gray-300 mt-8 pt-8 text-center text-base text-gray-600">
             <p>&copy; {new Date().getFullYear()} Republic of Zimbabwe. All rights reserved.</p>
           </div>
         </div>

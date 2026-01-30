@@ -1,0 +1,48 @@
+# Zimbabwe Arrival Card - Supabase Configuration
+# https://supabase.com/docs/guides/cli/config
+
+[project]
+id = "qdfolwvyvejriajosume"
+name = "zimbabwe-arrival-card"
+
+[db]
+# Port to use for the local database URL
+port = 54322
+shadow_port = 54320
+major_version = 15
+
+[db.pooler]
+enabled = true
+port = 54329
+pool_mode = "transaction"
+default_pool_size = 20
+max_client_conn = 100
+
+[api]
+enabled = true
+port = 54321
+schemas = ["public"]
+extra_search_path = ["public", "extensions"]
+max_rows = 1000
+
+[auth]
+enabled = true
+site_url = "http://localhost:3000"
+additional_redirect_urls = ["https://zimbabwe-arrival-card.vercel.app"]
+jwt_expiry = 3600
+enable_signup = true
+enable_anonymous_sign_ins = false
+
+[auth.email]
+enable_signup = true
+double_confirm_changes = true
+enable_confirmations = false
+
+[storage]
+enabled = false
+
+[realtime]
+enabled = false
+
+[analytics]
+enabled = false

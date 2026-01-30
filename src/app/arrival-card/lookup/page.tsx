@@ -143,72 +143,72 @@ export default function ArrivalCardLookupPage() {
       <SkipLink />
 
       {/* Header */}
-      <header className="bg-zim-green text-white py-4" role="banner">
+      <header className="bg-zim-green text-white py-5" role="banner">
         <div className="container mx-auto px-4 flex items-center justify-center">
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-4">
             <Image
               src="https://www.moha.gov.zw/images/logo.png"
               alt="Government of Zimbabwe Coat of Arms"
-              width={40}
-              height={40}
-              className="h-10 w-auto"
+              width={56}
+              height={56}
+              className="h-14 w-auto"
             />
             <div>
-              <h1 className="text-lg font-bold">Zimbabwe e-Arrival Card</h1>
-              <p className="text-xs text-white/80">Check Status</p>
+              <h1 className="text-xl md:text-2xl font-bold">Zimbabwe e-Arrival Card</h1>
+              <p className="text-sm text-white/90">Check Status</p>
             </div>
           </div>
         </div>
       </header>
 
-      <main id="main-content" className="container mx-auto px-4 py-8 max-w-lg" role="main">
+      <main id="main-content" className="container mx-auto px-4 py-6 md:py-8 max-w-lg" role="main">
         <Link
           href="/"
-          className="inline-flex items-center text-sm text-muted-foreground hover:text-zim-green mb-6 min-h-[44px]"
+          className="inline-flex items-center text-base text-gray-600 hover:text-zim-green mb-6 min-h-[48px] font-medium"
         >
-          <ArrowLeft className="h-4 w-4 mr-2" aria-hidden="true" />
+          <ArrowLeft className="h-5 w-5 mr-2" aria-hidden="true" />
           Back to Home
         </Link>
 
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Search className="h-5 w-5" aria-hidden="true" />
+        <Card className="shadow-lg">
+          <CardHeader className="pb-4">
+            <CardTitle className="flex items-center gap-3 text-xl md:text-2xl text-gray-900">
+              <Search className="h-6 w-6" aria-hidden="true" />
               Check Arrival Card Status
             </CardTitle>
-            <CardDescription>
+            <CardDescription className="text-base text-gray-600">
               Enter your reference number and passport number to check the status of your arrival card.
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+            <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
               <div className="space-y-2">
-                <Label htmlFor="referenceNumber">Reference Number</Label>
+                <Label htmlFor="referenceNumber" className="text-base font-semibold text-gray-900">Reference Number</Label>
                 <Input
                   id="referenceNumber"
                   placeholder="e.g., ZW-2026-XXXXXX"
-                  className="min-h-[44px] font-mono"
+                  className="h-14 text-base font-mono"
                   {...register("referenceNumber")}
                   disabled={isLoading}
                 />
                 {errors.referenceNumber && (
-                  <p className="text-sm text-red-500" role="alert">
+                  <p className="text-base text-red-600 font-medium" role="alert">
                     {errors.referenceNumber.message}
                   </p>
                 )}
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="passportNumber">Passport Number</Label>
+                <Label htmlFor="passportNumber" className="text-base font-semibold text-gray-900">Passport Number</Label>
                 <Input
                   id="passportNumber"
                   placeholder="Your passport number"
-                  className="min-h-[44px] font-mono"
+                  className="h-14 text-base font-mono"
                   {...register("passportNumber")}
                   disabled={isLoading}
                 />
                 {errors.passportNumber && (
-                  <p className="text-sm text-red-500" role="alert">
+                  <p className="text-base text-red-600 font-medium" role="alert">
                     {errors.passportNumber.message}
                   </p>
                 )}
@@ -216,7 +216,7 @@ export default function ArrivalCardLookupPage() {
 
               {error && (
                 <div
-                  className="p-3 text-sm text-red-500 bg-red-50 border border-red-200 rounded-md"
+                  className="p-4 text-base text-red-700 bg-red-50 border-2 border-red-300 rounded-lg font-medium"
                   role="alert"
                 >
                   {error}
@@ -225,17 +225,17 @@ export default function ArrivalCardLookupPage() {
 
               <Button
                 type="submit"
-                className="w-full bg-zim-green hover:bg-zim-green/90 min-h-[44px]"
+                className="w-full bg-zim-green hover:bg-zim-green/90 h-14 text-lg font-semibold"
                 disabled={isLoading}
               >
                 {isLoading ? (
                   <>
-                    <Loader2 className="mr-2 h-4 w-4 animate-spin" aria-hidden="true" />
+                    <Loader2 className="mr-2 h-5 w-5 animate-spin" aria-hidden="true" />
                     Searching...
                   </>
                 ) : (
                   <>
-                    <Search className="mr-2 h-4 w-4" aria-hidden="true" />
+                    <Search className="mr-2 h-5 w-5" aria-hidden="true" />
                     Check Status
                   </>
                 )}
@@ -244,21 +244,21 @@ export default function ArrivalCardLookupPage() {
 
             {/* Result */}
             {result && (
-              <div className="mt-6">
+              <div className="mt-8">
                 <Separator className="mb-6" />
 
-                <div className="space-y-4">
+                <div className="space-y-5">
                   {/* Status Banner */}
                   {(() => {
                     const status = statusConfig[result.status as keyof typeof statusConfig];
                     const StatusIcon = status?.icon || FileText;
                     return (
-                      <div className={`p-4 rounded-lg ${status?.color || "bg-gray-100"}`}>
-                        <div className="flex items-start gap-3">
-                          <StatusIcon className="h-5 w-5 mt-0.5" aria-hidden="true" />
+                      <div className={`p-5 rounded-lg ${status?.color || "bg-gray-100"}`}>
+                        <div className="flex items-start gap-4">
+                          <StatusIcon className="h-7 w-7 mt-0.5 flex-shrink-0" aria-hidden="true" />
                           <div>
-                            <p className="font-semibold">{status?.label || result.status}</p>
-                            <p className="text-sm mt-1">{status?.description}</p>
+                            <p className="text-lg font-bold">{status?.label || result.status}</p>
+                            <p className="text-base mt-1">{status?.description}</p>
                           </div>
                         </div>
                       </div>
@@ -266,30 +266,30 @@ export default function ArrivalCardLookupPage() {
                   })()}
 
                   {/* Card Details */}
-                  <div className="bg-gray-50 rounded-lg p-4 space-y-3">
+                  <div className="bg-gray-50 rounded-lg p-5 space-y-4">
                     <div className="flex justify-between items-center">
-                      <span className="text-sm text-muted-foreground">Reference</span>
-                      <span className="font-mono font-semibold">{result.referenceNumber}</span>
+                      <span className="text-base text-gray-600">Reference</span>
+                      <span className="font-mono font-bold text-gray-900">{result.referenceNumber}</span>
                     </div>
                     <div className="flex justify-between items-center">
-                      <span className="text-sm text-muted-foreground">Name</span>
-                      <span className="font-semibold">{result.firstName} {result.lastName}</span>
+                      <span className="text-base text-gray-600">Name</span>
+                      <span className="font-bold text-gray-900">{result.firstName} {result.lastName}</span>
                     </div>
                     <div className="flex justify-between items-center">
-                      <span className="text-sm text-muted-foreground">Nationality</span>
-                      <span>{result.nationality}</span>
+                      <span className="text-base text-gray-600">Nationality</span>
+                      <span className="text-gray-900">{result.nationality}</span>
                     </div>
                     <div className="flex justify-between items-center">
-                      <span className="text-sm text-muted-foreground">Purpose</span>
-                      <span>{purposeLabels[result.purposeOfVisit] || result.purposeOfVisit}</span>
+                      <span className="text-base text-gray-600">Purpose</span>
+                      <span className="text-gray-900">{purposeLabels[result.purposeOfVisit] || result.purposeOfVisit}</span>
                     </div>
                     <div className="flex justify-between items-center">
-                      <span className="text-sm text-muted-foreground">Arrival Date</span>
-                      <span>{formatDate(result.arrivalDate)}</span>
+                      <span className="text-base text-gray-600">Arrival Date</span>
+                      <span className="text-gray-900">{formatDate(result.arrivalDate)}</span>
                     </div>
                     <div className="flex justify-between items-center">
-                      <span className="text-sm text-muted-foreground">Submitted</span>
-                      <span>
+                      <span className="text-base text-gray-600">Submitted</span>
+                      <span className="text-gray-900">
                         {result.submittedAt ? formatDate(result.submittedAt) : "Not yet"}
                       </span>
                     </div>
@@ -298,7 +298,7 @@ export default function ArrivalCardLookupPage() {
                   {/* Actions */}
                   {(result.status === "SUBMITTED" || result.status === "APPROVED") && (
                     <Link href={`/arrival-card/${result.id}/success`}>
-                      <Button className="w-full bg-zim-green hover:bg-zim-green/90 min-h-[44px]">
+                      <Button className="w-full bg-zim-green hover:bg-zim-green/90 h-14 text-lg font-semibold">
                         View e-Pass & QR Code
                       </Button>
                     </Link>
@@ -310,16 +310,16 @@ export default function ArrivalCardLookupPage() {
         </Card>
 
         {/* Help Section */}
-        <div className="mt-6 text-center text-sm text-muted-foreground">
+        <div className="mt-8 text-center text-base text-gray-600 space-y-3">
           <p>
             Can&apos;t find your arrival card?{" "}
-            <Link href="/arrival-card/new" className="text-zim-green hover:underline">
+            <Link href="/arrival-card/new" className="text-zim-green hover:underline font-semibold">
               Submit a new one
             </Link>
           </p>
-          <p className="mt-2">
+          <p>
             Need help?{" "}
-            <a href="mailto:immigration@moha.gov.zw" className="text-zim-green hover:underline">
+            <a href="mailto:immigration@moha.gov.zw" className="text-zim-green hover:underline font-semibold">
               Contact Immigration
             </a>
           </p>

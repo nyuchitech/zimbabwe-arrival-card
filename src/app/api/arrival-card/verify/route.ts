@@ -1,9 +1,24 @@
 import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
 import { db } from "@/lib/db";
+import { rateLimit, getClientIp, rateLimitHeaders } from "@/lib/rate-limit";
 
 export async function GET(request: NextRequest) {
   try {
+    // Rate limiting: 60 verifications per minute per IP (higher for officers)
+    const clientIp = getClientIp(request);
+    const rateLimitResult = rateLimit(`verify:${clientIp}`, {
+      limit: 60,
+      windowInSeconds: 60,
+    });
+
+    if (!rateLimitResult.success) {
+      return NextResponse.json(
+        { error: "Too many requests. Please try again later." },
+        { status: 429, headers: rateLimitHeaders(rateLimitResult) }
+      );
+    }
+
     // Verify user is immigration officer or admin
     const session = await auth();
     if (!session?.user) {
