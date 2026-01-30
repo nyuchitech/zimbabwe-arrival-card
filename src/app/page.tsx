@@ -8,7 +8,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Plane, FileText, Shield, Clock, CheckCircle, ArrowRight } from "lucide-react";
+import { Plane, FileText, Shield, Clock, CheckCircle, ArrowRight, Search, QrCode, Globe, AlertCircle } from "lucide-react";
 import { SkipLink } from "@/components/skip-link";
 
 export default function HomePage() {
@@ -60,7 +60,20 @@ export default function HomePage() {
                     <ArrowRight className="ml-2 h-5 w-5" aria-hidden="true" />
                   </Button>
                 </Link>
+                <Link href="/arrival-card/lookup" className="inline-block">
+                  <Button
+                    size="lg"
+                    variant="outline"
+                    className="bg-white/10 border-white text-white hover:bg-white hover:text-zim-green min-h-[48px] min-w-[48px] text-base md:text-lg px-6 py-3 w-full sm:w-auto"
+                  >
+                    <Search className="mr-2 h-5 w-5" aria-hidden="true" />
+                    Check Status
+                  </Button>
+                </Link>
               </div>
+              <p className="mt-6 text-sm text-white/70">
+                Submit within 3 days before your arrival date
+              </p>
             </div>
           </div>
         </section>
@@ -106,6 +119,24 @@ export default function HomePage() {
           </div>
         </section>
 
+        {/* Important Notice - Singapore/Malaysia Style */}
+        <section className="py-8 bg-amber-50 border-y border-amber-200" aria-labelledby="notice-heading">
+          <div className="container mx-auto px-4">
+            <div className="flex items-start gap-4 max-w-4xl mx-auto">
+              <AlertCircle className="h-6 w-6 text-amber-600 flex-shrink-0 mt-0.5" aria-hidden="true" />
+              <div>
+                <h2 id="notice-heading" className="font-semibold text-amber-800 mb-2">Important Information</h2>
+                <ul className="text-sm text-amber-700 space-y-1">
+                  <li>The Zimbabwe e-Arrival Card is <strong>free of charge</strong>. Beware of unofficial websites charging fees.</li>
+                  <li>Submit your arrival card within <strong>3 days before your arrival date</strong>.</li>
+                  <li>This e-Arrival Card is <strong>not a visa</strong>. Ensure you have the required visa if applicable.</li>
+                  <li>Present your QR code or reference number at immigration upon arrival.</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </section>
+
         {/* How It Works Section */}
         <section
           className="py-12 md:py-16"
@@ -119,8 +150,8 @@ export default function HomePage() {
               {[
                 { step: 1, icon: FileText, title: "Start", description: "Click 'Start Your Arrival Card' to begin" },
                 { step: 2, icon: FileText, title: "Fill Form", description: "Complete all required information" },
-                { step: 3, icon: CheckCircle, title: "Submit", description: "Review and submit your arrival card" },
-                { step: 4, icon: Plane, title: "Travel", description: "Present your reference number at immigration" },
+                { step: 3, icon: QrCode, title: "Get QR Code", description: "Receive your e-Pass with QR code" },
+                { step: 4, icon: Plane, title: "Travel", description: "Show QR code at immigration for fast clearance" },
               ].map((item) => (
                 <li key={item.step} className="text-center">
                   <div
@@ -192,6 +223,14 @@ export default function HomePage() {
                     className="hover:text-zim-green focus:text-zim-green focus:outline-none focus:underline min-h-[44px] inline-flex items-center"
                   >
                     Start Arrival Card
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    href="/arrival-card/lookup"
+                    className="hover:text-zim-green focus:text-zim-green focus:outline-none focus:underline min-h-[44px] inline-flex items-center"
+                  >
+                    Check Status
                   </Link>
                 </li>
                 <li>

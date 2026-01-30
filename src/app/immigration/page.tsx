@@ -27,6 +27,7 @@ import {
   AlertCircle,
   Eye,
   Users,
+  QrCode,
 } from "lucide-react";
 
 const statusConfig = {
@@ -88,11 +89,19 @@ export default async function ImmigrationDashboardPage() {
   return (
     <div className="space-y-8">
       {/* Header */}
-      <div>
-        <h1 className="text-3xl font-bold">Immigration Dashboard</h1>
-        <p className="text-muted-foreground mt-1">
-          Review and process arrival card submissions
-        </p>
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+        <div>
+          <h1 className="text-3xl font-bold">Immigration Dashboard</h1>
+          <p className="text-muted-foreground mt-1">
+            Review and process arrival card submissions
+          </p>
+        </div>
+        <Link href="/immigration/scan">
+          <Button className="bg-zim-green hover:bg-zim-green/90 min-h-[44px]">
+            <QrCode className="h-4 w-4 mr-2" aria-hidden="true" />
+            Scan Arrival Card
+          </Button>
+        </Link>
       </div>
 
       {/* Stats Cards */}
