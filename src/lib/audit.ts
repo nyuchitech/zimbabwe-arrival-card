@@ -4,6 +4,7 @@
  */
 
 import { logger } from "./observability";
+import { getClientIp } from "./rate-limit";
 
 type AuditAction =
   | "CREATE"
@@ -234,8 +235,6 @@ export function getAuditContext(
   request: Request,
   user?: { id: string; role: string; email?: string }
 ): AuditContext {
-  const { getClientIp } = require("./rate-limit");
-
   return {
     userId: user?.id,
     userRole: user?.role,

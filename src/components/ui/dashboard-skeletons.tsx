@@ -125,6 +125,9 @@ export function FormSkeleton() {
   );
 }
 
+// Pre-defined heights for chart bars to avoid Math.random during render
+const CHART_BAR_HEIGHTS = [45, 65, 30, 80, 55, 40, 70, 35, 60, 50, 75, 25];
+
 export function ChartSkeleton() {
   return (
     <Card>
@@ -134,11 +137,11 @@ export function ChartSkeleton() {
       </CardHeader>
       <CardContent>
         <div className="flex items-end justify-between h-64 gap-2">
-          {Array.from({ length: 12 }).map((_, i) => (
+          {CHART_BAR_HEIGHTS.map((height, i) => (
             <Skeleton
               key={i}
               className="w-full"
-              style={{ height: `${Math.random() * 60 + 20}%` }}
+              style={{ height: `${height}%` }}
             />
           ))}
         </div>

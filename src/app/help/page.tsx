@@ -7,7 +7,7 @@ import {
 } from "@/components/ui/accordion";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { NavHeader } from "@/components/dashboard/nav-header";
+import { PublicHeader } from "@/components/public-header";
 import {
   FileText,
   QrCode,
@@ -207,7 +207,7 @@ const QUICK_LINKS = [
 export default function HelpPage() {
   return (
     <div className="min-h-screen bg-gray-50">
-      <NavHeader />
+      <PublicHeader />
 
       <main className="container mx-auto px-4 py-8">
         {/* Hero section */}

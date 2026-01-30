@@ -13,10 +13,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   QrCode,
   Shield,
-  Users,
   FileText,
   CheckCircle,
-  XCircle,
   AlertTriangle,
   BarChart3,
   Settings,
@@ -24,7 +22,6 @@ import {
   ClipboardList,
   Scan,
   Download,
-  Eye,
   UserCog,
   Database,
   Activity,

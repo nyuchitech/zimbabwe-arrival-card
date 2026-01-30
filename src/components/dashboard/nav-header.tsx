@@ -25,6 +25,7 @@ import {
   Shield,
   Building,
   Receipt,
+  HelpCircle,
 } from "lucide-react";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { getRoleDisplayName, getRoleBadgeColor } from "@/lib/rbac";
@@ -87,6 +88,18 @@ const navItems: NavItem[] = [
     icon: BarChart3,
     roles: ["GOVERNMENT", "ZIMRA", "ADMIN"],
   },
+  {
+    href: "/staff/help",
+    label: "Help",
+    icon: HelpCircle,
+    roles: ["IMMIGRATION", "GOVERNMENT", "ZIMRA", "ADMIN"],
+  },
+  {
+    href: "/help",
+    label: "Help",
+    icon: HelpCircle,
+    roles: ["TRAVELER"],
+  },
 ];
 
 export function NavHeader() {
@@ -108,32 +121,29 @@ export function NavHeader() {
       .slice(0, 2);
   };
 
-  const NavLinks = ({ mobile = false }: { mobile?: boolean }) => (
-    <>
-      {filteredNavItems.map((item) => {
-        const Icon = item.icon;
-        const isActive = pathname === item.href || pathname.startsWith(item.href + "/");
-        return (
-          <Link
-            key={item.href}
-            href={item.href}
-            className={cn(
-              "flex items-center gap-3 rounded-lg font-medium transition-colors",
-              mobile
-                ? "px-4 py-4 text-base min-h-[56px]"
-                : "px-4 py-2 text-base",
-              isActive
-                ? "bg-zim-green text-white"
-                : "text-gray-700 hover:bg-gray-100 hover:text-gray-900"
-            )}
-          >
-            <Icon className={cn(mobile ? "h-6 w-6" : "h-5 w-5")} />
-            {item.label}
-          </Link>
-        );
-      })}
-    </>
-  );
+  const renderNavLinks = (mobile = false) =>
+    filteredNavItems.map((item) => {
+      const Icon = item.icon;
+      const isActive = pathname === item.href || pathname.startsWith(item.href + "/");
+      return (
+        <Link
+          key={item.href}
+          href={item.href}
+          className={cn(
+            "flex items-center gap-3 rounded-lg font-medium transition-colors",
+            mobile
+              ? "px-4 py-4 text-base min-h-[56px]"
+              : "px-4 py-2 text-base",
+            isActive
+              ? "bg-zim-green text-white"
+              : "text-gray-700 hover:bg-gray-100 hover:text-gray-900"
+          )}
+        >
+          <Icon className={cn(mobile ? "h-6 w-6" : "h-5 w-5")} />
+          {item.label}
+        </Link>
+      );
+    });
 
   return (
     <header className="sticky top-0 z-50 bg-white border-b shadow-sm">
@@ -153,7 +163,7 @@ export function NavHeader() {
 
           {/* Desktop Navigation */}
           <nav className="hidden lg:flex items-center gap-1">
-            <NavLinks />
+            {renderNavLinks()}
           </nav>
 
           {/* User Menu */}
@@ -192,6 +202,15 @@ export function NavHeader() {
                     Profile Settings
                   </Link>
                 </DropdownMenuItem>
+                <DropdownMenuItem asChild className="py-3 px-4">
+                  <Link
+                    href={userRole && userRole !== "TRAVELER" ? "/staff/help" : "/help"}
+                    className="cursor-pointer text-base"
+                  >
+                    <HelpCircle className="mr-3 h-5 w-5" />
+                    Help & Support
+                  </Link>
+                </DropdownMenuItem>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem
                   className="cursor-pointer text-red-600 py-3 px-4 text-base"
@@ -212,7 +231,7 @@ export function NavHeader() {
               </SheetTrigger>
               <SheetContent side="left" className="w-80">
                 <div className="flex flex-col gap-2 mt-8">
-                  <NavLinks mobile />
+                  {renderNavLinks(true)}
                 </div>
               </SheetContent>
             </Sheet>
