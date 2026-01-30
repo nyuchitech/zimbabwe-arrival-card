@@ -42,17 +42,26 @@ const dateField = (fieldName: string) =>
 
 // Phone number validation
 const phoneField = (fieldName: string, required: boolean = true) => {
-  const base = z
+  if (required) {
+    return z
+      .string()
+      .min(5, `${fieldName} is required`)
+      .max(30, "Phone number is too long")
+      .refine(
+        (val) => /^[\d\s\+\-\(\)]+$/.test(val),
+        "Invalid phone number format"
+      );
+  }
+
+  return z
     .string()
     .max(30, "Phone number is too long")
     .refine(
       (val) => !val || /^[\d\s\+\-\(\)]+$/.test(val),
       "Invalid phone number format"
-    );
-
-  return required
-    ? base.min(5, `${fieldName} is required`)
-    : base.optional().or(z.literal(""));
+    )
+    .optional()
+    .or(z.literal(""));
 };
 
 // Email validation
@@ -323,7 +332,26 @@ export const arrivalCardSchema = z.object({
   passportIssueDate: dateField("Issue date"),
   passportExpiryDate: dateField("Expiry date"),
   passportIssuingCountry: countryField("Issuing country"),
-  ...contactInfoSchema.shape,
+  // Contact Information - defined explicitly for proper type inference
+  email: emailField(),
+  phoneNumber: z
+    .string()
+    .min(5, "Phone number is required")
+    .max(30, "Phone number is too long")
+    .refine(
+      (val) => /^[\d\s\+\-\(\)]+$/.test(val),
+      "Invalid phone number format"
+    ),
+  emergencyContactName: optionalNameField(),
+  emergencyContactPhone: z
+    .string()
+    .max(30, "Phone number is too long")
+    .refine(
+      (val) => !val || /^[\d\s\+\-\(\)]+$/.test(val),
+      "Invalid phone number format"
+    )
+    .optional()
+    .or(z.literal("")),
   purposeOfVisit: z.enum(
     [
       "TOURISM",
@@ -344,7 +372,36 @@ export const arrivalCardSchema = z.object({
   flightNumber: z.string().max(20).trim().optional().or(z.literal("")),
   vesselName: z.string().max(100).trim().optional().or(z.literal("")),
   previousCountry: countryField("Previous country"),
-  ...accommodationSchema.shape,
+  // Accommodation - defined explicitly for proper type inference
+  accommodationType: z
+    .string()
+    .min(1, "Accommodation type is required")
+    .max(50, "Accommodation type is too long")
+    .trim(),
+  accommodationName: z
+    .string()
+    .min(1, "Accommodation name is required")
+    .max(200, "Accommodation name is too long")
+    .trim(),
+  accommodationAddress: z
+    .string()
+    .min(5, "Address is required")
+    .max(500, "Address is too long")
+    .trim(),
+  accommodationCity: z
+    .string()
+    .min(1, "City is required")
+    .max(100, "City name is too long")
+    .trim(),
+  accommodationPhone: z
+    .string()
+    .max(30, "Phone number is too long")
+    .refine(
+      (val) => !val || /^[\d\s\+\-\(\)]+$/.test(val),
+      "Invalid phone number format"
+    )
+    .optional()
+    .or(z.literal("")),
   carryingCurrency: z.boolean(),
   currencyAmount: z.number().min(0).max(10000000).optional().nullable(),
   currencyType: z.string().max(10).toUpperCase().trim().optional().or(z.literal("")),

@@ -197,6 +197,7 @@ export class CircuitBreaker {
 
   // Manual circuit control (for testing or emergency)
   forceOpen() {
+    this.lastFailureTime = Date.now();
     this.transitionTo("OPEN");
   }
 

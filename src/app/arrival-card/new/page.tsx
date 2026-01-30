@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Loader2, ChevronLeft, ChevronRight, Check } from "lucide-react";
+import { Loader2, ChevronLeft, ChevronRight } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -25,6 +25,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
+import { FormStepper } from "@/components/ui/form-stepper";
 import { arrivalCardSchema, type ArrivalCardInput } from "@/lib/validations/arrival-card";
 import { NavHeader } from "@/components/dashboard/nav-header";
 
@@ -608,51 +609,15 @@ export default function NewArrivalCardPage() {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            {/* Progress Steps - Mobile optimized */}
+            {/* Progress Steps with arrow design */}
             <div className="mb-8">
-              {/* Mobile: Show current step info */}
-              <div className="md:hidden mb-4 text-center">
-                <span className="text-lg font-semibold text-zim-green">
-                  Step {currentStep} of {STEPS.length}
-                </span>
-              </div>
-              {/* Desktop: Show all steps */}
-              <div className="hidden md:flex justify-between">
-                {STEPS.map((step) => (
-                  <div
-                    key={step.id}
-                    className={`flex flex-col items-center ${
-                      step.id <= currentStep ? "text-zim-green" : "text-gray-400"
-                    }`}
-                  >
-                    <div
-                      className={`w-10 h-10 rounded-full flex items-center justify-center text-base font-bold ${
-                        step.id < currentStep
-                          ? "bg-zim-green text-white"
-                          : step.id === currentStep
-                          ? "bg-zim-green text-white"
-                          : "bg-gray-200 text-gray-600"
-                      }`}
-                    >
-                      {step.id < currentStep ? (
-                        <Check className="h-5 w-5" />
-                      ) : (
-                        step.id
-                      )}
-                    </div>
-                    <span className="text-sm mt-2 font-medium">{step.title}</span>
-                  </div>
-                ))}
-              </div>
-              {/* Progress bar */}
-              <div className="mt-4 h-3 bg-gray-200 rounded-full">
-                <div
-                  className="h-full bg-zim-green rounded-full transition-all duration-300"
-                  style={{
-                    width: `${((currentStep - 1) / (STEPS.length - 1)) * 100}%`,
-                  }}
-                />
-              </div>
+              <FormStepper
+                steps={STEPS}
+                currentStep={currentStep}
+                variant="arrows"
+                allowClickNavigation={true}
+                onStepClick={(step) => setCurrentStep(step)}
+              />
             </div>
 
             {/* Step Title */}

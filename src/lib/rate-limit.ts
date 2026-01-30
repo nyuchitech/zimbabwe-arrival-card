@@ -65,12 +65,13 @@ async function getRedisClient() {
 
   if (redisUrl && redisToken) {
     try {
-      // Dynamic import for Upstash Redis
-      const { Redis } = await import("@upstash/redis");
+      // Dynamic require to avoid compile-time resolution
+      // eslint-disable-next-line @typescript-eslint/no-require-imports
+      const { Redis } = require("@upstash/redis") as { Redis: new (config: { url: string; token: string }) => typeof redisClient };
       redisClient = new Redis({
         url: redisUrl,
         token: redisToken,
-      }) as typeof redisClient;
+      });
       logger.info("Rate limiter connected to Redis");
       return redisClient;
     } catch (error) {
@@ -280,8 +281,8 @@ export function getClientIp(request: Request): string {
 /**
  * Create rate limit response headers
  */
-export function rateLimitHeaders(result: RateLimitResult): HeadersInit {
-  const headers: HeadersInit = {
+export function rateLimitHeaders(result: RateLimitResult): Record<string, string> {
+  const headers: Record<string, string> = {
     "X-RateLimit-Limit": result.limit.toString(),
     "X-RateLimit-Remaining": result.remaining.toString(),
     "X-RateLimit-Reset": result.reset.toString(),

@@ -149,11 +149,18 @@ describe("Contact Info Schema", () => {
 });
 
 describe("Travel Info Schema", () => {
+  // Helper to get a future date string
+  const getFutureDate = (daysAhead: number = 30) => {
+    const date = new Date();
+    date.setDate(date.getDate() + daysAhead);
+    return date.toISOString().split("T")[0];
+  };
+
   it("should validate valid travel info", () => {
     const validData = {
       purposeOfVisit: "TOURISM" as const,
       intendedStayDuration: 14,
-      arrivalDate: "2024-06-01",
+      arrivalDate: getFutureDate(30),
       previousCountry: "South Africa",
     };
 
@@ -165,7 +172,7 @@ describe("Travel Info Schema", () => {
     const invalidData = {
       purposeOfVisit: "TOURISM" as const,
       intendedStayDuration: 0,
-      arrivalDate: "2024-06-01",
+      arrivalDate: getFutureDate(30),
       previousCountry: "South Africa",
     };
 
@@ -189,7 +196,7 @@ describe("Travel Info Schema", () => {
       const data = {
         purposeOfVisit: purpose,
         intendedStayDuration: 7,
-        arrivalDate: "2024-06-01",
+        arrivalDate: getFutureDate(30),
         previousCountry: "South Africa",
       };
 

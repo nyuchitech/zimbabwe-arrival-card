@@ -1,5 +1,6 @@
 import { auth } from "@/lib/auth";
 import { redirect } from "next/navigation";
+import Link from "next/link";
 import { db } from "@/lib/db";
 import {
   Card,
@@ -8,6 +9,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 import {
   FileText,
   Users,
@@ -17,6 +19,8 @@ import {
   Building,
   Calendar,
   BarChart3,
+  ArrowRight,
+  HelpCircle,
 } from "lucide-react";
 
 export default async function GovernmentDashboardPage() {
@@ -90,11 +94,28 @@ export default async function GovernmentDashboardPage() {
   return (
     <div className="space-y-8">
       {/* Header */}
-      <div>
-        <h1 className="text-3xl font-bold">Government Dashboard</h1>
-        <p className="text-muted-foreground mt-1">
-          Overview of Zimbabwe arrival card statistics and analytics
-        </p>
+      <div className="flex items-start justify-between">
+        <div>
+          <h1 className="text-3xl font-bold">Government Dashboard</h1>
+          <p className="text-muted-foreground mt-1">
+            Overview of Zimbabwe arrival card statistics and analytics
+          </p>
+        </div>
+        <div className="flex items-center gap-2">
+          <Link href="/staff/help">
+            <Button variant="outline" size="sm">
+              <HelpCircle className="h-4 w-4 mr-2" />
+              Help
+            </Button>
+          </Link>
+          <Link href="/government/analytics">
+            <Button size="sm" className="bg-zim-green hover:bg-zim-green/90">
+              <BarChart3 className="h-4 w-4 mr-2" />
+              Detailed Analytics
+              <ArrowRight className="h-4 w-4 ml-2" />
+            </Button>
+          </Link>
+        </div>
       </div>
 
       {/* Main Stats */}
