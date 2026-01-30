@@ -1,8 +1,23 @@
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db";
+import { rateLimit, getClientIp, rateLimitHeaders } from "@/lib/rate-limit";
 
 export async function GET(request: NextRequest) {
   try {
+    // Rate limiting: 10 lookups per minute per IP
+    const clientIp = getClientIp(request);
+    const rateLimitResult = rateLimit(`lookup:${clientIp}`, {
+      limit: 10,
+      windowInSeconds: 60,
+    });
+
+    if (!rateLimitResult.success) {
+      return NextResponse.json(
+        { error: "Too many requests. Please try again later." },
+        { status: 429, headers: rateLimitHeaders(rateLimitResult) }
+      );
+    }
+
     const searchParams = request.nextUrl.searchParams;
     const referenceNumber = searchParams.get("ref");
     const passportNumber = searchParams.get("passport");

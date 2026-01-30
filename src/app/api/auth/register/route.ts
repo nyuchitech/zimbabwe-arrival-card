@@ -2,9 +2,24 @@ import { NextResponse } from "next/server";
 import { db } from "@/lib/db";
 import { hashPassword } from "@/lib/auth";
 import { registerSchema } from "@/lib/validations/auth";
+import { rateLimit, getClientIp, rateLimitHeaders } from "@/lib/rate-limit";
 
 export async function POST(request: Request) {
   try {
+    // Strict rate limiting: 5 registration attempts per hour per IP
+    const clientIp = getClientIp(request);
+    const rateLimitResult = rateLimit(`register:${clientIp}`, {
+      limit: 5,
+      windowInSeconds: 3600,
+    });
+
+    if (!rateLimitResult.success) {
+      return NextResponse.json(
+        { error: "Too many registration attempts. Please try again later." },
+        { status: 429, headers: rateLimitHeaders(rateLimitResult) }
+      );
+    }
+
     const body = await request.json();
 
     // Validate input

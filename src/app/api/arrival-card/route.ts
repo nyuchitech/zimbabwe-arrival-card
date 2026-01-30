@@ -3,6 +3,8 @@ import { auth } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { arrivalCardSchema } from "@/lib/validations/arrival-card";
 import { nanoid } from "nanoid";
+import { rateLimit, getClientIp, rateLimitHeaders } from "@/lib/rate-limit";
+import { sendArrivalCardConfirmation } from "@/lib/email";
 
 function generateReferenceNumber(): string {
   const date = new Date();
@@ -15,6 +17,21 @@ function generateReferenceNumber(): string {
 
 export async function POST(request: Request) {
   try {
+    // Basic rate limiting (Cloudflare handles DDoS)
+    // 5 submissions per hour per IP as additional protection
+    const clientIp = getClientIp(request);
+    const rateLimitResult = rateLimit(`arrival-card:${clientIp}`, {
+      limit: 5,
+      windowInSeconds: 3600,
+    });
+
+    if (!rateLimitResult.success) {
+      return NextResponse.json(
+        { error: "Too many submissions. Please try again later." },
+        { status: 429, headers: rateLimitHeaders(rateLimitResult) }
+      );
+    }
+
     const session = await auth();
 
     if (!session?.user) {
@@ -34,6 +51,7 @@ export async function POST(request: Request) {
     }
 
     const data = validationResult.data;
+    const arrivalDate = new Date(data.arrivalDate);
 
     // Create arrival card
     const arrivalCard = await db.arrivalCard.create({
@@ -68,7 +86,7 @@ export async function POST(request: Request) {
         purposeOfVisit: data.purposeOfVisit,
         purposeOther: data.purposeOther,
         intendedStayDuration: data.intendedStayDuration,
-        arrivalDate: new Date(data.arrivalDate),
+        arrivalDate: arrivalDate,
         departureDate: data.departureDate ? new Date(data.departureDate) : null,
         flightNumber: data.flightNumber,
         vesselName: data.vesselName,
@@ -100,6 +118,15 @@ export async function POST(request: Request) {
         submittedAt: new Date(),
       },
     });
+
+    // Send confirmation email (non-blocking)
+    sendArrivalCardConfirmation({
+      to: data.email,
+      firstName: data.firstName,
+      lastName: data.lastName,
+      referenceNumber: arrivalCard.referenceNumber,
+      arrivalDate: arrivalDate,
+    }).catch((err) => console.error("Failed to send confirmation email:", err));
 
     return NextResponse.json(
       {
