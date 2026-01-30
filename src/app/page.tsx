@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -16,9 +17,13 @@ export default function HomePage() {
       <header className="bg-zim-green text-white">
         <div className="container mx-auto px-4 py-4 flex items-center justify-center">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center">
-              <span className="text-zim-green text-lg font-bold">ZW</span>
-            </div>
+            <Image
+              src="https://www.moha.gov.zw/images/logo.png"
+              alt="Government of Zimbabwe"
+              width={48}
+              height={48}
+              className="h-12 w-auto"
+            />
             <div>
               <h1 className="text-lg font-bold">Zimbabwe Arrival Card</h1>
               <p className="text-xs text-white/80">Department of Immigration</p>
@@ -132,9 +137,13 @@ export default function HomePage() {
           <div className="grid md:grid-cols-4 gap-8">
             <div>
               <div className="flex items-center gap-2 mb-4">
-                <div className="w-8 h-8 bg-zim-green rounded-full flex items-center justify-center">
-                  <span className="text-white text-sm font-bold">ZW</span>
-                </div>
+                <Image
+                  src="https://www.moha.gov.zw/images/logo.png"
+                  alt="Government of Zimbabwe"
+                  width={32}
+                  height={32}
+                  className="h-8 w-auto"
+                />
                 <span className="font-bold">Zimbabwe Arrival Card</span>
               </div>
               <p className="text-sm text-muted-foreground">
