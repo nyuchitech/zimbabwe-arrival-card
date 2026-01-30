@@ -14,7 +14,7 @@ export default function HomePage() {
     <div className="min-h-screen">
       {/* Header */}
       <header className="bg-zim-green text-white">
-        <div className="container mx-auto px-4 py-4 flex items-center justify-between">
+        <div className="container mx-auto px-4 py-4 flex items-center justify-center">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center">
               <span className="text-zim-green text-lg font-bold">ZW</span>
@@ -24,18 +24,6 @@ export default function HomePage() {
               <p className="text-xs text-white/80">Department of Immigration</p>
             </div>
           </div>
-          <nav className="flex items-center gap-4">
-            <Link href="/auth/login">
-              <Button variant="ghost" className="text-white hover:text-white hover:bg-white/10">
-                Sign In
-              </Button>
-            </Link>
-            <Link href="/auth/register">
-              <Button className="bg-zim-yellow text-zim-black hover:bg-zim-yellow/90">
-                Register
-              </Button>
-            </Link>
-          </nav>
         </div>
       </header>
 
@@ -48,19 +36,10 @@ export default function HomePage() {
               Complete your arrival card online before entering Zimbabwe. Fast, secure, and convenient.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link href="/auth/register">
+              <Link href="/arrival-card/new">
                 <Button size="lg" className="bg-zim-yellow text-zim-black hover:bg-zim-yellow/90">
                   Start Your Arrival Card
                   <ArrowRight className="ml-2 h-5 w-5" />
-                </Button>
-              </Link>
-              <Link href="/auth/login">
-                <Button
-                  size="lg"
-                  variant="outline"
-                  className="border-white text-white bg-transparent hover:bg-white/10"
-                >
-                  Continue Existing Application
                 </Button>
               </Link>
             </div>
@@ -111,8 +90,8 @@ export default function HomePage() {
           <h3 className="text-3xl font-bold text-center mb-12">How It Works</h3>
           <div className="grid md:grid-cols-4 gap-8">
             {[
-              { step: 1, icon: FileText, title: "Register", description: "Create your account with email and password" },
-              { step: 2, icon: FileText, title: "Fill Form", description: "Complete the arrival card with your details" },
+              { step: 1, icon: FileText, title: "Start", description: "Click 'Start Your Arrival Card' to begin" },
+              { step: 2, icon: FileText, title: "Fill Form", description: "Complete all required information" },
               { step: 3, icon: CheckCircle, title: "Submit", description: "Review and submit your arrival card" },
               { step: 4, icon: Plane, title: "Travel", description: "Present your reference number at immigration" },
             ].map((item) => (
@@ -166,18 +145,18 @@ export default function HomePage() {
               <h4 className="font-semibold mb-4">Quick Links</h4>
               <ul className="space-y-2 text-sm text-muted-foreground">
                 <li>
-                  <Link href="/auth/login" className="hover:text-zim-green">
-                    Sign In
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/auth/register" className="hover:text-zim-green">
-                    Register
+                  <Link href="/arrival-card/new" className="hover:text-zim-green">
+                    Start Arrival Card
                   </Link>
                 </li>
                 <li>
                   <Link href="#" className="hover:text-zim-green">
                     FAQs
+                  </Link>
+                </li>
+                <li>
+                  <Link href="#" className="hover:text-zim-green">
+                    Help & Support
                   </Link>
                 </li>
               </ul>
