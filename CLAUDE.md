@@ -32,10 +32,20 @@ This document provides guidance for AI assistants working with the Zimbabwe Arri
 ```
 zimbabwe-arrival-card/
 ├── .env                        # Environment variables
+├── .env.example                # Environment template
 ├── .gitignore
+├── .github/
+│   ├── ISSUE_TEMPLATE/         # Bug & feature templates
+│   ├── workflows/              # CI/CD pipelines
+│   ├── dependabot.yml          # Dependency updates
+│   └── PULL_REQUEST_TEMPLATE.md
+├── CHANGELOG.md                # Version history
 ├── CLAUDE.md                   # This file
+├── CONTRIBUTING.md             # Contribution guide
 ├── LICENSE
 ├── README.md
+├── RELEASES.md                 # Release process
+├── SECURITY.md                 # Security policy
 ├── next.config.ts              # Next.js configuration
 ├── package.json
 ├── tsconfig.json

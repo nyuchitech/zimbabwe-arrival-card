@@ -1,0 +1,11 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Security Vulnerability
+    url: https://github.com/nyuchitech/zimbabwe-arrival-card/security/policy
+    about: Please report security vulnerabilities using our security policy
+  - name: Documentation
+    url: https://github.com/nyuchitech/zimbabwe-arrival-card/blob/main/CLAUDE.md
+    about: Check the documentation for AI assistants and developers
+  - name: General Support
+    url: mailto:support@nyuchi.com
+    about: For general support questions, email us directly
