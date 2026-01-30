@@ -271,19 +271,27 @@ describe("Customs Declaration Schema", () => {
 describe("Health Declaration Schema", () => {
   it("should validate health declaration", () => {
     const validData = {
-      healthDeclaration: true,
-      recentIllness: false,
+      hasSymptoms: false,
+      visitedYellowFeverCountry: false,
+      yellowFeverCertificate: false,
+      contactWithInfectious: false,
+      seekingMedicalTreatment: false,
+      healthDeclarationAccepted: true,
     };
 
     const result = healthDeclarationSchema.safeParse(validData);
     expect(result.success).toBe(true);
   });
 
-  it("should accept illness description when recent illness is true", () => {
+  it("should accept symptoms description when has symptoms is true", () => {
     const validData = {
-      healthDeclaration: true,
-      recentIllness: true,
-      illnessDescription: "Common cold, fully recovered",
+      hasSymptoms: true,
+      symptomsDescription: "Mild headache",
+      visitedYellowFeverCountry: false,
+      yellowFeverCertificate: false,
+      contactWithInfectious: false,
+      seekingMedicalTreatment: false,
+      healthDeclarationAccepted: true,
     };
 
     const result = healthDeclarationSchema.safeParse(validData);
