@@ -1,0 +1,276 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// User Roles for RBAC
+enum Role {
+  TRAVELER
+  IMMIGRATION
+  GOVERNMENT
+  ZIMRA       // Zimbabwe Revenue Authority (Tax/Customs)
+  ADMIN
+}
+
+// Arrival Card Status
+enum ArrivalCardStatus {
+  DRAFT
+  SUBMITTED
+  UNDER_REVIEW
+  APPROVED
+  REJECTED
+  EXPIRED
+}
+
+// Gender enum
+enum Gender {
+  MALE
+  FEMALE
+  OTHER
+}
+
+// Purpose of Visit
+enum VisitPurpose {
+  TOURISM
+  BUSINESS
+  EMPLOYMENT
+  STUDY
+  MEDICAL
+  TRANSIT
+  RETURNING_RESIDENT
+  OTHER
+}
+
+// User model for authentication
+model User {
+  id            String    @id @default(cuid())
+  email         String    @unique
+  password      String
+  name          String?
+  role          Role      @default(TRAVELER)
+  emailVerified DateTime?
+  image         String?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  // Relations
+  accounts      Account[]
+  sessions      Session[]
+  arrivalCards  ArrivalCard[]  @relation("TravelerCards")
+  reviewedCards ArrivalCard[]  @relation("ReviewerCards")
+  auditLogs     AuditLog[]
+
+  // Border post assignment for immigration officers
+  borderPostId  String?
+  borderPost    BorderPost?    @relation(fields: [borderPostId], references: [id])
+
+  @@index([email])
+  @@index([role])
+}
+
+// NextAuth Account model
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+// NextAuth Session model
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+// NextAuth Verification Token
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+// Border Posts / Ports of Entry
+model BorderPost {
+  id          String   @id @default(cuid())
+  name        String
+  code        String   @unique
+  type        String   // LAND, AIR, SEA
+  location    String?
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relations
+  officers      User[]
+  arrivalCards  ArrivalCard[]
+
+  @@index([code])
+}
+
+// Main Arrival Card model
+model ArrivalCard {
+  id                    String            @id @default(cuid())
+  referenceNumber       String            @unique
+  status                ArrivalCardStatus @default(DRAFT)
+
+  // Personal Information
+  firstName             String
+  middleName            String?
+  lastName              String
+  dateOfBirth           DateTime
+  gender                Gender
+  nationality           String
+  countryOfResidence    String
+  occupation            String?
+
+  // Passport Information
+  passportNumber        String
+  passportIssueDate     DateTime
+  passportExpiryDate    DateTime
+  passportIssuingCountry String
+
+  // Contact Information
+  email                 String
+  phoneNumber           String
+  emergencyContactName  String?
+  emergencyContactPhone String?
+
+  // Travel Information
+  purposeOfVisit        VisitPurpose
+  purposeOther          String?           // If purpose is OTHER
+  intendedStayDuration  Int               // Days
+  arrivalDate           DateTime
+  departureDate         DateTime?
+  flightNumber          String?
+  vesselName            String?
+  previousCountry       String            // Last country before Zimbabwe
+
+  // Accommodation in Zimbabwe
+  accommodationType     String            // HOTEL, RESIDENCE, HOSTEL, etc.
+  accommodationName     String
+  accommodationAddress  String
+  accommodationCity     String
+  accommodationPhone    String?
+
+  // Customs Declaration
+  carryingCurrency      Boolean           @default(false)
+  currencyAmount        Float?
+  currencyType          String?
+  carryingGoods         Boolean           @default(false)
+  goodsDescription      String?
+  goodsValue            Float?
+
+  // Health Declaration
+  healthDeclaration     Boolean           @default(false)
+  recentIllness         Boolean           @default(false)
+  illnessDescription    String?
+
+  // Declaration
+  declarationAccepted   Boolean           @default(false)
+  declarationDate       DateTime?
+  signature             String?           // Digital signature data
+
+  // Relations
+  travelerId            String
+  traveler              User              @relation("TravelerCards", fields: [travelerId], references: [id])
+
+  reviewerId            String?
+  reviewer              User?             @relation("ReviewerCards", fields: [reviewerId], references: [id])
+
+  borderPostId          String?
+  borderPost            BorderPost?       @relation(fields: [borderPostId], references: [id])
+
+  // Companions (for group travel)
+  companions            Companion[]
+
+  // Review Information
+  reviewNotes           String?
+  reviewedAt            DateTime?
+  rejectionReason       String?
+
+  // Timestamps
+  createdAt             DateTime          @default(now())
+  updatedAt             DateTime          @updatedAt
+  submittedAt           DateTime?
+
+  @@index([referenceNumber])
+  @@index([passportNumber])
+  @@index([status])
+  @@index([travelerId])
+  @@index([arrivalDate])
+}
+
+// Companion travelers (children, family members)
+model Companion {
+  id              String       @id @default(cuid())
+  firstName       String
+  lastName        String
+  dateOfBirth     DateTime
+  gender          Gender
+  nationality     String
+  passportNumber  String
+  relationship    String       // SPOUSE, CHILD, PARENT, etc.
+
+  arrivalCardId   String
+  arrivalCard     ArrivalCard  @relation(fields: [arrivalCardId], references: [id], onDelete: Cascade)
+
+  createdAt       DateTime     @default(now())
+  updatedAt       DateTime     @updatedAt
+
+  @@index([arrivalCardId])
+}
+
+// Audit Log for tracking changes
+model AuditLog {
+  id          String   @id @default(cuid())
+  action      String   // CREATE, UPDATE, DELETE, APPROVE, REJECT, etc.
+  entityType  String   // ArrivalCard, User, etc.
+  entityId    String
+  oldData     String?  // JSON string of old values
+  newData     String?  // JSON string of new values
+  ipAddress   String?
+  userAgent   String?
+
+  userId      String
+  user        User     @relation(fields: [userId], references: [id])
+
+  createdAt   DateTime @default(now())
+
+  @@index([entityType, entityId])
+  @@index([userId])
+  @@index([createdAt])
+}
+
+// System Settings
+model SystemSetting {
+  id        String   @id @default(cuid())
+  key       String   @unique
+  value     String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
