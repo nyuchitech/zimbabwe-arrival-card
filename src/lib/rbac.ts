@@ -30,6 +30,17 @@ export const ROLE_PERMISSIONS = {
     "profile:read:own",
     "profile:update:own",
   ],
+  ZIMRA: [
+    "arrival-card:read:all",
+    "customs:read:all",
+    "customs:review",
+    "traveler:read:all",
+    "reports:read:customs",
+    "analytics:read:customs",
+    "border-post:read:all",
+    "profile:read:own",
+    "profile:update:own",
+  ],
   ADMIN: [
     "arrival-card:read:all",
     "arrival-card:update:all",
@@ -46,6 +57,8 @@ export const ROLE_PERMISSIONS = {
     "border-post:create",
     "border-post:update:all",
     "border-post:delete:all",
+    "customs:read:all",
+    "customs:review",
     "reports:read:all",
     "analytics:read:all",
     "settings:read:all",
@@ -90,6 +103,7 @@ export function getPermissions(role: Role): readonly Permission[] {
 export const ROLE_HIERARCHY: Record<Role, number> = {
   TRAVELER: 1,
   IMMIGRATION: 2,
+  ZIMRA: 2,
   GOVERNMENT: 3,
   ADMIN: 4,
 };
@@ -105,6 +119,7 @@ export function getRoleDisplayName(role: Role): string {
     TRAVELER: "Traveler",
     IMMIGRATION: "Immigration Officer",
     GOVERNMENT: "Government Official",
+    ZIMRA: "ZIMRA Officer",
     ADMIN: "System Administrator",
   };
   return displayNames[role];
@@ -116,6 +131,7 @@ export function getRoleBadgeColor(role: Role): string {
     TRAVELER: "bg-blue-100 text-blue-800",
     IMMIGRATION: "bg-green-100 text-green-800",
     GOVERNMENT: "bg-purple-100 text-purple-800",
+    ZIMRA: "bg-yellow-100 text-yellow-800",
     ADMIN: "bg-red-100 text-red-800",
   };
   return colors[role];

@@ -24,6 +24,7 @@ import {
   Menu,
   Shield,
   Building,
+  Receipt,
 } from "lucide-react";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { getRoleDisplayName, getRoleBadgeColor } from "@/lib/rbac";
@@ -42,7 +43,7 @@ const navItems: NavItem[] = [
     href: "/dashboard",
     label: "Dashboard",
     icon: Home,
-    roles: ["TRAVELER", "IMMIGRATION", "GOVERNMENT", "ADMIN"],
+    roles: ["TRAVELER", "IMMIGRATION", "GOVERNMENT", "ZIMRA", "ADMIN"],
   },
   {
     href: "/arrival-card/new",
@@ -63,6 +64,12 @@ const navItems: NavItem[] = [
     roles: ["GOVERNMENT", "ADMIN"],
   },
   {
+    href: "/zimra",
+    label: "ZIMRA",
+    icon: Receipt,
+    roles: ["ZIMRA", "ADMIN"],
+  },
+  {
     href: "/admin",
     label: "Administration",
     icon: Settings,
@@ -78,7 +85,7 @@ const navItems: NavItem[] = [
     href: "/admin/reports",
     label: "Reports",
     icon: BarChart3,
-    roles: ["GOVERNMENT", "ADMIN"],
+    roles: ["GOVERNMENT", "ZIMRA", "ADMIN"],
   },
 ];
 

@@ -4,12 +4,13 @@ import { NextResponse } from "next/server";
 
 const { auth } = NextAuth(authConfig);
 
-// Routes that require authentication
+// Routes that require authentication (staff only)
+// Note: /arrival-card is public for travelers to fill in without authentication
 const protectedRoutes = [
   "/dashboard",
-  "/arrival-card",
   "/immigration",
   "/government",
+  "/zimra",
   "/admin",
   "/profile",
 ];
@@ -20,7 +21,8 @@ const authRoutes = ["/auth/login", "/auth/register"];
 // Role-based route access
 const roleRoutes: Record<string, string[]> = {
   "/immigration": ["IMMIGRATION", "ADMIN"],
-  "/government": ["GOVERNMENT", "ADMIN"],
+  "/government": ["GOVERNMENT", "ZIMRA", "ADMIN"],
+  "/zimra": ["ZIMRA", "ADMIN"],
   "/admin": ["ADMIN"],
 };
 

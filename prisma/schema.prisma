@@ -15,6 +15,7 @@ enum Role {
   TRAVELER
   IMMIGRATION
   GOVERNMENT
+  ZIMRA       // Zimbabwe Revenue Authority (Tax/Customs)
   ADMIN
 }
 

@@ -1,15 +1,7 @@
-"use client";
-
-import { useState } from "react";
-import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Loader2 } from "lucide-react";
-
+import Image from "next/image";
+import { Shield, ArrowLeft, UserPlus, Mail, Phone } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import {
   Card,
   CardContent,
@@ -18,150 +10,113 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { registerSchema, type RegisterInput } from "@/lib/validations/auth";
 
 export default function RegisterPage() {
-  const router = useRouter();
-  const [error, setError] = useState<string | null>(null);
-  const [isLoading, setIsLoading] = useState(false);
-
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<RegisterInput>({
-    resolver: zodResolver(registerSchema),
-  });
-
-  const onSubmit = async (data: RegisterInput) => {
-    setIsLoading(true);
-    setError(null);
-
-    try {
-      const response = await fetch("/api/auth/register", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          name: data.name,
-          email: data.email,
-          password: data.password,
-        }),
-      });
-
-      const result = await response.json();
-
-      if (!response.ok) {
-        setError(result.error || "Registration failed");
-        return;
-      }
-
-      router.push("/auth/login?registered=true");
-    } catch {
-      setError("An error occurred. Please try again.");
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-zim-green/10 to-zim-yellow/10 p-4">
-      <Card className="w-full max-w-md">
-        <CardHeader className="space-y-1">
-          <div className="flex items-center justify-center mb-4">
-            <div className="w-16 h-16 bg-zim-green rounded-full flex items-center justify-center">
-              <span className="text-white text-2xl font-bold">ZW</span>
+      <div className="w-full max-w-md space-y-4">
+        <Link
+          href="/"
+          className="inline-flex items-center text-sm text-muted-foreground hover:text-zim-green min-h-[44px]"
+        >
+          <ArrowLeft className="h-4 w-4 mr-2" aria-hidden="true" />
+          Back to Public Portal
+        </Link>
+
+        <Card>
+          <CardHeader className="space-y-1">
+            <div className="flex items-center justify-center mb-4">
+              <Image
+                src="https://www.moha.gov.zw/images/logo.png"
+                alt="Government of Zimbabwe Coat of Arms"
+                width={64}
+                height={64}
+                className="h-16 w-auto"
+                priority
+              />
             </div>
-          </div>
-          <CardTitle className="text-2xl text-center">Create Account</CardTitle>
-          <CardDescription className="text-center">
-            Register for a Zimbabwe Arrival Card account
-          </CardDescription>
-        </CardHeader>
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <CardContent className="space-y-4">
-            {error && (
-              <div className="p-3 text-sm text-red-500 bg-red-50 border border-red-200 rounded-md">
-                {error}
+            <div className="flex items-center justify-center gap-2 mb-2">
+              <Shield className="h-5 w-5 text-zim-green" aria-hidden="true" />
+              <span className="text-sm font-medium text-zim-green">Staff Portal</span>
+            </div>
+            <CardTitle className="text-2xl text-center">Staff Registration</CardTitle>
+            <CardDescription className="text-center">
+              Staff accounts are created by System Administrators
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-6">
+            <div className="bg-zim-green/5 border border-zim-green/20 rounded-lg p-4">
+              <div className="flex items-start gap-3">
+                <UserPlus className="h-5 w-5 text-zim-green mt-0.5 flex-shrink-0" aria-hidden="true" />
+                <div className="space-y-2">
+                  <p className="text-sm font-medium">How to Get Access</p>
+                  <p className="text-sm text-muted-foreground">
+                    Staff accounts for Immigration Officers, Government Officials, and ZIMRA Officers
+                    are created by authorized System Administrators.
+                  </p>
+                </div>
               </div>
-            )}
-            <div className="space-y-2">
-              <Label htmlFor="name">Full Name</Label>
-              <Input
-                id="name"
-                type="text"
-                placeholder="John Doe"
-                {...register("name")}
-                disabled={isLoading}
-              />
-              {errors.name && (
-                <p className="text-sm text-red-500">{errors.name.message}</p>
-              )}
             </div>
-            <div className="space-y-2">
-              <Label htmlFor="email">Email</Label>
-              <Input
-                id="email"
-                type="email"
-                placeholder="name@example.com"
-                {...register("email")}
-                disabled={isLoading}
-              />
-              {errors.email && (
-                <p className="text-sm text-red-500">{errors.email.message}</p>
-              )}
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="password">Password</Label>
-              <Input
-                id="password"
-                type="password"
-                placeholder="Create a strong password"
-                {...register("password")}
-                disabled={isLoading}
-              />
-              {errors.password && (
-                <p className="text-sm text-red-500">
-                  {errors.password.message}
-                </p>
-              )}
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="confirmPassword">Confirm Password</Label>
-              <Input
-                id="confirmPassword"
-                type="password"
-                placeholder="Confirm your password"
-                {...register("confirmPassword")}
-                disabled={isLoading}
-              />
-              {errors.confirmPassword && (
-                <p className="text-sm text-red-500">
-                  {errors.confirmPassword.message}
-                </p>
-              )}
+
+            <div className="space-y-4">
+              <h3 className="text-sm font-medium">Contact Your Department:</h3>
+
+              <div className="space-y-3">
+                <div className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg">
+                  <Mail className="h-4 w-4 text-muted-foreground" aria-hidden="true" />
+                  <div>
+                    <p className="text-sm font-medium">Immigration Department</p>
+                    <a
+                      href="mailto:immigration@moha.gov.zw"
+                      className="text-sm text-zim-green hover:underline"
+                    >
+                      immigration@moha.gov.zw
+                    </a>
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg">
+                  <Mail className="h-4 w-4 text-muted-foreground" aria-hidden="true" />
+                  <div>
+                    <p className="text-sm font-medium">ZIMRA (Tax Administration)</p>
+                    <a
+                      href="mailto:info@zimra.co.zw"
+                      className="text-sm text-zim-green hover:underline"
+                    >
+                      info@zimra.co.zw
+                    </a>
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg">
+                  <Phone className="h-4 w-4 text-muted-foreground" aria-hidden="true" />
+                  <div>
+                    <p className="text-sm font-medium">IT Support</p>
+                    <p className="text-sm text-muted-foreground">+263 242 703631</p>
+                  </div>
+                </div>
+              </div>
             </div>
           </CardContent>
           <CardFooter className="flex flex-col space-y-4">
-            <Button
-              type="submit"
-              className="w-full bg-zim-green hover:bg-zim-green/90"
-              disabled={isLoading}
-            >
-              {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-              Create Account
-            </Button>
-            <p className="text-sm text-center text-muted-foreground">
-              Already have an account?{" "}
-              <Link
-                href="/auth/login"
-                className="text-zim-green hover:underline font-medium"
+            <Link href="/auth/login" className="w-full">
+              <Button
+                variant="outline"
+                className="w-full min-h-[44px]"
               >
-                Sign In
+                Already have an account? Sign In
+              </Button>
+            </Link>
+            <p className="text-xs text-center text-muted-foreground">
+              Travelers do not need an account.
+              <br />
+              <Link href="/arrival-card/new" className="text-zim-green hover:underline">
+                Fill out your arrival card here
               </Link>
             </p>
           </CardFooter>
-        </form>
-      </Card>
+        </Card>
+      </div>
     </div>
   );
 }

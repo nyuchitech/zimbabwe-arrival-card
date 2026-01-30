@@ -38,42 +38,40 @@ export default async function DashboardPage() {
 
   const { role } = session.user;
 
-  // Fetch user's arrival cards if they are a traveler
-  let arrivalCards: Awaited<ReturnType<typeof db.arrivalCard.findMany>> = [];
-  let stats = { total: 0, pending: 0, approved: 0, rejected: 0 };
+  // Redirect to role-specific dashboards for staff roles
+  // Using a record lookup to avoid TypeScript type narrowing issues
+  const roleRedirects: Record<string, string> = {
+    IMMIGRATION: "/immigration",
+    GOVERNMENT: "/government",
+    ZIMRA: "/zimra",
+    ADMIN: "/admin",
+  };
 
-  if (role === "TRAVELER") {
-    arrivalCards = await db.arrivalCard.findMany({
-      where: { travelerId: session.user.id },
-      orderBy: { createdAt: "desc" },
-      take: 5,
-    });
-
-    const allCards = await db.arrivalCard.findMany({
-      where: { travelerId: session.user.id },
-      select: { status: true },
-    });
-
-    stats = {
-      total: allCards.length,
-      pending: allCards.filter((c) =>
-        ["DRAFT", "SUBMITTED", "UNDER_REVIEW"].includes(c.status)
-      ).length,
-      approved: allCards.filter((c) => c.status === "APPROVED").length,
-      rejected: allCards.filter((c) => c.status === "REJECTED").length,
-    };
+  if (role in roleRedirects) {
+    redirect(roleRedirects[role]);
   }
 
-  // Redirect to role-specific dashboards for other roles
-  if (role === "IMMIGRATION") {
-    redirect("/immigration");
-  }
-  if (role === "GOVERNMENT") {
-    redirect("/government");
-  }
-  if (role === "ADMIN") {
-    redirect("/admin");
-  }
+  // Only TRAVELER role reaches here
+  // Fetch user's arrival cards
+  const arrivalCards = await db.arrivalCard.findMany({
+    where: { travelerId: session.user.id },
+    orderBy: { createdAt: "desc" },
+    take: 5,
+  });
+
+  const allCards = await db.arrivalCard.findMany({
+    where: { travelerId: session.user.id },
+    select: { status: true },
+  });
+
+  const stats = {
+    total: allCards.length,
+    pending: allCards.filter((c) =>
+      ["DRAFT", "SUBMITTED", "UNDER_REVIEW"].includes(c.status)
+    ).length,
+    approved: allCards.filter((c) => c.status === "APPROVED").length,
+    rejected: allCards.filter((c) => c.status === "REJECTED").length,
+  };
 
   return (
     <div className="space-y-8">
